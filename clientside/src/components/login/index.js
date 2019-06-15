@@ -1,22 +1,117 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+
+import TextField from '@material-ui/core/TextField';
+import Checkbox from '@material-ui/core/Checkbox';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+
 
 class Login extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
             clientId: null,
-            auth: false
+            auth: false,
+            data: null
         }
     }
-    handleLogin(){
-        
+
+    componentDidMount() {
+        // Call our fetch function below once the component mounts
+        this.callBackendAPI()
+            .then(res => this.setState({ data: res.express }))
+            .catch(err => console.log(err));
+    }
+    callStatusAuth = async (user,password) => {
+        const res = await fetch('/auth',{
+            body: {
+                username: user,
+                password: password
+            }
+        })
+        console.log(res.body)
+        this.setState({
+            auth: res.body
+        })
     }
 
+    callBackendAPI = async () => {
+        const response = await fetch('/prova');
+        const body = await response.json();
+        if (response.status !== 200) {
+            throw Error(body.message)
+        }
+        return body;
+    };
 
-    render( ) {
+
+
+
+    render() {
         return (
-            <Button></Button>
+
+            <Grid
+                container
+                spacing={0}
+                direction="column"
+                alignItems="center"
+                justify="top"
+                style={{ minHeight: '100vh' }}
+            >
+
+                <Paper style={{ minWidth: '30vh' }}>
+                    <Box p={8} >
+                        <Typography component="h1" variant="h5" align="center">
+                            Login
+              </Typography>
+                        <form onSubmit = {(email,password) => this.callStatusAuth}>
+                            <TextField
+                                variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="email"
+                                label="Email Address"
+                                name="email"
+                                autoComplete="email"
+                                autoFocus
+                            />
+                            <TextField
+                                variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                            />
+                            <FormControlLabel
+                                control={<Checkbox value="remember" color="primary" />}
+                                label="Remember me"
+                            />
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                style={{ minHeight: 'vh' }}
+
+                            >
+                                Login
+                </Button>
+                        </form>
+                    </Box>
+                </Paper>
+
+            </Grid>
+
         )
     }
 
