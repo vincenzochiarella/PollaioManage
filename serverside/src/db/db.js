@@ -17,4 +17,6 @@ const sequelize = new Sequelize("mydb","root","Pollaio2019*", "",{
 db.sequelize = sequelize
 db.Sequelize = Sequelize
 
+db.sequelize.sync().then(() => console.log("Db ready"))
+
 module.exports = db

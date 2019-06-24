@@ -4,21 +4,22 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 
 import TextField from '@material-ui/core/TextField';
-import Checkbox from '@material-ui/core/Checkbox';
+// import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { userService } from '../_services/user.services'
 
 class Login extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            clientId: null,
-            auth: false,
+            username: '',
+            password: '',
             data: null
         }
+        this.checkUser = this.checkUser.bind(this)
     }
 
     componentDidMount() {
@@ -27,14 +28,9 @@ class Login extends React.Component {
             .then(res => this.setState({ data: res.express }))
             .catch(err => console.log(err));
     }
-    callStatusAuth = async (user,password) => {
-        const res = await fetch('/auth',{
-            body: {
-                username: user,
-                password: password
-            }
-        })
-        console.log(res.body)
+    callStatusAuth = (username,password) => {
+        const res = fetch('/auth')
+        console.log(this.refs.username,this.refs.password)
         this.setState({
             auth: res.body
         })
@@ -49,10 +45,23 @@ class Login extends React.Component {
         return body;
     };
 
-
+    checkUser(event){
+        userService.login(this.state.username, this.state.password).then(
+            user => {
+                console.log("User ok")
+            }
+            )
+            event.preventDefault()
+    }
+    handleChange = name => ({target : {value}}) => {
+        this.setState({
+            [name] : value
+        })
+    }
 
 
     render() {
+
         return (
 
             <Grid
@@ -69,16 +78,16 @@ class Login extends React.Component {
                         <Typography component="h1" variant="h5" align="center">
                             Login
               </Typography>
-                        <form onSubmit = {(email,password) => this.callStatusAuth}>
+                        <form onSubmit={this.checkUser}>
                             <TextField
                                 variant="outlined"
                                 margin="normal"
                                 required
                                 fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
+                                value={this.state.username}
+                                onChange={this.handleChange('username')}                               
+                                label="Username"
+                                name="username"
                                 autoFocus
                             />
                             <TextField
@@ -86,26 +95,21 @@ class Login extends React.Component {
                                 margin="normal"
                                 required
                                 fullWidth
+                                value={this.state.password}
+                                onChange={this.handleChange('password')}
                                 name="password"
                                 label="Password"
                                 type="password"
-                                id="password"
-                                autoComplete="current-password"
-                            />
-                            <FormControlLabel
-                                control={<Checkbox value="remember" color="primary" />}
-                                label="Remember me"
                             />
                             <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
                                 color="primary"
-                                style={{ minHeight: 'vh' }}
-
+                                style={{ minHeight: '4vh' }}
                             >
                                 Login
-                </Button>
+                            </Button>
                         </form>
                     </Box>
                 </Paper>
