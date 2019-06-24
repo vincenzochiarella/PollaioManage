@@ -1,12 +1,7 @@
-
-
 import React from 'react';
 
 import Grid from '@material-ui/core/Grid';
-// import Moment from 'moment';
 
-// import Sun from '@material-ui/icons/Sun';
-// import Moon from '@material-ui/icons/   ';
 import moon from '../../resources/moon.png';
 import sun from '../../resources/sunny.png';
 
