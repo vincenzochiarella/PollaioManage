@@ -1,3 +1,5 @@
+
+var five = require("johnny-five")
 const express = require('express');
 var mysql = require('mysql');
 var bodyParser = require('body-parser');
@@ -6,13 +8,17 @@ const app = express();
 const port = 8080;
 
 
+var led = require('./ControllerArduino/controllerDoor')
+
 var connection = mysql.createConnection({
 	host     : 'localhost',
 	user     : 'root',
 	password : 'Pollaio2019*',
 	database : 'mydb'
 });
+
 app.use(cors())
+app.options('*', cors());
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended : true}));
 
@@ -51,3 +57,28 @@ app.post('/auth',urlencoded, function(request, response) {
     // }
 
 })
+// app.get('/led/:mode', function (req, res){
+//          switch(req.params.mode){
+//              case "open":
+//                  led.led.on()
+//                  console.log("arriva")
+//                  break
+//              case "off":
+//                  led.led.off()
+//                  res.send({
+//                     status: "off"
+//                 })
+//                  break
+//          }
+
+
+
+// })
+app.get('/led/1', function (req, res){
+    led.on()
+    res.send("on")
+ })
+ app.get('/led/0', function (req, res){
+    led.off()
+    res.send("off")
+ })
