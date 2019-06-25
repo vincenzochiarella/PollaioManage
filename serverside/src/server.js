@@ -5,10 +5,10 @@ var mysql = require('mysql');
 var bodyParser = require('body-parser');
 const cors = require('cors')
 
+const app = express();
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
 
-const app = express();
 const port = 8080;
 
 
@@ -20,6 +20,16 @@ var connection = mysql.createConnection({
 	password : 'Pollaio2019*',
 	database : 'mydb'
 });
+
+//test for socket io stream
+
+
+setInterval(() =>{
+     io.emit('image','Usa il server ogni secondo')
+ },1000)
+
+
+
 
 app.use(cors())
 app.options('*', cors());
@@ -75,8 +85,3 @@ app.get('/led/1', function (req, res){
     led.off()
     res.send("off")
  })
-
-//test for socket io stream
- setInterval(() =>{
-     io.emit('image','some date')
- },1000)

@@ -10,6 +10,7 @@ import Box from '@material-ui/core/Box';
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
+import auth from '../app/auth'
 
 class Login extends React.Component {
     constructor(props) {
@@ -23,44 +24,48 @@ class Login extends React.Component {
 
     componentDidMount() {
         // Call our fetch function below once the component mounts
-        this.callBackendAPI()
-            .then(res => this.setState({ data: res.express }))
-            .catch(err => console.log(err));
+        // this.callBackendAPI()
+        //     .then(res => this.setState({ data: res.express }))
+        //     .catch(err => console.log(err));
     }
-    callStatusAuth = async (user,password) => {
-        const res = await fetch('/auth',{
-            body: {
-                username: user,
-                password: password
-            }
+    callStatusAuth = event => {
+        // const res = await fetch('/auth',{
+        //     body: {
+        //         username: user,
+        //         password: password
+        //     }
+        // })
+        
+        // console.log(res.body)
+        // this.setState({
+        //     auth: res.body
+        // })
+        auth.login(()=>{
+            this.props.history.push('/dashboard')
         })
-        console.log(res.body)
-        this.setState({
-            auth: res.body
-        })
+        event.preventDefault()
     }
 
-    callBackendAPI = async () => {
-        const response = await fetch('/prova');
-        const body = await response.json();
-        if (response.status !== 200) {
-            throw Error(body.message)
-        }
-        return body;
-    };
+    // callBackendAPI = async () => {
+    //     const response = await fetch('/prova');
+    //     const body = await response.json();
+    //     if (response.status !== 200) {
+    //         throw Error(body.message)
+    //     }
+    //     return body;
+    // };
 
 
 
 
     render() {
         return (
-
             <Grid
                 container
                 spacing={0}
                 direction="column"
                 alignItems="center"
-                justify="top"
+                
                 style={{ minHeight: '100vh' }}
             >
 
@@ -68,8 +73,8 @@ class Login extends React.Component {
                     <Box p={8} >
                         <Typography component="h1" variant="h5" align="center">
                             Login
-              </Typography>
-                        <form onSubmit = {(email,password) => this.callStatusAuth}>
+                        </Typography>
+                        
                             <TextField
                                 variant="outlined"
                                 margin="normal"
@@ -97,7 +102,7 @@ class Login extends React.Component {
                                 label="Remember me"
                             />
                             <Button
-                                type="submit"
+                                onClick={this.callStatusAuth}
                                 fullWidth
                                 variant="contained"
                                 color="primary"
@@ -105,8 +110,7 @@ class Login extends React.Component {
 
                             >
                                 Login
-                </Button>
-                        </form>
+                        </Button>
                     </Box>
                 </Paper>
 

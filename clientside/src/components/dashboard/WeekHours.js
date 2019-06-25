@@ -60,7 +60,7 @@ class WeekHours extends React.Component {
             
                 <Table >
                     <TableHead>
-                        <TableRow>
+                        <TableRow >
                             <TableCell>Giorno della settimana</TableCell>
                             <TableCell align="right">Alba</TableCell>
                             <TableCell align="right">Tramonto</TableCell>
@@ -68,7 +68,7 @@ class WeekHours extends React.Component {
                     </TableHead>
                     <TableBody>
                         {this.state.sunMoovement.map(row => (
-                            <TableRow key={row.name}>
+                            <TableRow key={row.day}>
                                 <TableCell component="th" scope="row">
                                     {row.day}
                                 </TableCell>
