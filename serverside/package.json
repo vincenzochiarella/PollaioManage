@@ -18,6 +18,8 @@
     "johnny-five": "^1.1.0",
     "mysql": "^2.17.1",
     "nodemon": "^1.19.1",
-    "sequelize": "^5.8.9"
+    "pi-camera-connect": "^0.2.0",
+    "sequelize": "^6.0.0",
+    "socket.io": "^2.2.0"
   }
 }

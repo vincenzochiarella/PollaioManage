@@ -205,8 +205,6 @@ class Layout extends React.Component {
                     <div className={classes.toolbar} />
                     {children}
                 </main>
-
-
             </div>
 
         </>

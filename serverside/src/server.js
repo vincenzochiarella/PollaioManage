@@ -5,6 +5,9 @@ var mysql = require('mysql');
 var bodyParser = require('body-parser');
 const cors = require('cors')
 
+const server = require('http').Server(app)
+const io = require('socket.io')(server)
+
 const app = express();
 const port = 8080;
 
@@ -23,7 +26,7 @@ app.options('*', cors());
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended : true}));
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+server.listen(port, () => console.log(`Listening on port ${port}`));
 
 app.get('/prova', (req, res) => {
     res.send({ express: 'Login' });
@@ -72,3 +75,8 @@ app.get('/led/1', function (req, res){
     led.off()
     res.send("off")
  })
+
+//test for socket io stream
+ setInterval(() =>{
+     io.emit('image','some date')
+ },1000)
