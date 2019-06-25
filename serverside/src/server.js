@@ -35,13 +35,7 @@ app.options('*', cors());
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended : true}));
 
-<<<<<<< HEAD
 server.listen(port, () => console.log(`Listening on port ${port}`));
-=======
-var urlencoded = bodyParser.urlencoded({extended : true })
-
-app.listen(port, () => console.log(`Listening on port ${port}`));
->>>>>>> c4bb29cb0be687ca4ae509506d8e746808a2e93a
 
 app.get('/prova', (req, res) => {
     res.send({ express: 'Login' });

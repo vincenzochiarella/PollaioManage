@@ -34,7 +34,6 @@ class Login extends React.Component {
         //     .then(res => this.setState({ data: res.express }))
         //     .catch(err => console.log(err));
     }
-<<<<<<< HEAD
     callStatusAuth = event => {
         // const res = await fetch('/auth',{
         //     body: {
@@ -49,13 +48,6 @@ class Login extends React.Component {
         // })
         auth.login(()=>{
             this.props.history.push('/dashboard')
-=======
-    callStatusAuth = (username,password) => {
-        const res = fetch('/auth')
-        console.log(this.refs.username,this.refs.password)
-        this.setState({
-            auth: res.body
->>>>>>> c4bb29cb0be687ca4ae509506d8e746808a2e93a
         })
         event.preventDefault()
     }
@@ -100,13 +92,8 @@ class Login extends React.Component {
                     <Box p={8} >
                         <Typography component="h1" variant="h5" align="center">
                             Login
-<<<<<<< HEAD
                         </Typography>
                         
-=======
-              </Typography>
-                        <form onSubmit={this.checkUser}>
->>>>>>> c4bb29cb0be687ca4ae509506d8e746808a2e93a
                             <TextField
                                 variant="outlined"
                                 margin="normal"
@@ -137,12 +124,7 @@ class Login extends React.Component {
                                 style={{ minHeight: '4vh' }}
                             >
                                 Login
-<<<<<<< HEAD
                         </Button>
-=======
-                            </Button>
-                        </form>
->>>>>>> c4bb29cb0be687ca4ae509506d8e746808a2e93a
                     </Box>
                 </Paper>
 
