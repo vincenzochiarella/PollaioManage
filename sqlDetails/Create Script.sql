@@ -18,9 +18,9 @@ CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
 USE `mydb` ;
 
 -- -----------------------------------------------------
--- Table `mydb`.`Session`
+-- Table `mydb`.`User`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Session` (
+CREATE TABLE IF NOT EXISTS `mydb`.`User` (
   `idUser` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
@@ -48,14 +48,14 @@ CREATE TABLE IF NOT EXISTS `mydb`.`ChickesHouse` (
   `latitude` FLOAT(8) NULL,
   `longitude` FLOAT(8) NULL,
   `doorState` VARCHAR(10) NULL,
-  `Session_idUser` INT NULL,
+  `User_idUser` INT NULL,
   `Settings_id` INT NOT NULL,
   PRIMARY KEY (`idChickesHouse`),
-  INDEX `fk_ChickesHouse_Session_idx` (`Session_idUser` ASC),
+  INDEX `fk_ChickesHouse_User_idx` (`User_idUser` ASC),
   INDEX `fk_ChickesHouse_Settings1_idx` (`Settings_id` ASC),
-  CONSTRAINT `fk_ChickesHouse_Session`
-    FOREIGN KEY (`Session_idUser`)
-    REFERENCES `mydb`.`Session` (`idUser`)
+  CONSTRAINT `fk_ChickesHouse_User`
+    FOREIGN KEY (`User_idUser`)
+    REFERENCES `mydb`.`User` (`idUser`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_ChickesHouse_Settings1`

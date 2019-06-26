@@ -1,5 +1,4 @@
 import React from 'react'
-import auth from '../app/auth'
 
 import { Grid, Button, withStyles } from '@material-ui/core'
 import { ExitToApp } from '@material-ui/icons'
@@ -38,11 +37,9 @@ class Setting extends React.Component {
         })
     }
     handleLogout(event) {
-        auth.logout(()=> {
-            this.props.history.push("/")
-        }) 
-        event.preventDefault()
-        
+        localStorage.removeItem('userToken')
+        this.props.history.push('/')
+        event.preventDefault()        
     }
     render() {
         return (

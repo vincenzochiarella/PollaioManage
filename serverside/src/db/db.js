@@ -1,10 +1,8 @@
 const Sequelize = require("sequelize");
-const db = {
-
-}
-const sequelize = new Sequelize("mydb","root","Pollaio2019*", "",{
+const db = {}
+const sequelize = new Sequelize("mydb","root","Ilmiopollaio19*", {
+    dialect: "mysql",
     host: 'localhost',
-    dialect: 'mysql',
     operatorAliases: false,
     pool: {
         max: 7,

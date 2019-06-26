@@ -12,28 +12,9 @@ import CameraInternal from '../cameraint';
 import CameraExternal from '../cameraext';
 import Layout from '../layout';
 
-import decode from 'jwt-decode'
 
 
 class App extends React.Component {
-  checkAuth = () => {
-    const token = localStorage.getItem('token')
-    const refreshToken = localStorage.getItem('refreshToken')
-    if(!token|| !refreshToken){
-      return false
-    }
-    try{
-      const { exp } = decode(refreshToken)
-      if (exp < new Date.getTime()){
-        return false
-      }
-    }catch(e){
-      return false
-    }
-    
-    return true
-  }
-
   render() {
     return (
       <Router>
