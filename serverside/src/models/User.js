@@ -1,7 +1,8 @@
 const Sequelize = require("sequelize")
 const db = require("../db/db")
+const Access = require ("./Access")
 
-module.exports = db.sequelize.define(
+var User = db.sequelize.define(
     'user',
     {
         idUser: {
@@ -26,3 +27,5 @@ module.exports = db.sequelize.define(
         timestamps: false
     }
 )
+User.hasMany(Access)
+module.exports = User
