@@ -8,14 +8,14 @@ const app = express();
 const port = 8080;
 
 
-var led = require('./ControllerArduino/controllerDoor')
+// var led = require('./ControllerArduino/controllerDoor')
 
-var connection = mysql.createConnection({
-	host     : 'localhost',
-	user     : 'root',
-	password : 'Pollaio2019*',
-	database : 'mydb'
-});
+// var connection = mysql.createConnection({
+// 	host     : 'localhost',
+// 	user     : 'root',
+// 	password : 'Pollaio2019*',
+// 	database : 'mydb'
+// });
 
 app.use(cors())
 app.options('*', cors());
