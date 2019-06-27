@@ -17,12 +17,15 @@
     "crypto": "^1.0.1",
     "express": "^4.17.1",
     "express-session": "^1.16.2",
+    "ffmpeg": "0.0.4",
     "johnny-five": "^1.1.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
     "mysql2": "^1.6.5",
+    "node-rtsp-stream": "0.0.8",
     "nodemon": "^1.19.1",
     "pi-camera-connect": "^0.2.0",
+    "rtsp-ffmpeg": "0.0.14",
     "sequelize": "^6.0.0",
     "socket.io": "^2.2.0"
   }
