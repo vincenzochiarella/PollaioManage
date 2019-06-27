@@ -4,12 +4,10 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 
 import TextField from '@material-ui/core/TextField';
-// import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { userService } from '../_services/user.services'
+import { login, isAuthenticated } from '../controllers/UserController'
 
 class Login extends React.Component {
     constructor(props) {
@@ -19,43 +17,23 @@ class Login extends React.Component {
             password: '',
             data: null
         }
-        this.checkUser = this.checkUser.bind(this)
-    }
 
-    componentDidMount() {
-        // Call our fetch function below once the component mounts
-        this.callBackendAPI()
-            .then(res => this.setState({ data: res.express }))
-            .catch(err => console.log(err));
     }
-    callStatusAuth = (username,password) => {
-        const res = fetch('/auth')
-        console.log(this.refs.username,this.refs.password)
-        this.setState({
-            auth: res.body
-        })
-    }
-
-    callBackendAPI = async () => {
-        const response = await fetch('/prova');
-        const body = await response.json();
-        if (response.status !== 200) {
-            throw Error(body.message)
+    callStatusAuth = event => {
+        const user = {
+            username: this.state.username,
+            password: this.state.password
         }
-        return body;
-    };
-
-    checkUser(event){
-        userService.login(this.state.username, this.state.password).then(
-            user => {
-                console.log("User ok")
-            }
-            )
-            event.preventDefault()
+        login(user).then(res => {
+            if (() => isAuthenticated())
+                this.props.history.push('/dashboard')
+        })
+        console.log(user)
+        event.preventDefault()
     }
-    handleChange = name => ({target : {value}}) => {
+    handleChange = name => ({ target: { value } }) => {
         this.setState({
-            [name] : value
+            [name]: value
         })
     }
 
@@ -63,13 +41,12 @@ class Login extends React.Component {
     render() {
 
         return (
-
             <Grid
                 container
                 spacing={0}
                 direction="column"
                 alignItems="center"
-                justify="top"
+
                 style={{ minHeight: '100vh' }}
             >
 
@@ -77,40 +54,38 @@ class Login extends React.Component {
                     <Box p={8} >
                         <Typography component="h1" variant="h5" align="center">
                             Login
-              </Typography>
-                        <form onSubmit={this.checkUser}>
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                value={this.state.username}
-                                onChange={this.handleChange('username')}                               
-                                label="Username"
-                                name="username"
-                                autoFocus
-                            />
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                value={this.state.password}
-                                onChange={this.handleChange('password')}
-                                name="password"
-                                label="Password"
-                                type="password"
-                            />
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                style={{ minHeight: '4vh' }}
-                            >
-                                Login
-                            </Button>
-                        </form>
+                        </Typography>
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            value={this.state.username}
+                            onChange={this.handleChange('username')}
+                            label="Username"
+                            name="username"
+                            autoFocus
+                        />
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            value={this.state.password}
+                            onChange={this.handleChange('password')}
+                            name="password"
+                            label="Password"
+                            type="password"
+                        />
+                        <Button
+                            onClick={this.callStatusAuth}
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            style={{ minHeight: '4vh' }}
+                        >
+                            Login
+                        </Button>
                     </Box>
                 </Paper>
 

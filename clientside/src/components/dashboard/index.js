@@ -7,9 +7,7 @@ import Paper from '@material-ui/core/Paper';
 
 import Chart from './temperatureCharts';
 import OverrideOpening from '../overrideopening';
-
-
-import WeekHours from '../calcSunsetSunrise/listWeekDay';
+import WeekHours from './WeekHours';
 
 const coords = { lat: 43.1386, log: 13.0678 };
 
@@ -53,7 +51,7 @@ export default function Dashboard() {
             </Paper>
           </Grid>
           <Grid item xs={12}>
-            <WeekHours
+            <WeekHours 
               coords={coords}
             />
 

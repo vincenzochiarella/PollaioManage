@@ -1,13 +1,18 @@
 
 var five = require("johnny-five")
 const express = require('express');
-var mysql = require('mysql');
 var bodyParser = require('body-parser');
 var cors = require('cors');
 const app = express();
-const port = 8080;
+const server = require('http').Server(app)
+const io = require('socket.io')(server)
 
 
+var Users = require('./routes/users')
+var ChickenHouse = require('./routes/chickenhouse')
+
+
+<<<<<<< HEAD
 // var led = require('./ControllerArduino/controllerDoor')
 
 // var connection = mysql.createConnection({
@@ -16,47 +21,28 @@ const port = 8080;
 // 	password : 'Pollaio2019*',
 // 	database : 'mydb'
 // });
+=======
+const port = 8080;
+var led = require('./ControllerArduino/controllerDoor')
+
+// //test for socket io stream
+// setInterval(() =>{
+//      io.emit('image','Usa il server ogni secondo')
+//  },1000)
+
+
+>>>>>>> 9d070cddd72ba01f56667da5802901bb16fa0001
 
 app.use(cors())
 app.options('*', cors());
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended : true}));
+server.listen(port, () => console.log(`Listening on port ${port}`));
 
-var urlencoded = bodyParser.urlencoded({extended : true })
+app.use('/users',Users)
+app.use('/chickens', ChickenHouse) 
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
 
-app.get('/prova', (req, res) => {
-    res.send({ express: 'Login' });
-  });
-//non ancora criptato TEST 1
-app.post('/auth',urlencoded, function(request, response) {
-    // console.log(request.body)
-    var username = request.body.username;
-    var password = request.body.password;
-    console.log(username,password)
-    // if(username && password) {
-    //     connection.query('SELECT * FROM session WHERE username = ? AND password = ?', [username,password], function(error, result, fields){
-    //         if(error) throw error
-            
-    //         if(result.length > 0){
-    //             response.send({
-    //                 auth: true
-    //             })
-    //             response.redirect('/dashboard')
-    //             console.log("auth ok")
-    //         }
-    //         else {
-    //             response.send({
-    //                 auth: false
-    //             })
-    //             console.log("auth failed")
-    //         }
-    //         response.end();
-    //     })        
-    // }
-
-})
 // app.get('/led/:mode', function (req, res){
 //          switch(req.params.mode){
 //              case "open":
@@ -82,3 +68,5 @@ app.get('/led/1', function (req, res){
     led.off()
     res.send("off")
  })
+
+

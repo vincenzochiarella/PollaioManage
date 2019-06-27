@@ -23,6 +23,7 @@ import { Link, withRouter } from 'react-router-dom';
 
 import * as Routes from '../../constants/routes';
 
+
 const drawerWidth = 240;
 
 const coords = { lat: 43.1386, log: 13.0678 };
@@ -103,7 +104,7 @@ class Layout extends React.Component {
     }
 
     render() {
-        const { classes, location: { pathname }, children, auth } = this.props
+        const { classes, location: { pathname }, children } = this.props
         const { drawerOpen } = this.state
 
         const drawer = (
@@ -205,8 +206,6 @@ class Layout extends React.Component {
                     <div className={classes.toolbar} />
                     {children}
                 </main>
-
-
             </div>
 
         </>

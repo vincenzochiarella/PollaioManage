@@ -1,6 +1,5 @@
 import React from 'react';
-import moment from 'moment';
-
+import axios from 'axios'
 
 
 import Table from '@material-ui/core/Table';
@@ -20,47 +19,16 @@ class WeekHours extends React.Component {
         }
     }
     componentDidMount() {
-        this.getWeekday()
-    }
-    fetchAPISunset(day){
-        fetch('https://api.sunrise-sunset.org/json?lat='+this.state.coords.lat+'&lng='+this.state.coords.log+'&date='+day).then(
-            results => {
-                return results.json()
-            }).then(data => {
-                this.setState({
-                    sunMoovement: this.state.sunMoovement.concat(this.createSunMoovement(day,data.results.sunrise, data.results.sunset))
-                })
-            })   
-        
     }
 
-    createSunMoovement(day, sunrise, sunset) {
-
-        return {
-            day: day,
-            sunrise: moment(sunrise, 'hh:mm:ss A').add(2,'hours').format('hh:mm:ss A'),
-            sunset:  moment(sunset, 'hh:mm:ss A').add(2,'hours').format('hh:mm:ss A')
-        }
-    }
-
-    getWeekday() {
-        var startOfWeek = moment();
-        var endOfWeek = moment().add(7,"d");
-
-        var day = startOfWeek;
-        
-        while (day <= endOfWeek) {
-            this.fetchAPISunset(day.format('YYYY-MM-DD'))
-            day = day.clone().add(1, 'd');
-        }
-    };
+   
 
     render() {
         return (
             
                 <Table >
                     <TableHead>
-                        <TableRow>
+                        <TableRow >
                             <TableCell>Giorno della settimana</TableCell>
                             <TableCell align="right">Alba</TableCell>
                             <TableCell align="right">Tramonto</TableCell>
@@ -68,7 +36,7 @@ class WeekHours extends React.Component {
                     </TableHead>
                     <TableBody>
                         {this.state.sunMoovement.map(row => (
-                            <TableRow key={row.name}>
+                            <TableRow key={row.day}>
                                 <TableCell component="th" scope="row">
                                     {row.day}
                                 </TableCell>
