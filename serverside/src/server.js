@@ -12,16 +12,6 @@ var Users = require('./routes/users')
 var ChickenHouse = require('./routes/chickenhouse')
 
 
-<<<<<<< HEAD
-// var led = require('./ControllerArduino/controllerDoor')
-
-// var connection = mysql.createConnection({
-// 	host     : 'localhost',
-// 	user     : 'root',
-// 	password : 'Pollaio2019*',
-// 	database : 'mydb'
-// });
-=======
 const port = 8080;
 var led = require('./ControllerArduino/controllerDoor')
 
@@ -31,7 +21,6 @@ var led = require('./ControllerArduino/controllerDoor')
 //  },1000)
 
 
->>>>>>> 9d070cddd72ba01f56667da5802901bb16fa0001
 
 app.use(cors())
 app.options('*', cors());
