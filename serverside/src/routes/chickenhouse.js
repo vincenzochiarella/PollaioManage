@@ -3,9 +3,34 @@ const chickenhouse = express.Router()
 const cors = require('cors')
 
 const SunMoovement = require("../models/SunMoovement")
+const ChickensHouse = require('../models/ChickensHouse')
 
 
 chickenhouse.use(cors())
+//crea un nuovo pollaio 
+chickenhouse.post('/createChickenHouse',(req,res)=>{
+    ChickensHouse.create({
+        name: req.body.name,
+        latitude: req.body.latitude,
+        longitude: req.body.longitude,
+        doorStatus: req.body.doorstatus
+    }).then(data=> res.json(data))
+    .catch(err=>res.status(500))
+})
+
+chickenhouse.post('/getDetails', (req,res)=>{
+    ChickensHouse.findAll({
+        where:{
+            id: req.body.id
+        }
+    }).then((data)=>{
+        res.json(data)
+    }).catch(err=>
+        res.json(err))
+})
+
+
+
 //richiedere le prime sette date con relativi orari
 chickenhouse.post('/getsunmoovement', (req, res) => {
     var getweektimes = []
@@ -15,11 +40,11 @@ chickenhouse.post('/getsunmoovement', (req, res) => {
         where: {
             chickenHouseId: req.body.chickenHouseId
         }
-    }).then((date) => {
+    }).then((dates) => {
         getweektimes.push({
-            day: date.dateSunMoovement,
-            sunrise: date.sunrise,
-            sunste: date.sunset
+            day: dates.dateSunMoovement,
+            sunrise: dates.sunrise,
+            sunste: dates.sunset
         })
     })
     res.json(getweektimes)

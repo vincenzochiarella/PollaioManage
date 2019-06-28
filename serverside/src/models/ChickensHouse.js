@@ -2,6 +2,7 @@ const Sequelize = require("sequelize");
 const db = require("../db/db")
 const SunMoovement = require("./SunMoovement")
 const Temperatures = require("./Temperatures")
+const DoorS_Log = require("./DoorStatus_Log")
 
 var ChickensHouse = db.sequelize.define('ChickensHouse',
     {
@@ -13,10 +14,10 @@ var ChickensHouse = db.sequelize.define('ChickensHouse',
         name: {
             type: Sequelize.STRING,
         },
-        latitude:{
+        latitude: {
             type: Sequelize.FLOAT,
         },
-        longitude:{
+        longitude: {
             type: Sequelize.FLOAT,
         },
         doorStatus: {
@@ -27,8 +28,22 @@ var ChickensHouse = db.sequelize.define('ChickensHouse',
         timestamps: false
     }
 );
-ChickensHouse.hasMany(SunMoovement)
-ChickensHouse.hasMany(Temperatures)
+ChickensHouse.hasMany(SunMoovement, {
+    foreignKey: {
+        name: 'dateSunMoovement'
+    }
+})
+
+ChickensHouse.hasMany(Temperatures, {
+    foreignKey: {
+        name: 'date_time'
+    }
+})
+ChickensHouse.hasMany(DoorS_Log, {
+    foreignKey: {
+        name: 'date_time'
+    }
+})
 
 
 module.exports = ChickensHouse

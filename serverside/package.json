@@ -28,6 +28,7 @@
     "rtsp-ffmpeg": "0.0.14",
     "sequelize": "^6.0.0",
     "simple-node-logger": "^18.12.22",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.2.0",
+    "sqlite3": "^4.0.9"
   }
 }

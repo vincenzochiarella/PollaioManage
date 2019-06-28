@@ -1,13 +1,16 @@
 const Sequelize = require("sequelize")
 const db = require('../db/db')
-
-var Temperatures = db.sequelize.define("temperatures",
+var DoorStatus_Logs = db.sequelize.define("log_doorstatus",
     {
         date_time: {
             type: Sequelize.TEXT,
             primaryKey: true
         },
-        temps:{
+        before_status: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
+        next_status: {
             type: Sequelize.INTEGER,
             allowNull: false
         }
@@ -17,4 +20,4 @@ var Temperatures = db.sequelize.define("temperatures",
     }
 );
 
-module.exports = Temperatures
+module.exports = DoorStatus_Logs
