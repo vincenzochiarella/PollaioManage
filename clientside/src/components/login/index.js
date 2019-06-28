@@ -28,7 +28,6 @@ class Login extends React.Component {
             if (() => isAuthenticated())
                 this.props.history.push('/dashboard')
         })
-        console.log(user)
         event.preventDefault()
     }
     handleChange = name => ({ target: { value } }) => {
@@ -46,7 +45,6 @@ class Login extends React.Component {
                 spacing={0}
                 direction="column"
                 alignItems="center"
-
                 style={{ minHeight: '100vh' }}
             >
 

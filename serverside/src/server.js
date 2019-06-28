@@ -5,8 +5,15 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 const app = express();
 const server = require('http').Server(app)
-const io = require('socket.io')(server)
+const io = require('socket.io')(server, { origins: '*:*' })
 
+
+const SimpleNodeLogger = require('simple-node-logger'),
+   opts = {
+      logFilePath: 'logImgRaw.log',
+      timestampFormat: 'YYYY-MM-DD HH:mm:ss.SSS'
+   },
+   log = SimpleNodeLogger.createSimpleLogger(opts);
 
 /* start rtsp */
 const rtsp = require('rtsp-ffmpeg');
@@ -21,12 +28,6 @@ var ChickenHouse = require('./routes/chickenhouse')
 
 const port = 8080;
 var led = require('./ControllerArduino/controllerDoor')
-
-// //test for socket io stream
-// setInterval(() =>{
-//      io.emit('image','Usa il server ogni secondo')
-//  },1000)
-
 
 
 app.use(cors())
@@ -60,19 +61,21 @@ app.use('/chickens', ChickenHouse)
 var uri = 'rtsp://192.168.1.1:554/11',
    stream = new rtsp.FFMpeg({
       input: uri,
-      rate: 20, // output framerate (optional)
-      resolution: '640x480', // output resolution in WxH format (optional)
+      rate: 10, // output framerate (optional)
+      resolution: '1280x720', // output resolution in WxH format (optional)
       quality: 3 // JPEG compression quality level (optional)
    });
+
+//CORRETTO i dati vengono trasferiti alla socket ma la socket del client non li riceve
 io.on('connection', function (socket) {
-   var pipeStream = function (data) {
-      socket.emit('data', data.toString('base64'));
-   };
-   stream.on('data', pipeStream);
-   socket.on('disconnect', function () {
-      stream.removeListener('data', pipeStream);
-   });
-});
+   stream.on('data', (data) => {
+      socket.emit('data', data.toString('base64'))
+   })
+})
+
+
+
+
 app.get('/led/1', function (req, res) {
    led.on()
    res.send("on")

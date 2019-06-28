@@ -1,9 +1,9 @@
 const Sequelize = require("sequelize");
+
 const db = {}
-const sequelize = new Sequelize("mydb","root","Ilmiopollaio19*", {
-    dialect: "mysql",
-    host: 'localhost',
-    operatorAliases: false,
+const sequelize = new Sequelize({
+    dialect: "sqlite",
+    storage: './src/db/pollaiodb.sqlite3',
     pool: {
         max: 7,
         min: 0,

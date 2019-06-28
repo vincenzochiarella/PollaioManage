@@ -2,16 +2,15 @@ const Sequelize = require("sequelize");
 const db = require("../db/db")
 const SunMoovement = require("./SunMoovement")
 const Temperatures = require("./Temperatures")
-const Access = require("./Access")
 
 var ChickensHouse = db.sequelize.define('ChickensHouse',
     {
-        idChickenHouse: {
+        id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        owner: {
+        name: {
             type: Sequelize.STRING,
         },
         latitude:{
@@ -19,9 +18,6 @@ var ChickensHouse = db.sequelize.define('ChickensHouse',
         },
         longitude:{
             type: Sequelize.FLOAT,
-        },
-        ipCamere: {
-            type: Sequelize.STRING
         },
         doorStatus: {
             type: Sequelize.INTEGER
@@ -33,6 +29,6 @@ var ChickensHouse = db.sequelize.define('ChickensHouse',
 );
 ChickensHouse.hasMany(SunMoovement)
 ChickensHouse.hasMany(Temperatures)
-ChickensHouse.hasMany(Access)
+
 
 module.exports = ChickensHouse

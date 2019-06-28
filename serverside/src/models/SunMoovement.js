@@ -4,8 +4,7 @@ var SunMoovement = db.sequelize.define("sunmoovement",
     {
         dateSunMoovement: {
             type: Sequelize.DATEONLY,
-            primaryKey: true,
-            autoIncrement: true
+            primaryKey: true
         },
         sunrise: {
             type: Sequelize.TIME,
@@ -14,13 +13,7 @@ var SunMoovement = db.sequelize.define("sunmoovement",
         sunset: {
             type: Sequelize.TIME,
             allowNull: false
-        },
-        chickenshouse_idchickenshouse: {
-            type: Sequelize.INTEGER,
-            references: 'Chickenshouse', //tabella
-            referencesKey: 'idchickenshouse'
         }
-
     },
     {
         timestamps: false

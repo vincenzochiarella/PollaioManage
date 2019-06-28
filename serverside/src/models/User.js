@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize")
 const db = require("../db/db")
-const Access = require ("./Access")
+
 
 var User = db.sequelize.define(
     'user',
@@ -14,10 +14,6 @@ var User = db.sequelize.define(
             type: Sequelize.STRING,
             allowNull: false
         },
-        email: {
-            type: Sequelize.STRING,
-            allowNull: false
-        },
         password: {
             type: Sequelize.STRING,
             allowNull: false
@@ -27,5 +23,5 @@ var User = db.sequelize.define(
         timestamps: false
     }
 )
-User.hasMany(Access)
+
 module.exports = User
