@@ -15,7 +15,7 @@ const getSunmoovement = (latitude, longitude, day) => {
 
 // ch
 const createSunMoovement = (day, sunrise, sunset) => {
-    return axios.post('sun/setsunmoovement',{
+    return axios.post('ckHouse/setsunmoovement',{
         chickenHouseId: 1,
         day: day,
         sunrise: moment(sunrise, 'hh:mm:ss A').add(2, 'hours').format('hh:mm:ss A'),
@@ -37,6 +37,6 @@ const getWeekday = ()=> {
 };
 const startAquisition = setInterval(()=>getWeekday(), 43200000)
 
-const syncManualAquisition = () =>  {getWeekday()}
 
-module.exports = [ startAquisition, syncManualAquisition ]
+
+module.exports = [ startAquisition, createSunMoovement ]

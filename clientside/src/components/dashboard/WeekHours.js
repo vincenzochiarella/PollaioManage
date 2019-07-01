@@ -2,12 +2,14 @@ import React from 'react';
 // import axios from 'axios'
 
 
+
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
+import { getWeekSunMoovement } from '../controllers/SunMoovementController'
 
 
 class WeekHours extends React.Component {
@@ -18,7 +20,8 @@ class WeekHours extends React.Component {
             sunMoovement: []
         }
     }
-    componentDidMount() {
+    componentWillMount() {
+        getWeekSunMoovement().then(data => this.setState({sunMoovement: data }))
     }
 
    

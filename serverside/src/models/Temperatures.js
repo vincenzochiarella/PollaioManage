@@ -4,7 +4,7 @@ const db = require('../db/db')
 var Temperatures = db.sequelize.define("temperatures",
     {
         date_time: {
-            type: Sequelize.TEXT,
+            type: Sequelize.DATE,
             primaryKey: true
         },
         temps:{

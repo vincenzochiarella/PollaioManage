@@ -2,16 +2,17 @@ const Sequelize = require("sequelize")
 const db = require('../db/db')
 var SunMoovement = db.sequelize.define("sunmoovement",
     {
-        dateSunMoovement: {
+        day: {
             type: Sequelize.DATEONLY,
-            primaryKey: true
+            primaryKey: true,
+            allowNull: false
         },
         sunrise: {
-            type: Sequelize.TIME,
+            type: Sequelize.TEXT,
             allowNull: false
         },
         sunset: {
-            type: Sequelize.TIME,
+            type: Sequelize.TEXT,
             allowNull: false
         }
     },

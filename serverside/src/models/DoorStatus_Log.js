@@ -3,7 +3,7 @@ const db = require('../db/db')
 var DoorStatus_Logs = db.sequelize.define("log_doorstatus",
     {
         date_time: {
-            type: Sequelize.TEXT,
+            type: Sequelize.DATE,
             primaryKey: true
         },
         before_status: {

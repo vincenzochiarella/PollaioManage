@@ -54,8 +54,6 @@ export default function Dashboard() {
             <WeekHours 
               coords={coords}
             />
-
-
           </Grid>
         </Grid>
       </Container>

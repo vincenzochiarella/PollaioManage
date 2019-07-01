@@ -1,9 +1,7 @@
 import axios from 'axios'
 
-export const getWeekSunMoovement = chickenHouseId =>{
-    return axios.post('sun/getsunmoovement',{
-        chickenHouseId: chickenHouseId
-    })
+export const getWeekSunMoovement = () =>{
+    return axios.post('ckHouse/getsunmoovement')
     .then(res => {
         return res.data
     })

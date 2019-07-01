@@ -27,23 +27,8 @@ var ChickensHouse = db.sequelize.define('ChickensHouse',
     {
         timestamps: false
     }
-);
-ChickensHouse.hasMany(SunMoovement, {
-    foreignKey: {
-        name: 'dateSunMoovement'
-    }
-})
+)
 
-ChickensHouse.hasMany(Temperatures, {
-    foreignKey: {
-        name: 'date_time'
-    }
-})
-ChickensHouse.hasMany(DoorS_Log, {
-    foreignKey: {
-        name: 'date_time'
-    }
-})
 
 
 module.exports = ChickensHouse
