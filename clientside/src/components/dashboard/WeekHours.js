@@ -16,7 +16,6 @@ class WeekHours extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            coords: this.props.coords,
             sunMoovement: []
         }
     }

@@ -5,11 +5,11 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
-import Chart from './temperatureCharts';
+import Chart from './GenericChart';
 import OverrideOpening from '../overrideopening';
 import WeekHours from './WeekHours';
 
-const coords = { lat: 43.1386, log: 13.0678 };
+import { getTemperatures } from '../controllers/TempereturesController'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -31,7 +31,7 @@ export default function Dashboard() {
   const classes = useStyles();
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
+  console.log(new Date().getUTCDate()+'-')
   return (
       <Container maxWidth="lg" className={classes.container}>
 
@@ -39,10 +39,14 @@ export default function Dashboard() {
           {/* Chart */}
           <Grid item xs={12} md={8} lg={9}>
             <Paper className={fixedHeightPaper}>
-              <Chart />
+              <Chart 
+                title="Temperature"
+                xVar="time"
+                yVar="temps"
+                query={getTemperatures}
+              />
             </Paper>
           </Grid>
-
 
           {/* Recent Deposits */}
           <Grid item xs={3} md={4} lg={3}>
@@ -51,9 +55,7 @@ export default function Dashboard() {
             </Paper>
           </Grid>
           <Grid item xs={12}>
-            <WeekHours 
-              coords={coords}
-            />
+            <WeekHours/>
           </Grid>
         </Grid>
       </Container>
