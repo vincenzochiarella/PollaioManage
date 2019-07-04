@@ -9,6 +9,7 @@ import Chart from './GenericChart';
 import OverrideOpening from '../overrideopening';
 import WeekHours from './WeekHours';
 
+import moment from 'moment'
 import { getTemperatures } from '../controllers/TempereturesController'
 
 const useStyles = makeStyles(theme => ({
@@ -29,9 +30,8 @@ const useStyles = makeStyles(theme => ({
 
 export default function Dashboard() {
   const classes = useStyles();
-
+  const titleChart = "Temperature del "+ moment(new Date()).format('DD-MM-YYYY')
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-  console.log(new Date().getUTCDate()+'-')
   return (
       <Container maxWidth="lg" className={classes.container}>
 
@@ -40,7 +40,7 @@ export default function Dashboard() {
           <Grid item xs={12} md={8} lg={9}>
             <Paper className={fixedHeightPaper}>
               <Chart 
-                title="Temperature"
+                title={titleChart}
                 xVar="time"
                 yVar="temps"
                 query={getTemperatures}

@@ -5,6 +5,7 @@ import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recha
 
 
 
+
 class GenericChart extends React.Component {
   constructor(props) {
     super(props)
@@ -14,9 +15,11 @@ class GenericChart extends React.Component {
     }
   }
   componentDidMount(){
-    console.log(this.props.query().then(data => console.log(data)))
-      
+    this.props.query().then(data => {
+      this.setState({data: data})
+    })      
   }
+
   render() {
     const { data, title } = this.state
     const { xVar , yVar } = this.props

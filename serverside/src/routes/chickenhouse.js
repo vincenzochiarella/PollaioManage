@@ -79,7 +79,8 @@ chickenhouse.post('/getTemp', (req, res) => {
     Temperatures.findAll({
         where: {
             date: req.body.date
-        }
+        },
+        attributes: ['time','temps']
     }).then(data =>
         res.json(data))
         .catch(err => res.send(err))

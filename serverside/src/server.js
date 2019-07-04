@@ -39,23 +39,7 @@ app.use('/users', Users)
 app.use('/ckHouse', ChickenHouse)
 
 
-// app.get('/led/:mode', function (req, res){
-//          switch(req.params.mode){
-//              case "open":
-//                  led.led.on()
-//                  console.log("arriva")
-//                  break
-//              case "off":
-//                  led.led.off()
-//                  res.send({
-//                     status: "off"
-//                 })
-//                  break
-//          }
 
-
-
-// })
 
 var uri = 'rtsp://192.168.1.1:554/11',
    stream = new rtsp.FFMpeg({
@@ -77,11 +61,3 @@ io.on('connection', function (socket) {
 
 
 
-app.get('/led/1', function (req, res) {
-   led.on()
-   res.send("on")
-})
-app.get('/led/0', function (req, res) {
-   led.off()
-   res.send("off")
-})
