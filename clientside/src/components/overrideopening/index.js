@@ -68,9 +68,9 @@ class OverrideOpening extends React.Component {
 
         return (
             <>
-                <IconButton
+                <IconButton style={{width: 100, height: 100}}
                     onClick={this.onToggleSwitch}>
-                    {opened ? <Lock size={100} /> : <LockOpen size={100}/>}
+                    {opened ? <Lock style={{width: 60, height:60}}/> : <LockOpen style={{width: 60, height:60}}/>}
                 </IconButton>
             </>
         )

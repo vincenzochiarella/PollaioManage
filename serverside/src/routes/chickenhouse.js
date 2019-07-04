@@ -9,26 +9,33 @@ const Temperatures = require('../models/Temperatures')
 
 chickenhouse.use(cors())
 //crea un nuovo pollaio 
-chickenhouse.post('/createChickenHouse', (req, res) => {
+chickenhouse.post('/new', (req, res) => {
     ChickensHouse.create({
         name: req.body.name,
         latitude: req.body.latitude,
         longitude: req.body.longitude,
-        doorStatus: req.body.doorstatus
+        doorStatus: req.body.doorStatus
     }).then(data => res.json(data))
         .catch(err => res.status(500))
 })
 
-chickenhouse.post('/getDetails', (req, res) => {
-    ChickensHouse.findAll({
-        where: {
-            id: req.body.id
-        }
+chickenhouse.post('/getdoorstatus', (req, res) => {
+    ChickensHouse.findOne({
+        attributes: ['doorStatus']
     }).then((data) => {
         res.json(data)
     }).catch(err =>
-        res.json(err))
+        res.status(404))
 })
+chickenhouse.post('/getcoords', (req, res) => {
+    ChickensHouse.findOne({
+        attributes: ['latitude','longitude']
+    }).then((data) => {
+        res.json(data)
+    }).catch(err =>
+        res.status(404))
+})
+
 
 
 

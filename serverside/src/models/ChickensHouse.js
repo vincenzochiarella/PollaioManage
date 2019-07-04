@@ -21,7 +21,8 @@ var ChickensHouse = db.sequelize.define('ChickensHouse',
             type: Sequelize.FLOAT,
         },
         doorStatus: {
-            type: Sequelize.INTEGER
+            type: Sequelize.INTEGER,
+            allowNull: false
         }
     },
     {

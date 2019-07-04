@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import {
     Drawer, AppBar,
     Typography, Divider, List, ListItemIcon, ListItemText,
-    IconButton, ListItem, withStyles, CssBaseline, Toolbar, Paper
+    IconButton, ListItem, withStyles, CssBaseline, Toolbar, Paper, Box
 } from '@material-ui/core';
 
 import {
@@ -186,10 +186,19 @@ class Layout extends React.Component {
                             {pathname.substr(1)}
                         </Typography>
 
-                        <Paper >
-                            <Clock format={'HH:mm:ss A'} ticking={true} />
+                        <Paper>
+                            <Box m={1}>
+                                <Clock format={'HH:mm:ss A'} ticking={true} />
+
+
+                            </Box>
                         </Paper>
-                        <Posizionedelsole coords={coords} />
+                        <Paper>
+                            <Box mt={1} ml={1} mr={1}>
+                                <Posizionedelsole coords={coords} />
+                            </Box>
+                        </Paper>
+
 
                     </Toolbar>
                 </AppBar>

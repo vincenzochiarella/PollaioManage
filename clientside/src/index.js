@@ -5,13 +5,13 @@ import App from './components/app';
 import * as serviceWorker from './serviceWorker';
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core'
-import orange from '@material-ui/core/colors/orange'
-import teal from '@material-ui/core/colors/teal'
+
+import { orange, blue } from '@material-ui/core/colors';
 
 const theme = createMuiTheme({
     palette: {
         primary: orange,
-        secondary: teal
+        secondary: blue
     }
 })
 

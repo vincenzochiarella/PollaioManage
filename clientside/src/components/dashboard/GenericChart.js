@@ -14,7 +14,7 @@ class GenericChart extends React.Component {
       title: this.props.title
     }
   }
-  componentDidMount(){
+  componentWillMount(){
     this.props.query().then(data => {
       this.setState({data: data})
     })      

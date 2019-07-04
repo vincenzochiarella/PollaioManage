@@ -16,16 +16,24 @@ const io = require('socket.io')(server, { origins: '*:*' })
 
 /* start rtsp */
 const rtsp = require('rtsp-ffmpeg');
-
-
 /*  end rtsp */
+
+/* start deployment part*/
+// const path = require('path');
+// app.use(express.static(path.join(__dirname, '../../clientside/build')));
+
+// app.get('/', function(req, res) {
+//   res.sendFile(path.join(__dirname, '../../clientside/build', 'index.html'));
+// });
+//--------uncomment after npm run build in clientside-------
+/*  end deployment part */
 
 
 var Users = require('./routes/users')
 var ChickenHouse = require('./routes/chickenhouse')
 
 
-const port = 8080;
+const port = 5000;
 var motor = require('./ControllerArduino/controllerDoor')
 
 

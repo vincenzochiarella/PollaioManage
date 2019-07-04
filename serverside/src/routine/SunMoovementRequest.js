@@ -2,8 +2,12 @@
 var axios = require('axios')
 var moment = require('moment');
 
-const getSunmoovement = (latitude, longitude, day) => {
-    axios('https://api.sunrise-sunset.org/json?lat=' + latitude + '&lng=' + longitude + '&date=' + day)
+const getSunmoovement = ( day) => {
+    var coords={}
+    axios.post('ckHouse/getcoords').then(data=>{
+        coords = data
+    })
+    axios('https://api.sunrise-sunset.org/json?lat=' + coords.latitude + '&lng=' + coords.longitude + '&date=' + day)
         .then(
             results => {
                 return results.json()
@@ -16,10 +20,9 @@ const getSunmoovement = (latitude, longitude, day) => {
 // ch
 const createSunMoovement = (day, sunrise, sunset) => {
     return axios.post('ckHouse/setsunmoovement',{
-        chickenHouseId: 1,
         day: day,
-        sunrise: moment(sunrise, 'hh:mm:ss A').add(2, 'hours').format('hh:mm:ss A'),
-        sunset: moment(sunset, 'hh:mm:ss A').add(2, 'hours').format('hh:mm:ss A')
+        sunrise: moment(sunrise, 'hh:mm:ss A').add(2, 'hours').format('hh:mm:ss'),
+        sunset: moment(sunset, 'hh:mm:ss A').add(2, 'hours').format('hh:mm:ss')
     })
 }
 
@@ -27,6 +30,7 @@ const createSunMoovement = (day, sunrise, sunset) => {
 const getWeekday = ()=> {
     var startOfWeek = moment();
     var endOfWeek = moment().add(7, "d");
+    coords
 
     var day = startOfWeek;
 
@@ -35,8 +39,8 @@ const getWeekday = ()=> {
         day = day.clone().add(1, 'd');
     }
 };
-const startAquisition = setInterval(()=>getWeekday(), 43200000)
 
 
 
-module.exports = [ startAquisition, createSunMoovement ]
+
+module.exports = getWeekday

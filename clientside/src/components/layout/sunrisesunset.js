@@ -30,9 +30,9 @@ class Posizionedelsole extends React.Component {
             <>
                 <Grid item xs>
                     {this.getPosizoneSole().altitude <= 0 ?
-                        <img src={moon} alt={'Moon'} width={25} height={25} />
+                        <img src={moon} alt={'Moon'} width={40} height={40} />
                         :
-                        <img src={sun} alt={'Sun'} width={25} height={25} />}
+                        <img src={sun} alt={'Sun'} width={40} height={40} />}
                 </Grid>
             </>
         )
