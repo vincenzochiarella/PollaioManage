@@ -7,6 +7,9 @@ const app = express();
 const server = require('http').Server(app)
 const io = require('socket.io')(server, { origins: '*:*' })
 
+var weekMoovs = require('./routine/SunMoovementRequest')
+
+
 // const SimpleNodeLogger = require('simple-node-logger'),
 //    opts = {
 //       logFilePath: 'logImgRaw.log',
@@ -64,6 +67,9 @@ io.on('connection', function (socket) {
    stream.on('data', (data) => {
       socket.emit('data', data.toString('base64'))
    })
+})
+io.on('disconnect', function(socket){
+   
 })
 
 

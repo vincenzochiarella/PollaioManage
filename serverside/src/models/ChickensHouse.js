@@ -1,8 +1,6 @@
 const Sequelize = require("sequelize");
 const db = require("../db/db")
-const SunMoovement = require("./SunMoovement")
-const Temperatures = require("./Temperatures")
-const DoorS_Log = require("./DoorStatus_Log")
+
 
 var ChickensHouse = db.sequelize.define('ChickensHouse',
     {

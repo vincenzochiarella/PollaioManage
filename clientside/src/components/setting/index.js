@@ -83,6 +83,7 @@ class Setting extends React.Component {
     render() {
         const { lat, lon, errorText, latError, lonError, editMode, disableSave } = this.state
         return (
+            <>
             <Container maxWidth="md">
                 <Grid container spacing={3} direction="row" alignContent="center" justify="center">
                     <Grid item>
@@ -94,7 +95,7 @@ class Setting extends React.Component {
                             className={this.textField}
                             value={lat}
                             onChange={this.onChange('lat')}
-                            errorText={errorText}
+                            errortext={errorText}
                             margin="normal"
                             variant="outlined"
                         />
@@ -108,7 +109,7 @@ class Setting extends React.Component {
                             className={this.textField}
                             value={lon}
                             onChange={this.onChange('lon')}
-                            errorText={errorText}
+                            errortext={errorText}
                             margin="normal"
                             variant="outlined"
                         />
@@ -144,12 +145,9 @@ class Setting extends React.Component {
                             </Button>
                         </Grid>   
                     </Grid>
-
-
-
-
                 </Grid>
             </Container>
+            </>
         )
     }
 }

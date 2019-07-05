@@ -25,7 +25,8 @@ chickenhouse.post('/getdoorstatus', (req, res) => {
     }).then((data) => {
         res.json(data)
     }).catch(err =>
-        res.status(404))
+        res.send(err))
+    
 })
 chickenhouse.post('/getcoords', (req, res) => {
     ChickensHouse.findOne({
@@ -33,7 +34,8 @@ chickenhouse.post('/getcoords', (req, res) => {
     }).then((data) => {
         res.json(data)
     }).catch(err =>
-        res.status(404))
+        res.send(err))
+    
 })
 
 
@@ -41,8 +43,13 @@ chickenhouse.post('/getcoords', (req, res) => {
 
 //richiedere le prime sette date con relativi orari
 chickenhouse.post('/getsunmoovement', (req, res) => {
-
-    SunMoovement.findAll().then((dates) => {
+    SunMoovement.findAll({
+        order:[
+            ['day','ASC']
+        ],
+        limit: 7,
+        offset: 
+    }).then((dates) => {
         res.json(dates)
     })
 })
@@ -61,9 +68,11 @@ chickenhouse.post('/setsunmoovement', (req, res) => {
         if (!sMoove) {
             SunMoovement.create(data)
                 .then(data => res.json({ day: data.day, sunrise: data.sunrise, sunset: data.susunset }))
-                .catch(err => {
-                    res.send(err)
-                })
+                    .catch(err => {
+                        res.send(err)
+                    })
+        } else{
+            res.send("Data già present")
         }
     })
 })

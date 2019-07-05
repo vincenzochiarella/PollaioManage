@@ -39,7 +39,7 @@ export default function Dashboard() {
 
       <Grid container spacing={5} justify="center">
         {/* Chart */}
-        <Grid item xs={12} md={8} lg={9}>
+        <Grid item xs={12} md={9} lg={9}>
           <Paper className={fixedHeightPaper}>
             <Chart
               title={titleChart}
@@ -51,7 +51,7 @@ export default function Dashboard() {
         </Grid>
 
         {/* Recent Deposits */}
-        <Grid item xs={3} md={4} lg={3} >
+        <Grid item xs={12} md={6} lg={4} >
           <Paper className={fixedHeightPaper}>
             <Box m={6}>
               <OverrideOpening />
