@@ -7,6 +7,12 @@ const app = express();
 const server = require('http').Server(app)
 const io = require('socket.io')(server, { origins: '*:*' })
 
+var fs = require('fs');
+var path = require('path');
+var spawn = require('child_process').spawn;
+
+
+
 var weekMoovs = require('./routine/SunMoovementRequest')
 
 
@@ -37,7 +43,7 @@ var ChickenHouse = require('./routes/chickenhouse')
 
 
 const port = 5000;
-var motor = require('./ControllerArduino/controllerDoor')
+// var motor = require('./ControllerArduino/controllerDoor')
 
 
 app.use(cors())
@@ -61,17 +67,71 @@ var uri = 'rtsp://192.168.1.1:554/11',
    });
 
 
-
 //CORRETTO i dati vengono trasferiti alla socket ma la socket del client non li riceve
-io.on('connection', function (socket) {
+var extCam = io.of('/externalcam')
+extCam.on('connection', function (socket) {
    stream.on('data', (data) => {
       socket.emit('data', data.toString('base64'))
    })
+   socket.on('disconnect', () => {
+
+   })
 })
-io.on('disconnect', function(socket){
-   
+extCam.on('disconnect', function (socket) {
+
 })
 
 
+//--------start---------------INTERNAL Camera stream
+var process;
+var intCam = io.of('/internalcam')
+intCam.on('connection', function(socket) {
+   socket.on('start-stream', function() {
+       if (!isStreaming) {
+           startStreaming();
+       } else {
+           sendImage();
+       }
+   });
 
+   socket.on('disconnect', function() {       
+           stopStreaming();       
+   });
+});
 
+function startStreaming() {
+   isStreaming = true;
+   intervalObj = setInterval(takeImage, 200);
+}
+
+function stopStreaming() {
+   isStreaming = false;
+   if (process) {
+       process.kill();
+   }
+   clearInterval(intervalObj);
+}
+
+function takeImage() {
+   //console.log('taking image');
+   var args = [
+       '-w', 640,   // width
+       '-h', 480,  // height
+       '-t', 100,  // how long should taking the picture take?
+       '-o', getAbsoluteImagePath()   // path + name
+   ];
+   process = spawn('raspistill', args);
+   process.on('exit', sendImage);
+}
+
+function sendImage() {
+   //console.log('sending image');
+   fs.readFile(getAbsoluteImagePath(), function(err, buffer){
+      intCam.socket.emit('live-stream', buffer.toString('base64'));
+   });
+}
+
+function getAbsoluteImagePath() {
+   return path.join(__dirname, "stream", "image.jpg");
+}
+//--------------end------------------------

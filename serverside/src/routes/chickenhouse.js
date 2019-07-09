@@ -45,10 +45,9 @@ chickenhouse.post('/getcoords', (req, res) => {
 chickenhouse.post('/getsunmoovement', (req, res) => {
     SunMoovement.findAll({
         order:[
-            ['day','ASC']
+            ['day','DESC']
         ],
-        limit: 7,
-        offset: 
+        limit: 7
     }).then((dates) => {
         res.json(dates)
     })

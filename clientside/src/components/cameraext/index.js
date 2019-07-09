@@ -10,13 +10,16 @@ import * as socketIo from 'socket.io-client'
 class ExternalCamera extends React.Component {
     constructor(props) {
         super(props)
+        this.state ={
+            endpoint: "http://localhost:5000/externalcam"
+        }
         this.updateImage = this.updateImage.bind(this)
     }
     componentDidMount() {
         this.updateImage()
     }
     updateImage() {
-        var img = document.getElementById('externacam')
+        var img = document.getElementById('externalcam')
         var socket = socketIo('http://localhost:5000')
         try {
             socket.on('data', function (data) {
@@ -35,7 +38,7 @@ class ExternalCamera extends React.Component {
                 <Box p={8}>
                     <Paper style={{ minWidth: '30vh' }}>
                         <Box p={2}>
-                            <img id="externalcam" alt='video non disponibile' style={{
+                            <img id="externalcam" alt='Video attualmente non disponibile' style={{
                                 width: '100%',
                                 maxWidth: '1280px',
                                 height: 'auto'

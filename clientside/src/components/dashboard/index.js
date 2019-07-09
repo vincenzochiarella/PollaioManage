@@ -36,7 +36,6 @@ export default function Dashboard() {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   return (
     <Container maxWidth="lg" className={classes.container}>
-
       <Grid container spacing={5} justify="center">
         {/* Chart */}
         <Grid item xs={12} md={9} lg={9}>
@@ -51,7 +50,7 @@ export default function Dashboard() {
         </Grid>
 
         {/* Recent Deposits */}
-        <Grid item xs={12} md={6} lg={4} >
+        <Grid item xs={12} md={6} lg={3} >
           <Paper className={fixedHeightPaper}>
             <Box m={6}>
               <OverrideOpening />

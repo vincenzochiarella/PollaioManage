@@ -26,7 +26,7 @@ getSunmoovement = (coords, day) => {
 getWeekday = () => {
     axios.post('http://localhost:5000/ckHouse/getcoords').then(data => {
         var startOfWeek = moment();
-        var endOfWeek = moment().add(7, "d");
+        var endOfWeek = moment().add(6, "d");
         var day = startOfWeek;
         while (day <= endOfWeek) {
             console.log(day.format('YYYY-MM-DD'), data.data)
