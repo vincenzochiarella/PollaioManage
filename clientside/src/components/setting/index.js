@@ -5,6 +5,8 @@ import { coordsReg } from '../../constants/regex';
 import { Grid, Button, withStyles, Container, TextField, Box } from '@material-ui/core'
 import { ExitToApp, Edit, Map } from '@material-ui/icons'
 
+import { setCoords, getCoords } from '../controllers/ChickenHouseController'
+
 
 
 const style = theme => ({
@@ -33,8 +35,6 @@ class Setting extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            lat: 43.36472,
-            lon: 13.69483,
             latError: false,
             lonError: false,
             disableSave: false,
@@ -44,19 +44,21 @@ class Setting extends React.Component {
     }
 
     componentWillMount() {
-        this.setState({
-            
-            
+        getCoords().then((data)=>{
+            this.setState({
+                lat: data.latitude,
+                lon: data.longitude
+            })
         })
     }
-    getButType(){
-        if(this.state.editMode)
+    getButType() {
+        if (this.state.editMode)
             return "outlined"
-        else 
+        else
             return "contained"
     }
     onCheckMap = event => {
-        window.open("https://www.openstreetmap.org/#map=16/"+this.state.lat+"/"+this.state.lon)
+        window.open("https://www.openstreetmap.org/#map=16/" + this.state.lat + "/" + this.state.lon)
     }
     onChange = valueName => event => {
         this.setState({
@@ -68,9 +70,13 @@ class Setting extends React.Component {
         if (valueName === 'lon') {
             event.target.value.match(coordsReg.longitude) ? this.setState({ lonError: false }) : this.setState({ lonError: true })
         }
+        if (this.state.latError || this.state.lonError)
+            this.setState({ disableSave: true })
         event.preventDefault()
     }
-    handleEdit = event => {
+    handleEdit = event => {        
+        if (this.state.editMode && !this.state.disableSave)
+            setCoords(this.state.lat, this.state.lon)
         this.setState({ editMode: !this.state.editMode })
         event.preventDefault()
     }
@@ -84,69 +90,70 @@ class Setting extends React.Component {
         const { lat, lon, errorText, latError, lonError, editMode, disableSave } = this.state
         return (
             <>
-            <Container maxWidth="md">
-                <Grid container spacing={3} direction="row" alignContent="center" justify="center">
-                    <Grid item>
-                        <TextField
-                            error={latError}
-                            disabled={!editMode}
-                            id="outlined-name"
-                            label="Latitudine"
-                            className={this.textField}
-                            value={lat}
-                            onChange={this.onChange('lat')}
-                            errortext={errorText}
-                            margin="normal"
-                            variant="outlined"
-                        />
-                    </Grid>
-                    <Grid item>
-                        <TextField
-                            error={lonError}
-                            disabled={!editMode}
-                            id="outlined-name"
-                            label="Longitudine"
-                            className={this.textField}
-                            value={lon}
-                            onChange={this.onChange('lon')}
-                            errortext={errorText}
-                            margin="normal"
-                            variant="outlined"
-                        />
-                    </Grid>
-                    <Grid item>
-                        <Box mt={3}>
-                        <Button variant={this.getButType()}  color="secondary"
-                            className={this.button}
-                            onClick={this.handleEdit}
-                        >
-                            <Edit className={this.leftIcon} />
-                        </Button>
-                        </Box>
-                    </Grid>
-                    <Grid item>
-                        <Box mt={3}>
-                        <Button variant="contained"  color="secondary"
-                            className={this.button}
-                            onClick={this.onCheckMap}
-                            disabled={disableSave}
-                        >
-                            <Map className={this.leftIcon} />
-                        </Button>
-                        </Box>
-                    </Grid>
+                <Container maxWidth="md">
                     <Grid container spacing={3} direction="row" alignContent="center" justify="center">
                         <Grid item>
-                            <Button variant="contained" color="secondary"
-                                className={this.button}
-                                onClick={this.handleLogout}>
-                                <ExitToApp className={this.leftIcon} />
-                                Logout
+                            <TextField
+                                error={latError}
+                                disabled={!editMode}
+                                id="outlined-name"
+                                label="Latitudine"
+                                className={this.textField}
+                                value={lat}
+                                onChange={this.onChange('lat')}
+                                errortext={errorText}
+                                margin="normal"
+                                variant="outlined"
+                            />
+                        </Grid>
+                        <Grid item>
+                            <TextField
+                                error={lonError}
+                                disabled={!editMode}
+                                id="outlined-name"
+                                label="Longitudine"
+                                className={this.textField}
+                                value={lon}
+                                onChange={this.onChange('lon')}
+                                errortext={errorText}
+                                margin="normal"
+                                variant="outlined"
+                            />
+                        </Grid>
+                        <Grid item>
+                            <Box mt={3}>
+                                <Button variant={this.getButType()} color="secondary"
+                                    className={this.button}
+                                    onClick={this.handleEdit}
+                                    disabled={disableSave}
+                                >
+                                    <Edit className={this.leftIcon} />
+                                </Button>
+                            </Box>
+                        </Grid>
+                        <Grid item>
+                            <Box mt={3}>
+                                <Button variant="contained" color="secondary"
+                                    className={this.button}
+                                    onClick={this.onCheckMap}
+                                    disabled={disableSave}
+                                >
+                                    <Map className={this.leftIcon} />
+                                </Button>
+                            </Box>
+                        </Grid>
+                        <Grid container spacing={3} direction="row" alignContent="center" justify="center">
+                            <Grid item>
+                                <Button variant="contained" color="secondary"
+                                    className={this.button}
+                                    onClick={this.handleLogout}>
+                                    <ExitToApp className={this.leftIcon} />
+                                    Logout
                             </Button>
-                        </Grid>   
+                            </Grid>
+                        </Grid>
                     </Grid>
-                </Grid>
-            </Container>
+                </Container>
             </>
         )
     }

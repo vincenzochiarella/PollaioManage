@@ -21,7 +21,7 @@ var ChickensHouse = db.sequelize.define('ChickensHouse',
         doorStatus: {
             type: Sequelize.INTEGER,
             allowNull: false
-        }
+        },
     },
     {
         timestamps: false

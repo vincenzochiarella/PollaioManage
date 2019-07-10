@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const getWeekSunMoovement = () =>{
-    return axios.post('ckHouse/getsunmoovement')
+    return axios.post('ckHouse/getsunmoovementweek')
     .then(res => {
         return res.data
     })

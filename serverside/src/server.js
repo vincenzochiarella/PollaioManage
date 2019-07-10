@@ -14,6 +14,10 @@ var spawn = require('child_process').spawn;
 
 
 var weekMoovs = require('./routine/SunMoovementRequest')
+var automatic = require('./routine/Automatization')
+// weekMoovs.syncAPIExternal()
+automatic.startSyncTodayMoovs
+automatic.startSyncEveryDayWeather
 
 
 // const SimpleNodeLogger = require('simple-node-logger'),
@@ -84,6 +88,7 @@ extCam.on('disconnect', function (socket) {
 
 //--------start---------------INTERNAL Camera stream
 var process;
+var intervalObj;
 var intCam = io.of('/internalcam')
 intCam.on('connection', function(socket) {
    socket.on('start-stream', function() {

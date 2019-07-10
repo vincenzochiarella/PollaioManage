@@ -1,16 +1,18 @@
 import axios from 'axios'
 
-export const getDoorStatusLog = () =>{
-    return axios.post('ckHouse/getdoorstatuslog')
+export const getCoords = () =>{
+    return axios.post('ckHouse/getcoords')
     .then(res=> {
         return res.data
     }).catch( err=> {
         console.log(err)
     })
 }
-export const setDoorStatusLog = (doorstatus) =>{
-    return axios.post('ckHouse/setdoorstatuslog',{
-        doorStatus: doorstatus
+
+export const setCoords = (lat,lon) =>{
+    return axios.post('ckHouse/setcoords',{
+        latitude: lat,
+        longitude: lon
     })
     .then(res=> {
         return res.data
@@ -18,3 +20,5 @@ export const setDoorStatusLog = (doorstatus) =>{
         console.log(err)
     })
 }
+
+

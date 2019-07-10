@@ -9,8 +9,8 @@ import { Box } from '@material-ui/core'
 import Chart from './GenericChart';
 import OverrideOpening from '../overrideopening';
 import WeekHours from './WeekHours';
+import WeatherUI from './WeatherUI'
 
-import moment from 'moment'
 import { getTemperatures } from '../controllers/TempereturesController'
 
 const useStyles = makeStyles(theme => ({
@@ -32,7 +32,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function Dashboard() {
   const classes = useStyles();
-  const titleChart = "Temperature del " + moment(new Date()).format('DD-MM-YYYY')
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   return (
     <Container maxWidth="lg" className={classes.container}>
@@ -41,19 +40,26 @@ export default function Dashboard() {
         <Grid item xs={12} md={9} lg={9}>
           <Paper className={fixedHeightPaper}>
             <Chart
-              title={titleChart}
               xVar="time"
               yVar="temps"
+              yVar2="humidity"
               query={getTemperatures}
             />
           </Paper>
         </Grid>
 
         {/* Recent Deposits */}
-        <Grid item xs={12} md={6} lg={3} >
+        <Grid item xs={12} md={6} lg={6} >
           <Paper className={fixedHeightPaper}>
             <Box m={6}>
               <OverrideOpening />
+            </Box>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={6} lg={6} >
+          <Paper className={fixedHeightPaper}>
+            <Box m={1}>
+              <WeatherUI/> 
             </Box>
           </Paper>
         </Grid>

@@ -10,6 +10,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 import { getWeekSunMoovement } from '../controllers/SunMoovementController'
+import moment from 'moment'
 
 
 class WeekHours extends React.Component {
@@ -23,7 +24,11 @@ class WeekHours extends React.Component {
         getWeekSunMoovement().then(data => this.setState({sunMoovement: data }))
     }
 
-   
+    showToday(day){
+        if(day === moment().format('YYYY-MM-DD')){
+            return true
+        }else return false        
+    }
 
     render() {
         return (
@@ -38,7 +43,7 @@ class WeekHours extends React.Component {
                     </TableHead>
                     <TableBody>
                         {this.state.sunMoovement.map(row => (
-                            <TableRow key={row.day}>
+                            <TableRow key={row.day} selected={this.showToday(row.day)}>
                                 <TableCell component="th" scope="row">
                                     {row.day}
                                 </TableCell>

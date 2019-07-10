@@ -7,7 +7,7 @@ getSunmoovement = (coords, day) => {
     if (coords && day) {
         axios.post('https://api.sunrise-sunset.org/json?lat=' + coords.latitude + '&lng=' + coords.longitude + '&date=' + day)
             .then(data => {
-                console.log(day, data.data.results.sunrise, data.data.results.sunset)                
+                // console.log(day, data.data.results.sunrise, data.data.results.sunset)                
                 axios.post('http://localhost:5000/ckHouse/setsunmoovement', {
                     day: day,
                     sunrise: moment(data.data.results.sunrise, 'hh:mm:ss A').add(2, 'hours').format('HH:mm:ss'),
@@ -21,15 +21,12 @@ getSunmoovement = (coords, day) => {
     }
 }
 
-
-
-getWeekday = () => {
+module.exports.APICallsWeekly = getWeekday = () => {
     axios.post('http://localhost:5000/ckHouse/getcoords').then(data => {
         var startOfWeek = moment();
         var endOfWeek = moment().add(6, "d");
         var day = startOfWeek;
         while (day <= endOfWeek) {
-            console.log(day.format('YYYY-MM-DD'), data.data)
             getSunmoovement(data.data, day.format('YYYY-MM-DD'))
             day = day.clone().add(1, 'd');
         }
@@ -40,4 +37,4 @@ getWeekday = () => {
 
 
 
-module.exports = getWeekday()
+

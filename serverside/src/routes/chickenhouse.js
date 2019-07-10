@@ -4,7 +4,7 @@ const cors = require('cors')
 
 const SunMoovement = require("../models/SunMoovement")
 const ChickensHouse = require('../models/ChickensHouse')
-const Temperatures = require('../models/Temperatures')
+const Weather = require('../models/Weather')
 
 
 chickenhouse.use(cors())
@@ -26,26 +26,60 @@ chickenhouse.post('/getdoorstatus', (req, res) => {
         res.json(data)
     }).catch(err =>
         res.send(err))
-    
+
+})
+chickenhouse.post('/setdoorstatus', (req, res) => {
+    ChickensHouse.update({
+        doorStatus: req.body.doorStatus
+    }, {
+        where: {
+            id: 1
+        }
+        }).then(() =>{
+            res.sendStatus(200)
+        })
 })
 chickenhouse.post('/getcoords', (req, res) => {
     ChickensHouse.findOne({
-        attributes: ['latitude','longitude']
+        attributes: ['latitude', 'longitude']
     }).then((data) => {
         res.json(data)
     }).catch(err =>
         res.send(err))
-    
+
+})
+chickenhouse.post('/setcoords', (req, res) => {
+    ChickensHouse.update({
+        latitude: req.body.latitude,
+        longitude: req.body.longitude
+    }, {
+        where: {
+            id: 1
+        }
+        }).then(() =>{
+            res.sendStatus(200)
+        })
 })
 
 
 
+chickenhouse.post('/getsunmoovementtoday', (req, res) => {
+    SunMoovement.findOne({
+        where: {
+            day: req.body.day
+        }
+    }).then((dates) => {
+        res.json(dates)
+    }).catch(err =>
+        res.send(err))
+})
+
 
 //richiedere le prime sette date con relativi orari
-chickenhouse.post('/getsunmoovement', (req, res) => {
+chickenhouse.post('/getsunmoovementweek', (req, res) => {
     SunMoovement.findAll({
-        order:[
-            ['day','DESC']
+        order: [
+            ['day', 'DESC']
         ],
         limit: 7
     }).then((dates) => {
@@ -67,37 +101,53 @@ chickenhouse.post('/setsunmoovement', (req, res) => {
         if (!sMoove) {
             SunMoovement.create(data)
                 .then(data => res.json({ day: data.day, sunrise: data.sunrise, sunset: data.susunset }))
-                    .catch(err => {
-                        res.send(err)
-                    })
-        } else{
+                .catch(err => {
+                    res.send(err)
+                })
+        } else {
             res.send("Data già present")
         }
     })
 })
-chickenhouse.post('/setTemp', (req, res) => {
+chickenhouse.post('/setweather', (req, res) => {
     const temp = {
         date: req.body.date,
         time: req.body.time,
-        temps: req.body.temperature
+        temps: req.body.temperature,
+        pressure: req.body.pressure,
+        humidity: req.body.humidity,
+        clouds: req.body.clouds,
+        iconCode: req.body.iconCode
     }
-    Temperatures.create(temp)
+    Weather.create(temp)
         .then(data => res.json({
             date: data.date,
             time: data.time,
-            temp: data.temps
+            temp: data.temps,
+            humidity: data.humidity
         }))
         .catch(err => res.send(err))
 })
 
-chickenhouse.post('/getTemp', (req, res) => {
-    Temperatures.findAll({
+chickenhouse.post('/gettemphumid', (req, res) => {
+    Weather.findAll({
         where: {
             date: req.body.date
         },
-        attributes: ['time','temps']
+        attributes: ['time', 'temps', 'humidity']
     }).then(data =>
         res.json(data))
-        .catch(err => res.send(err))
+    .catch(err => res.send(err))
+})
+
+chickenhouse.post('/getlastweather', (req,res)=>{
+    Weather.findOne({
+        order: [
+            ['date', 'DESC'],
+            ['time', 'DESC']
+        ]
+    }).then(data=>
+        res.json(data))
+    .catch((err) => res.sendStatus(404))    
 })
 module.exports = chickenhouse

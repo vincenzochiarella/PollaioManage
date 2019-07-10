@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize")
 const db = require('../db/db')
 
-var Temperatures = db.sequelize.define("temperatures",
+var Weather = db.sequelize.define("weather",
     {
         date: {
             type: Sequelize.TEXT,
@@ -14,13 +14,28 @@ var Temperatures = db.sequelize.define("temperatures",
             allowNull : false
         },
         temps:{
-            type: Sequelize.INTEGER,
+            type: Sequelize.FLOAT,
             allowNull: false
+        },
+        pressure:{
+            type: Sequelize.FLOAT,
+            allowNull: false
+        },
+        humidity:{
+            type: Sequelize.FLOAT,
+            allowNull: false
+        },
+        clouds:{
+            type: Sequelize.INTEGER
+        },
+        iconCode:{
+            type: Sequelize.TEXT
         }
+
     },
     {
         timestamps: false
     }
 );
 
-module.exports = Temperatures
+module.exports = Weather
