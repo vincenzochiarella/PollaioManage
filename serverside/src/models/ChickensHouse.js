@@ -22,6 +22,14 @@ var ChickensHouse = db.sequelize.define('ChickensHouse',
             type: Sequelize.INTEGER,
             allowNull: false
         },
+        sun: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
+        luminosity: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        }
     },
     {
         timestamps: false

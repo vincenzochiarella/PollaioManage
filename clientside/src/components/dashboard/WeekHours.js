@@ -21,39 +21,39 @@ class WeekHours extends React.Component {
         }
     }
     componentWillMount() {
-        getWeekSunMoovement().then(data => this.setState({sunMoovement: data }))
+        getWeekSunMoovement().then(data => this.setState({ sunMoovement: data }))
     }
 
-    showToday(day){
-        if(day === moment().format('YYYY-MM-DD')){
+    showToday(day) {
+        if (day === moment().format('YYYY-MM-DD')) {
             return true
-        }else return false        
+        } else return false
     }
 
     render() {
         return (
-            
-                <Table >
-                    <TableHead>
-                        <TableRow >
-                            <TableCell>Giorno della settimana</TableCell>
-                            <TableCell align="right">Alba</TableCell>
-                            <TableCell align="right">Tramonto</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {this.state.sunMoovement.map(row => (
-                            <TableRow key={row.day} selected={this.showToday(row.day)}>
-                                <TableCell component="th" scope="row">
-                                    {row.day}
-                                </TableCell>
-                                <TableCell align="right">{row.sunrise}</TableCell>
-                                <TableCell align="right">{row.sunset}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
 
-                </Table>
+            <Table >
+                <TableHead>
+                    <TableRow >
+                        <TableCell>Giorno della settimana</TableCell>
+                        <TableCell align="right">Alba</TableCell>
+                        <TableCell align="right">Tramonto</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {this.state.sunMoovement.map(row => (
+                        <TableRow key={row.day} selected={this.showToday(row.day)}>
+                            <TableCell component="th" scope="row">
+                                    {row.day}                                
+                            </TableCell>
+                            <TableCell align="right">{row.sunrise}</TableCell>
+                            <TableCell align="right">{row.sunset}</TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+
+            </Table>
 
         )
     }

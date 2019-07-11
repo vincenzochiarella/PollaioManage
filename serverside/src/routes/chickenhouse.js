@@ -14,9 +14,11 @@ chickenhouse.post('/new', (req, res) => {
         name: req.body.name,
         latitude: req.body.latitude,
         longitude: req.body.longitude,
-        doorStatus: req.body.doorStatus
+        doorStatus: req.body.doorStatus,
+        sun: req.body.sun,
+        luminosity: req.body.luminosity
     }).then(data => res.json(data))
-        .catch(err => res.status(500))
+        .catch(err => res.sendStatus(500))
 })
 
 chickenhouse.post('/getdoorstatus', (req, res) => {
@@ -149,5 +151,25 @@ chickenhouse.post('/getlastweather', (req,res)=>{
     }).then(data=>
         res.json(data))
     .catch((err) => res.sendStatus(404))    
+})
+
+chickenhouse.post('/getauto', (req,res)=>{
+    ChickensHouse.findOne({
+        attributes: ['sun', 'luminosity']
+    }).then(data => res.json(data))
+    .catch((err)=>res.sendStatus(404))
+})
+
+chickenhouse.post('/setauto', (req,res)=>{
+    ChickensHouse.update({
+        sun: req.body.sun,
+        luminosity: req.body.luminosity
+    }, {
+        where: {
+            id: 1
+        }
+        }).then(() =>{
+            res.sendStatus(200)
+        })
 })
 module.exports = chickenhouse

@@ -21,4 +21,24 @@ export const setCoords = (lat,lon) =>{
     })
 }
 
+export const getAutomatism = () =>{
+    return axios.post('ckHouse/getauto')
+    .then(res=>{
+        return res.data
+    }).catch(
+        (err)=>console.log(err)
+    )
+}
+
+export const setAutomatism = (sun, lum) => {
+    return axios.post('ckHouse/setauto',{
+        sun: sun,
+        luminosity: lum
+    }).then(res=>{
+        return res.data
+    }).catch(err=>{
+        console.log(err)
+    })
+}
+
 
