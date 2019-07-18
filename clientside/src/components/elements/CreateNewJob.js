@@ -20,6 +20,7 @@ const styles = theme => ({
     paper: {
         zIndex: 1,
         position: 'relative',
+        width: '20%',
         margin: theme.spacing(1)
     }, 
     newjob: {
@@ -27,7 +28,7 @@ const styles = theme => ({
         width: 300
     },
     select: {
-        width: '30vh'
+        width: 'auto',
     }
     
 })
@@ -41,6 +42,7 @@ class CreateNewJob extends React.Component {
             move: 0
         }
         this.onChangeDate = this.onChangeDate.bind(this)
+        this.handleClick = this.handleClick.bind(this)
     }
     onChangeDate (date) {
         this.setState({
@@ -60,16 +62,13 @@ class CreateNewJob extends React.Component {
         else
             return "contained"
     }
-    createJob(){
-        this.props.create(this.state.date, this.state.move)
-    }
     handleClick = event =>{
         this.setState({
             show: !this.state.show
         })
         if(this.state.show){
-             createJob(this.state.date, this.state.move).then() 
-             this.props.reaload()
+            createJob(this.state.date, this.state.move)
+            this.props.reload()
         }
         event.preventDefault()
     }

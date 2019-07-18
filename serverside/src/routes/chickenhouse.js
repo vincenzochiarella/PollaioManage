@@ -16,7 +16,10 @@ chickenhouse.post('/new', (req, res) => {
         longitude: req.body.longitude,
         doorStatus: req.body.doorStatus,
         sun: req.body.sun,
-        luminosity: req.body.luminosity
+        luminosity: req.body.luminosity,
+        lumSensibility: req.body.luminosity,
+        lumAvarage: req.body.lumAvarage,
+        lumMin: req.body.lumMin
     }).then(data => res.json(data))
         .catch(err => res.sendStatus(500))
 })

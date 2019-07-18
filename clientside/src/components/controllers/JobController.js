@@ -18,7 +18,7 @@ export const getLastJob = () =>{
     })
 }
 
-export const updateJob = ( id, move, date ) =>{
+export const updateJob = ( id, date, move ) =>{
     return axios.post('job/edit',
         {
             date: date,

@@ -16,4 +16,5 @@ var Jobs = db.sequelize.define("Jobs",
     }
 );
 
+
 module.exports = Jobs

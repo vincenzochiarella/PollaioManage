@@ -29,7 +29,20 @@ var ChickensHouse = db.sequelize.define('ChickensHouse',
         luminosity: {
             type: Sequelize.INTEGER,
             allowNull: false
+        },
+        lumSensibility: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
+        lumAvarage: {
+            type: Sequelize.FLOAT,
+            allowNull: false
+        },
+        lumMin: {
+            type: Sequelize.INTEGER,
+            allowNull: false
         }
+        
     },
     {
         timestamps: false

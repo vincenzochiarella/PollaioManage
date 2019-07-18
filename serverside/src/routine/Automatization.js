@@ -40,7 +40,7 @@ module.exports.startSyncTodayMoovs = schedule.scheduleJob('dayOpening', ogniGior
     })
 })
 
-module.exports.mooveDoor = ( command ) => {
+module.exports.moveDoor = moveDoor => ( command ) => {
     axios.post('http://localhost:5000/ckHouse/getdoorstatus').then(
         data => {
             switch ( command ) {

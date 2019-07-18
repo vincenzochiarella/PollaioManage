@@ -16,6 +16,8 @@ class SchedulerRow extends React.Component {
             status: this.props.row.status
         }
         this.updateDateTime = this.updateDateTime.bind(this)
+        this.onClickDelete = this.onClickDelete.bind(this)
+        this.onToggleSwitch = this.onToggleSwitch.bind(this)
     }
     getButType() {
         if (this.state.editMode)
@@ -23,12 +25,13 @@ class SchedulerRow extends React.Component {
         else
             return "contained"
     }
-    onToggleSwitch = event => {        
+    onToggleSwitch = event => {
         this.setState({
             editMode: !this.state.editMode
         })
         if(this.state.editMode){
             this.props.update(this.state.id, this.state.date, this.state.move)
+            this.props.reload()
         }
         event.preventDefault()
     }
@@ -46,13 +49,15 @@ class SchedulerRow extends React.Component {
 
     onClickDelete(){
         this.props.delete(this.state.id)
+        this.props.reload()
     }
 
     render() {
         const { id, editMode, date, move, status } = this.state
+        const { index } = this.props
         return (
-            <TableRow key={id}>
-                
+            <TableRow key={index}>
+
                 <TableCell>{id}</TableCell>
                 {!editMode ? <>
                     <TableCell>
@@ -89,13 +94,13 @@ class SchedulerRow extends React.Component {
                     </Button>
                 </TableCell>
                 <TableCell>
-                    <Button 
+                    <Button
                         onClick={this.onClickDelete}
                         color="secondary">
                             <Delete/>
                         </Button>
                 </TableCell>
-                
+
             </TableRow>
         )
     }

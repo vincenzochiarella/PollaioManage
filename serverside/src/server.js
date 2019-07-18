@@ -48,6 +48,7 @@ var Users = require('./routes/users')
 var ChickenHouse = require('./routes/chickenhouse')
 var Door = require('./routes/door')
 var Jobs = require('./routes/jobs')
+var Brightness = require('./routes/brightness')
 
 
 const port = 5000;
@@ -64,6 +65,7 @@ app.use('/users', Users)
 app.use('/ckHouse', ChickenHouse)
 app.use('/door', Door)
 app.use('/job',Jobs)
+app.use('/bright',Brightness)
 
 
 

@@ -12,6 +12,7 @@ class Scheduler extends React.Component {
         this.state = {
             jobs: []
         }
+        this.updateJobsList = this.updateJobsList.bind(this)
     }
     componentWillMount() {
         this.updateJobsList()
@@ -23,9 +24,7 @@ class Scheduler extends React.Component {
                 this.setState({
                     jobs: data
                 })
-
-            }
-            )
+            })
     }
     create(date, move) {
         createJob(date, move)
@@ -54,8 +53,9 @@ class Scheduler extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {jobs && jobs.map((row) =>(
+                            {jobs && jobs.map((row, index) =>(
                                 <SchedulerRow row={row}
+                                    index={index}
                                     delete={this.delete}
                                     update={this.update}
                                     reload={this.updateJobsList} />)
