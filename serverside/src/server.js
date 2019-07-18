@@ -15,9 +15,11 @@ var spawn = require('child_process').spawn;
 
 var weekMoovs = require('./routine/SunMoovementRequest')
 var automatic = require('./routine/Automatization')
-// weekMoovs.syncAPIExternal()
+//weekMoovs.APICallsWeekly()
+
 automatic.startSyncTodayMoovs
 automatic.startSyncEveryDayWeather
+
 
 
 // const SimpleNodeLogger = require('simple-node-logger'),

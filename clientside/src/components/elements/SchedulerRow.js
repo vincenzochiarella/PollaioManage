@@ -1,8 +1,9 @@
 import React from 'react'
-import { Edit, Remove } from '@material-ui/icons'
+import { Edit, Delete } from '@material-ui/icons'
 import { TableRow, TableCell, Button, Select, MenuItem, InputLabel } from '@material-ui/core'
 
 import DateTimePickers from './DateTimePickers'
+import moment from 'moment'
 
 class SchedulerRow extends React.Component {
     constructor(props) {
@@ -14,6 +15,7 @@ class SchedulerRow extends React.Component {
             move: this.props.row.move,
             status: this.props.row.status
         }
+        this.updateDateTime = this.updateDateTime.bind(this)
     }
     getButType() {
         if (this.state.editMode)
@@ -23,22 +25,25 @@ class SchedulerRow extends React.Component {
     }
     onToggleSwitch = event => {        
         this.setState({
-            editMode: true
+            editMode: !this.state.editMode
         })
-        if(this.state.editMode)
+        if(this.state.editMode){
             this.props.update(this.state.id, this.state.date, this.state.move)
+        }
         event.preventDefault()
     }
-    updateDateTime(date) {
+    updateDateTime( date ) {
         this.setState({
             date: date
         })
     }
-    onChangeMove(move) {
+    onChangeMove = event => {
         this.setState({
-            move: move
+            move: event.target.value
         })
+        event.preventDefault()
     }
+
     onClickDelete(){
         this.props.delete(this.state.id)
     }
@@ -47,9 +52,11 @@ class SchedulerRow extends React.Component {
         const { id, editMode, date, move, status } = this.state
         return (
             <TableRow key={id}>
+                
+                <TableCell>{id}</TableCell>
                 {!editMode ? <>
                     <TableCell>
-                        {date}
+                        {moment(date).format('HH:mm DD-MM-YYYY')}
                     </TableCell>
                     <TableCell>
                         {move}
@@ -63,7 +70,7 @@ class SchedulerRow extends React.Component {
                         </TableCell>
                         <TableCell>
                             <InputLabel htmlFor="mossa"> Move </InputLabel>
-                            <Select onChange={this.onChangeMove} required>
+                            <Select onChange={this.onChangeMove} value={this.state.move}>
                                 <MenuItem value={0}>Chiudi</MenuItem>
                                 <MenuItem value={1}>Apri</MenuItem>
                             </Select>
@@ -74,16 +81,18 @@ class SchedulerRow extends React.Component {
                 </TableCell>
                 <TableCell>
                     <Button
-                        variant={this.getType()}
+                        variant={this.getButType()}
                         onClick={this.onToggleSwitch}
+                        color="secondary"
                     >
                         <Edit/>
                     </Button>
                 </TableCell>
                 <TableCell>
                     <Button 
-                        onClick={this.onClickDelete}>
-                            <Remove/>
+                        onClick={this.onClickDelete}
+                        color="secondary">
+                            <Delete/>
                         </Button>
                 </TableCell>
                 

@@ -68,9 +68,10 @@ const styles = theme => ({
         flexGrow: 1,
     },
     drawerPaper: {
-        position: 'relative',
+        position: 'float',
         whiteSpace: 'nowrap',
         width: drawerWidth,
+        
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
@@ -89,9 +90,10 @@ const styles = theme => ({
     },
     appBarSpacer: theme.mixins.toolbar,
     content: {
-        flexGrow: 1,
         marginTop: "70px",
-        overflow: 'auto',
+        marginLeft: "15vh",
+        marginRight: "15vh"
+        
     },
 });
 

@@ -3,7 +3,7 @@ import axios from 'axios'
 export const getAllJobs = () =>{
     return axios.post('job/getall')
     .then(res=> {
-        return res.data.data
+        return res.data
     }).catch( err=> {
         console.log(err)
     })
@@ -12,13 +12,13 @@ export const getAllJobs = () =>{
 export const getLastJob = () =>{
     return axios.post('job/getlast')
     .then(res=> {
-        return res.data.data
+        return res.data
     }).catch( err=> {
         console.log(err)
     })
 }
 
-export const updateJob = ( date, move, id ) =>{
+export const updateJob = ( id, move, date ) =>{
     return axios.post('job/edit',
         {
             date: date,
@@ -39,7 +39,7 @@ export const deleteJob = ( id ) =>{
         return console.log(res)
     }).catch(err => console.log(err))
 }
-export const createJob = ( date, move, id ) =>{
+export const createJob = ( date, move ) =>{
     return axios.post('job/create',
         {
             date: date,

@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { Button, withStyles, Box, Paper, Create } from '@material-ui/icons'
 import SchedulerRow from '../elements/SchedulerRow'
 import { Grid, TableHead, Table, TableRow, TableCell, TableBody } from '@material-ui/core';
 
@@ -15,9 +14,18 @@ class Scheduler extends React.Component {
         }
     }
     componentWillMount() {
-        this.setState({
-            jobs: getAllJobs()
-        })
+        this.updateJobsList()
+    }
+
+    updateJobsList() {
+        getAllJobs()
+            .then(data =>{
+                this.setState({
+                    jobs: data
+                })
+
+            }
+            )
     }
     create(date, move) {
         createJob(date, move)
@@ -29,10 +37,12 @@ class Scheduler extends React.Component {
         deleteJob(id)
     }
 
+
     render() {
         const { jobs } = this.state
+
         return (
-            <Grid container direction='column'>
+            <Grid container direction='column' alignItems="center" justify="center">
                 <Grid item>
                     <Table>
                         <TableHead>
@@ -44,16 +54,18 @@ class Scheduler extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {jobs.map(row => (
+                            {jobs && jobs.map((row) =>(
                                 <SchedulerRow row={row}
                                     delete={this.delete}
-                                    update={this.update} />
-                            ))}
+                                    update={this.update}
+                                    reload={this.updateJobsList} />)
+                            )}
                         </TableBody>
                     </Table>
                 </Grid>
                 <Grid item>
-                    <CreateNewJob create={this.create}/>
+                    <CreateNewJob create={this.create}
+                        reload={this.updateJobsList} />
                 </Grid>
             </Grid>
 

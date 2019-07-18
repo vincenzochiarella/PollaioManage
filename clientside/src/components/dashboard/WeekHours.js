@@ -42,7 +42,7 @@ class WeekHours extends React.Component {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {this.state.sunMoovement.map(row => (
+                    {this.state.sunMoovement && this.state.sunMoovement.map(row => (
                         <TableRow key={row.day} selected={this.showToday(row.day)}>
                             <TableCell component="th" scope="row">
                                     {row.day}                                

@@ -1,33 +1,33 @@
-import 'date-fns';
+
 import React from 'react';
 
 import { Grid } from '@material-ui/core';
-import DateFnsUtils from '@date-io/date-fns';
+import MomentUtils from '@date-io/moment';
 import {
     MuiPickersUtilsProvider,
     KeyboardTimePicker,
     KeyboardDatePicker,
 } from '@material-ui/pickers';
 
-import moment from 'moment'
 
 
 class DatePicker extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            selectedDate: moment(this.props.date).toDate()
+            selectedDate: this.props.date
         }
+        this.handleDateChange = this.handleDateChange.bind(this)
     }
-    handleDateChange = event => ( date ) => {
-        this.state.selectedDate( date )
-        this.props.updateDateTime( moment(date).format('HH:mm DD:MM:YYYY') )
+    handleDateChange = (date) => {
+        this.setState({selectedDate: date } )
+        this.props.updateDateTime( date )
     }
 
     render() {
-        const {selectedDate} = this.state
+        const { selectedDate } = this.state
         return (
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <MuiPickersUtilsProvider utils={MomentUtils}>
                 <Grid container  justify="space-around">
                     <KeyboardDatePicker
                         margin="normal"
