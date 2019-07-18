@@ -41,4 +41,22 @@ export const setAutomatism = (sun, lum) => {
     })
 }
 
+export const getDoorstatus= () =>{
+    return axios.post('ckHouse/getdoorstatus')
+    .then(res=>{
+        return res.data
+    }).catch(
+        (err)=>console.log(err)
+    )
+}
+
+export const setDoorstatus = (ds) => {
+    return axios.post('ckHouse/setdoorstatus',{
+        doorStatus: ds
+    }).then(res=>{
+        return res.data
+    }).catch(err=>{
+        console.log(err)
+    })
+}
 

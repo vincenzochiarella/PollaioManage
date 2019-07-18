@@ -37,8 +37,8 @@ class SettingPanel extends React.Component {
 
         }
         event.preventDefault()
+        setAutomatism(+!this.state.automaticSun, +!this.state.automaticLum)
         .then(res => {
-            setAutomatism(+!this.state.automaticSun, +!this.state.automaticLum)
                 console.log(res)
             })
     };

@@ -1,16 +1,19 @@
 const Sequelize = require("sequelize")
 const db = require('../db/db')
-var DoorStatus_Logs = db.sequelize.define("DoorLog",
+var Jobs = db.sequelize.define("Jobs",
     {
-        user_authorized: {
-            type: Sequelize.TEXT,
+        date: {
+            type: Sequelize.DATE,
             allowNull: false
         },
-        movement: {
+        move: {
             type: Sequelize.INTEGER,
             allowNull: false
+        },
+        status: {
+            type: Sequelize.INTEGER
         }
     }
 );
 
-module.exports = DoorStatus_Logs
+module.exports = Jobs

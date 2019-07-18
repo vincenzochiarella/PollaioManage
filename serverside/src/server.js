@@ -44,6 +44,8 @@ const rtsp = require('rtsp-ffmpeg');
 
 var Users = require('./routes/users')
 var ChickenHouse = require('./routes/chickenhouse')
+var Door = require('./routes/door')
+var Jobs = require('./routes/jobs')
 
 
 const port = 5000;
@@ -58,6 +60,8 @@ server.listen(port, () => console.log(`Listening on port ${port}`));
 
 app.use('/users', Users)
 app.use('/ckHouse', ChickenHouse)
+app.use('/door', Door)
+app.use('/job',Jobs)
 
 
 

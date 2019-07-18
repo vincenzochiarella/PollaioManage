@@ -5,8 +5,8 @@ import Lock from '@material-ui/icons/Lock';
 import LockOpen from '@material-ui/icons/LockOpen';
 import IconButton from '@material-ui/core/IconButton';
 
-import * as DOOR_STATUS from '../../constants/doorstatus';
-
+import { setDoorOpen, setDoorClose } from '../controllers/DoorController'
+import { getDoorstatus } from '../controllers/ChickenHouseController'
 
 
 class OverrideOpening extends React.Component {
@@ -20,57 +20,56 @@ class OverrideOpening extends React.Component {
         }
         this.onToggleSwitch = this.onToggleSwitch.bind(this)
     }
-    getDoorPosition() {
-        return this.state.opened
-    }
-    changeStatus( ){
-        switch( this.state.opened ){
-            case true:
-                console.log(this.state.opened)
-                fetch('http://localhost:8080/led/'+ DOOR_STATUS.OPEN)
-                .then(res => console.log('response: ', JSON.stringify(res)))
-                .catch(console.error)
-                break
-            case false:
-                console.log(this.state.opened)
-                fetch('http://localhost:8080/led/'+ DOOR_STATUS.CLOSE)
-                .then(res => console.log('response: ', JSON.stringify(res)))
-                .catch(console.error)
-                break
-            default:
-                break
+    onToggleSwitch = event => {
+        this.setState({ opened: !this.state.opened })
+        if(this.state.opened){
+            setDoorClose('admin')
+        }else{
+            setDoorOpen('admin')            
         }
-        
+        event.preventDefault()
     }
 
-    setDoorPosition() {
-        //leggere lo status dei finecorsa da arduino (possibile utilizzo di express)
-        this.setState({
-            //TODO da modificare quando implementato
-            opened: !this.state.opened
+
+    componentWillMount() {
+        getDoorstatus().then(data => {
+            if (data.doorStatus === 0 || data.doorStatus === 1){
+                this.setState({
+                    opened: !!data.doorStatus,
+                    motion: false
+                })
+            }else{
+                this.setState({
+                    motion: true
+                })
+            }
         })
     }
-    onToggleSwitch = event => {
-        
-        this.setState({ opened: !this.state.opened})
-        this.changeStatus()
-        event.preventDefault()
-
+    componentWillUpdate(){
+        getDoorstatus().then(data => {
+            if (data.doorStatus === 0 || data.doorStatus === 1){
+                this.setState({
+                    opened: !!data.doorStatus,
+                    motion: false
+                })
+            }else{
+                this.setState({
+                    motion: true
+                })
+            }
+        })
     }
 
-    componentDidMount() {
-        this.setDoorPosition()
-    }
 
-      
     render() {
-        const { opened } = this.state;
+        const { opened, motion } = this.state;
 
         return (
             <>
-                <IconButton style={{width: 100, height: 100}}
-                    onClick={this.onToggleSwitch}>
-                    {opened ? <Lock style={{width: 60, height:60}}/> : <LockOpen style={{width: 60, height:60}}/>}
+                <IconButton style={{ width: 100, height: 100 }}
+                    onClick={this.onToggleSwitch}
+                    disabled={motion}>
+                    {opened ? <Lock style={{ width: 60, height: 60 }} /> : <LockOpen style={{ width: 60, height: 60 }} />}
                 </IconButton>
             </>
         )
