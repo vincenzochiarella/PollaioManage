@@ -37,10 +37,10 @@ chickenhouse.post('/setdoorstatus', (req, res) => {
     ChickensHouse.update({
         doorStatus: req.body.doorStatus
     }, {
-        where: {
-            id: 1
-        }
-        }).then(() =>{
+            where: {
+                id: 1
+            }
+        }).then(() => {
             res.sendStatus(200)
         })
 })
@@ -58,10 +58,10 @@ chickenhouse.post('/setcoords', (req, res) => {
         latitude: req.body.latitude,
         longitude: req.body.longitude
     }, {
-        where: {
-            id: 1
-        }
-        }).then(() =>{
+            where: {
+                id: 1
+            }
+        }).then(() => {
             res.sendStatus(200)
         })
 })
@@ -142,37 +142,76 @@ chickenhouse.post('/gettemphumid', (req, res) => {
         attributes: ['time', 'temps', 'humidity']
     }).then(data =>
         res.json(data))
-    .catch(err => res.send(err))
+        .catch(err => res.send(err))
 })
 
-chickenhouse.post('/getlastweather', (req,res)=>{
+chickenhouse.post('/getlastweather', (req, res) => {
     Weather.findOne({
         order: [
             ['date', 'DESC'],
             ['time', 'DESC']
         ]
-    }).then(data=>
+    }).then(data =>
         res.json(data))
-    .catch((err) => res.sendStatus(404))    
+        .catch((err) => res.sendStatus(404))
 })
 
-chickenhouse.post('/getauto', (req,res)=>{
+chickenhouse.post('/getauto', (req, res) => {
     ChickensHouse.findOne({
         attributes: ['sun', 'luminosity']
     }).then(data => res.json(data))
-    .catch((err)=>res.sendStatus(404))
+        .catch((err) => res.sendStatus(404))
 })
 
-chickenhouse.post('/setauto', (req,res)=>{
+chickenhouse.post('/setauto', (req, res) => {
     ChickensHouse.update({
         sun: req.body.sun,
         luminosity: req.body.luminosity
     }, {
-        where: {
-            id: 1
-        }
-        }).then(() =>{
+            where: {
+                id: 1
+            }
+        }).then(() => {
             res.sendStatus(200)
         })
 })
+
+chickenhouse.post('/getlumsetting', (req, res) => {
+    ChickensHouse.findOne({
+        attributes: ['lumSensibility', 'lumMin']
+    }).then(data => res.json(data))
+        .catch((err) => res.sendStatus(404))
+})
+
+chickenhouse.post('/setlumsetting', (req, res) => {
+    ChickensHouse.update({
+        lumSensibility: req.body.lumSensibility,
+        lumMin: req.body.lumMin
+    }, {
+            where: {
+                id: 1
+            }
+        }).then(() => {
+            res.sendStatus(200)
+        })
+})
+chickenhouse.post('/getlumavarage', (req, res) => {
+    ChickensHouse.findOne({
+        attributes: ['lumAvarage']
+    }).then(data => res.json(data))
+        .catch((err) => res.sendStatus(404))
+})
+chickenhouse.post('/setlumavarage', (req, res) => {
+    ChickensHouse.update({
+        lumAvarage: req.body.lumAvarage
+    }, {
+            where: {
+                id: 1
+            }
+        }).then(() => {
+            res.sendStatus(200)
+        })
+})
+
+
 module.exports = chickenhouse

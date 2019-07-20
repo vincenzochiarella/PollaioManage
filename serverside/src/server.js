@@ -21,7 +21,6 @@ automatic.startSyncTodayMoovs
 automatic.startSyncEveryDayWeather
 
 
-
 // const SimpleNodeLogger = require('simple-node-logger'),
 //    opts = {
 //       logFilePath: 'logImgRaw.log',

@@ -6,23 +6,30 @@ import * as socketIo from 'socket.io-client'
 
 
 class CameraInternal extends React.Component {
-    state = {
-        endpoint: "http://localhost:5000/internalcam"
+    constructor(props) {
+        super(props)
+        this.state ={
+            socket: socketIo('http://localhost:5000/internalcam')
+        }
+        this.updateImage = this.updateImage.bind(this)
     }
     updateImage() {
         var img = document.getElementById('internalcam')
-        var socket = socketIo(this.state.endpoint)
+        var soc = this.state.socket
         try {
-            socket.on('live-stream', function (data) {
+            soc.on('live-stream', function (data) {
                 img.src = 'data:image/png;base64,' + data
             })
         } catch (err) {
-            socket.close()
+            soc.close()
             console.log('non è stato possibile connettersi')
         }
     }
     componentDidMount() {
         this.updateImage()
+    }
+    componentWillUnmount(){
+        this.state.socket.close()
     }
     render() {
         return (

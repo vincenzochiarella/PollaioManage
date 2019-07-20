@@ -60,3 +60,22 @@ export const setDoorstatus = (ds) => {
     })
 }
 
+export const setLumsetting = ( min, sens ) =>{
+    return axios.post('ckHouse/setlumsetting',{
+        lumSensibility: sens,
+        lumMin: min
+    }).then(res=>{
+        return res.data
+    }).catch(err=>{
+        console.log(err)
+    })
+}
+
+export const getLumsetting = () =>{
+    return axios.post('ckHouse/getlumsetting')
+    .then(res=>{
+        return res.data
+    }).catch(err=>{
+        console.log(err)
+    })
+}

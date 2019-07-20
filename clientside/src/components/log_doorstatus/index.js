@@ -26,7 +26,7 @@ class DoorStatus_Log extends React.Component{
                     {this.state.logView.map(row=> (
                         <TableRow>
                             <TableCell>{row.date_time}</TableCell>
-                            <TableCell>{row.before_status} --> {row.next_status}</TableCell>
+                            <TableCell></TableCell>
                         </TableRow>
                     )}
                 </TableBody>

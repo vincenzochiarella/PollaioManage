@@ -11,7 +11,7 @@ class ExternalCamera extends React.Component {
     constructor(props) {
         super(props)
         this.state ={
-            endpoint: "http://localhost:5000/externalcam"
+            socket: socketIo('http://localhost:5000/externalcam')
         }
         this.updateImage = this.updateImage.bind(this)
     }
@@ -20,17 +20,19 @@ class ExternalCamera extends React.Component {
     }
     updateImage() {
         var img = document.getElementById('externalcam')
-        var socket = socketIo('http://localhost:5000')
+        var soc = this.state.socket 
         try {
-            socket.on('data', function (data) {
+            soc.on('data', function (data) {
                 img.src = 'data:image/png;base64,' + data
             })
         }catch(err){
-            socket.close()
+            soc.close()
             console.log('non è stato possibile connettersi')
        }      
     }
-
+    componentWillUnmount(){
+        this.state.socket.close()
+    }
 
     render() {
         return (

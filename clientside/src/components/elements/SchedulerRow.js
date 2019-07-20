@@ -54,9 +54,9 @@ class SchedulerRow extends React.Component {
 
     render() {
         const { id, editMode, date, move, status } = this.state
-        const { index } = this.props
+    
         return (
-            <TableRow key={index}>
+            <TableRow >
 
                 <TableCell>{id}</TableCell>
                 {!editMode ? <>

@@ -50,7 +50,7 @@ export default function Dashboard() {
 
         {/* Recent Deposits */}
         <Grid item xs={12} md={6} lg={6} >
-          <Paper className={fixedHeightPaper}>
+          <Paper>
             <Box m={6}>
               <OverrideOpening />
             </Box>

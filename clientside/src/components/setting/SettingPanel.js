@@ -4,23 +4,23 @@ import {
     Switch, FormControl, FormControlLabel, FormLabel, FormHelperText,
 } from '@material-ui/core'
 import { getAutomatism, setAutomatism } from '../controllers/ChickenHouseController'
-
+import LumSlider from './LuminositySlider'
 class SettingPanel extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            automaticSun: false ,
+            automaticSun: false,
             automaticLum: false
         }
     }
     componentWillMount() {
-        getAutomatism().then((data) => {            
-             this.setState({
-                 automaticSun: !!data.sun,
-                 automaticLum: !!data.luminosity
-             })
+        getAutomatism().then((data) => {
+            this.setState({
+                automaticSun: !!data.sun,
+                automaticLum: !!data.luminosity
+            })
         })
-        .catch(err=>console.log(err))
+            .catch(err => console.log(err))
     }
     handleChange = name => event => {
         // this.setState({ [name]: event.target.checked });
@@ -38,13 +38,13 @@ class SettingPanel extends React.Component {
         }
         event.preventDefault()
         setAutomatism(+!this.state.automaticSun, +!this.state.automaticLum)
-        .then(res => {
+            .then(res => {
                 console.log(res)
             })
     };
     render() {
         const { automaticLum, automaticSun } = this.state
-        return (
+        return (<>
             <FormControl>
                 <FormLabel component="legend"  >Pannello di controllo automatismo</FormLabel>
                 <FormControlLabel
@@ -62,6 +62,8 @@ class SettingPanel extends React.Component {
                 <FormHelperText>Attenzione! Quando si seleziona un opzione l'altra si disattiva per evitare problemi</FormHelperText>
 
             </FormControl>
+            {automaticLum && <LumSlider />}
+        </>
         )
     }
 }

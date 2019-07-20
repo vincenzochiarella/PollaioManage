@@ -39,6 +39,8 @@ class Setting extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            lat: '',
+            lon: '',
             latError: false,
             lonError: false,
             disableSave: false,
@@ -91,7 +93,7 @@ class Setting extends React.Component {
         event.preventDefault()
     }
     render() {
-        const { lat, lon, errorText, latError, lonError, editMode, disableSave } = this.state
+        const { lat, lon, latError, lonError, editMode, disableSave } = this.state
         return (
             <>
                 <Container maxWidth="md">
@@ -105,7 +107,7 @@ class Setting extends React.Component {
                                             className={this.textField}
                                             value={lat}
                                             onChange={this.onChange('lat')}
-                                            errortext={errorText}
+                                           
                                             margin="normal"
                                             variant="outlined"
                                         />
@@ -119,7 +121,7 @@ class Setting extends React.Component {
                                             className={this.textField}
                                             value={lon}
                                             onChange={this.onChange('lon')}
-                                            errortext={errorText}
+                                            
                                             margin="normal"
                                             variant="outlined"
                                         />

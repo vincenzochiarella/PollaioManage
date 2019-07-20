@@ -185,7 +185,7 @@ class Layout extends React.Component {
             <CssBaseline />
             <div className={classes.root}>
 
-                <AppBar position="absolute" className={clsx(classes.appBar, drawerOpen && classes.appBarShift)}>
+                <AppBar position="fixed" className={clsx(classes.appBar, drawerOpen && classes.appBarShift)}>
                     <Toolbar className={classes.toolbar}>
                         <IconButton
                             edge="start"
