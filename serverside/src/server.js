@@ -19,6 +19,8 @@ var automatic = require('./routine/Automatization')
 
 automatic.startSyncTodayMoovs
 automatic.startSyncEveryDayWeather
+// automatic.overrideSyncTodayMoves()
+automatic.startScheduledJob()
 
 
 // const SimpleNodeLogger = require('simple-node-logger'),
@@ -68,6 +70,7 @@ app.use('/bright',Brightness)
 
 
 
+//--------start---------------EXTERNAL Camera stream
 
 var uri = 'rtsp://192.168.1.1:554/11',
    stream = new rtsp.FFMpeg({
@@ -92,6 +95,8 @@ extCam.on('disconnect', function (socket) {
 
 })
 
+//--------------end------------------------
+
 
 //--------start---------------INTERNAL Camera stream
 var process;
@@ -106,8 +111,8 @@ intCam.on('connection', function(socket) {
        }
    });
 
-   socket.on('disconnect', function() {       
-           stopStreaming();       
+   socket.on('disconnect', function() {
+           stopStreaming();
    });
 });
 

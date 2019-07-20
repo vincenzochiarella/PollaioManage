@@ -47,7 +47,7 @@ export const createJob = ( date, move ) =>{
         }
     )
     .then(res=>{
-        return console.log(res)
+        return res
     }).catch(err => console.log(err))
 }
 

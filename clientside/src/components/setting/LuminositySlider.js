@@ -40,8 +40,8 @@ class LumSettings extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            lumMinimum: '',
-            sensibility: ''
+            lumMinimum: 0,
+            sensibility: 0
         }
     }
 
@@ -85,7 +85,7 @@ class LumSettings extends React.Component {
         return (<>
             <div className={classes.root}>            
                 <Typography id="lumMinima" gutterBottom>
-                    Valore di cambiamento in Lux
+                    Soglia chiusura (Lux)
                 </Typography>
                 <Slider
                     value={lumMinimum}

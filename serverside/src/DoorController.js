@@ -1,7 +1,12 @@
 const axios = require('axios')
+const DoorStatus_Log = require('./models/DoorStatus_Log')
 
 
-module.exports.open = open = () => {
+module.exports.open = open = ( auth ) => {
+    DoorStatus_Log.create({
+        user_authorized: auth,
+        movement: 1
+    })
     axios.post('http://localhost:5000/ckHouse/getdoorstatus').then(
         data => {
             if (data.data.doorStatus === 0) {
@@ -20,7 +25,11 @@ module.exports.open = open = () => {
         })
 }
 
-module.exports.close = close = () => {
+module.exports.close = close = ( auth ) => {
+    DoorStatus_Log.create({
+        user_authorized: auth,
+        movement: 0
+    })
     axios.post('http://localhost:5000/ckHouse/getdoorstatus').then(
         data => {
             if (data.data.doorStatus === 1) {

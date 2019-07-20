@@ -2,6 +2,7 @@ var schedule = require('node-schedule')
 var syncWeekDaySunmoovs = require('./SunMoovementRequest')
 var moment = require('moment');
 var axios = require('axios')
+var doorController = require('../DoorController')
 
 
 //ogni domenica crea 14 cronjob 
@@ -10,38 +11,72 @@ var axios = require('axios')
 var domenica_01h = '0 1 * * 0'
 var ogniGiorno = '0 0,12 * * *'
 var ogniOra = '0 * * * *'
-var ogni10Secondi = '10 * * * * *'
+var ogniMinuto = '0 * * * * *'
 
 var testFunzionamento = '00 23 * * * *'
 
 
 //ogni domenica all'una di mattina 
-module.exports.startSyncWeekMoovs = schedule.scheduleJob('weekJob', domenica_01h, function () {
+module.exports.startSyncWeekMoves = schedule.scheduleJob('weekJob', domenica_01h, function () {
     syncWeekDaySunmoovs()
 })
 
-module.exports.startSyncTodayMoovs = schedule.scheduleJob('dayOpening', ogniGiorno, function () {
-    var today = moment().format("YYYY-MM-DD")
+module.exports.startSyncTodayMoves = schedule.scheduleJob('dayOpening', ogniGiorno, function () {
+    syncTodayMoves()
+})
 
+module.exports.overrideSyncTodayMoves = syncTodayMoves = () => {
+    var today = moment().format("YYYY-MM-DD")
     axios.post('http://localhost:5000/ckHouse/getsunmoovementtoday', {
         day: today
     }).then(data => {
         var dateSunrise = moment(data.data.day + ' ' + data.data.sunrise).format('YYYY-MM-DD HH:mm:ss')
         var dateSunset = moment(data.data.day + ' ' + data.data.sunset).format('YYYY-MM-DD HH:mm:ss')
-        var openDoor = schedule.scheduleJob(moment(dateSunrise).toDate(), () => {
-            mooveDoor(1)
-        })
-        var closeDoor = schedule.scheduleJob(moment(dateSunset).toDate(), () => {
-            mooveDoor(0)
-        })
+        axios.post('http://localhost:5000/job/create', {
+            date: dateSunrise,
+            move: 1
+        }).catch(err => { console.log(err) })
+        axios.post('http://localhost:5000/job/create', {
+            date: dateSunset,
+            move: 0
+        }).catch(err => { console.log(err) })
     }).catch(err => {
         console.log(err)
     })
-})
+}
 
 
-syncJobs = () =>{
-
+module.exports.startScheduledJob = scheduleNextJob = () => {
+    axios.post('http://localhost:5000/job/getlast')
+        .then(res => {
+            if(res.data){
+            console.log('Scheduele '+moment(res.data.date).utc().toDate() + ' mossa: '+ res.data.move)
+            schedule.scheduleJob(moment(res.data.date).utc().toDate(), function () {
+                console.log('esecuzione')
+                switch (res.data.move) {
+                     case 1:
+                         doorController.open('scheduler')
+                         break;
+                     case 0:
+                         doorController.close('scheduler')
+                         break; 
+                     default:
+                         break;
+                 }
+                 axios.post('http://localhost:5000/job/delete', {
+                     id: res.data.id
+                 })                
+                scheduleNextJob()
+                
+             })            
+        } else{
+            console.log("Nessun lavoro alle: " + moment().format('HH:mm:ss'))
+            //se non trova un nuovo lavoro, controlla ogni minuto
+            schedule.scheduleJob('checkUp',ogniMinuto, function () {
+                 scheduleNextJob()
+            })
+        }
+        }).catch(err=>console.log(err))
 }
 
 //-------start weather sync every hour-----------

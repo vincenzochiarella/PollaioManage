@@ -1,6 +1,6 @@
 import React from 'react'
 import { Edit, Delete } from '@material-ui/icons'
-import { TableRow, TableCell, Button, Select, MenuItem, InputLabel } from '@material-ui/core'
+import { TableRow, TableCell, Button, Select, MenuItem, OutlinedInput } from '@material-ui/core'
 
 import DateTimePickers from './DateTimePickers'
 import moment from 'moment'
@@ -24,6 +24,16 @@ class SchedulerRow extends React.Component {
             return "outlined"
         else
             return "contained"
+    }
+    getMoveName( move ){        
+        switch (move) {
+            case 1:
+                return "Apertura"
+            case 0:
+                return "Chiusura"
+            default:
+                break;
+        }
     }
     onToggleSwitch = event => {
         this.setState({
@@ -64,7 +74,7 @@ class SchedulerRow extends React.Component {
                         {moment(date).format('HH:mm DD-MM-YYYY')}
                     </TableCell>
                     <TableCell>
-                        {move}
+                        {this.getMoveName(move)}
                     </TableCell>
                 </> : <>
                         <TableCell>
@@ -73,9 +83,14 @@ class SchedulerRow extends React.Component {
                                 date={date}
                             />
                         </TableCell>
-                        <TableCell>
-                            <InputLabel htmlFor="mossa"> Move </InputLabel>
-                            <Select onChange={this.onChangeMove} value={this.state.move}>
+                        <TableCell>                            
+                            <Select input={
+                                                    <OutlinedInput
+                                                      name="age"
+                                                      id="outlined-age-simple"
+                                                    />
+                                                  }
+                                                  onChange={this.onChangeMove} value={this.state.move}>
                                 <MenuItem value={0}>Chiudi</MenuItem>
                                 <MenuItem value={1}>Apri</MenuItem>
                             </Select>

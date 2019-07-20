@@ -5,8 +5,7 @@ import { Grid } from '@material-ui/core';
 import MomentUtils from '@date-io/moment';
 import {
     MuiPickersUtilsProvider,
-    KeyboardTimePicker,
-    KeyboardDatePicker,
+    DateTimePicker
 } from '@material-ui/pickers';
 
 
@@ -29,26 +28,15 @@ class DatePicker extends React.Component {
         return (
             <MuiPickersUtilsProvider utils={MomentUtils}>
                 <Grid container  justify="space-around">
-                    <KeyboardDatePicker
-                        margin="normal"
-                        id="mui-pickers-date"
-                        label="Data"
-                        value={selectedDate}
-                        onChange={this.handleDateChange}
-                        KeyboardButtonProps={{
-                            'aria-label': 'change date',
-                        }}
-                    />
-                    <KeyboardTimePicker
-                        margin="normal"
-                        id="mui-pickers-time"
-                        label="Orario"
-                        value={selectedDate}
-                        onChange={this.handleDateChange}
-                        KeyboardButtonProps={{
-                            'aria-label': 'change time',
-                        }}
-                    />
+                <DateTimePicker 
+                    margin="normal"
+                    disablePast
+                    label="Data e orario"
+                    inputVariant="outlined"
+                    ampm={false} 
+                    value={selectedDate}
+                    onChange={this.handleDateChange}/>
+
                 </Grid>
             </MuiPickersUtilsProvider>
         )

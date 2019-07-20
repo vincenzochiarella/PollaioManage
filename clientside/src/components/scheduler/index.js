@@ -54,7 +54,7 @@ class Scheduler extends React.Component {
                         </TableHead>
                         <TableBody>
                             {jobs && jobs.map((row, index) =>(
-                                <SchedulerRow key={index}
+                                <SchedulerRow key={row.id}
                                     row={row}
                                     delete={this.delete}
                                     update={this.update}

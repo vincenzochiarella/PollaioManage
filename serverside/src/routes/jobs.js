@@ -10,9 +10,8 @@ job.post('/create', (req, res) => {
         date: req.body.date,
         move: req.body.move,
         status: 0
-    }).then(() => {
-        res.sendStatus(200)
-    }).catch(() => {
+    }).then(()=>{}
+    ).catch(() => {
         res.sendStatus(400)
     })
 })
@@ -42,7 +41,7 @@ job.post('/delete', (req, res) => {
 job.post('/getall', (req, res) => {
     Job.findAll({
         order: [
-            ['date', 'DESC']
+            ['date', 'ASC']
         ],
         attributes: ['id','date','move','status']
     }).then((data) => res.send(data))
@@ -54,16 +53,13 @@ job.post('/getall', (req, res) => {
 job.post('/getlast', (req, res) => {
     Job.findOne({
         order: [
-            ['date', 'DESC']
+            ['date', 'ASC']
         ],
-        attributes: ['id','date','move','status'],
-        where: {
-            status: 0
-        }
+        attributes: ['id','date','move','status']
     }).then((data) => res.send(data))
-        .catch(() => {
-            res.sendStatus(404)
-        })
+    .catch(() => {
+        res.sendStatus(404)
+    })
 })
 
 module.exports = job

@@ -2,8 +2,8 @@ import React from 'react'
 
 
 import { Button, Paper, Slide, withStyles, Grid,
-    InputLabel, Select, MenuItem  } from '@material-ui/core'
-import { PlusOne } from '@material-ui/icons'
+     Select, MenuItem,OutlinedInput, Fab  } from '@material-ui/core'
+import { PlusOne, Save } from '@material-ui/icons'
 
 import DateTimePicker from './DateTimePickers'
 import moment from 'moment'
@@ -20,7 +20,7 @@ const styles = theme => ({
     paper: {
         zIndex: 1,
         position: 'relative',
-        width: '20%',
+        width: '30%',
         margin: theme.spacing(1)
     }, 
     newjob: {
@@ -28,7 +28,9 @@ const styles = theme => ({
         width: 300
     },
     select: {
-        width: 'auto',
+        marginLeft: 30,        
+        marginRight: 30,
+        width: 225
     }
     
 })
@@ -39,10 +41,11 @@ class CreateNewJob extends React.Component {
         this.state = {
             show: false,
             date: moment(),
+            id: 0,
             move: 0
         }
         this.onChangeDate = this.onChangeDate.bind(this)
-        this.handleClick = this.handleClick.bind(this)
+        this.handleShow = this.handleShow.bind(this)
     }
     onChangeDate (date) {
         this.setState({
@@ -62,10 +65,13 @@ class CreateNewJob extends React.Component {
         else
             return "contained"
     }
-    handleClick = event =>{
+    handleShow = event =>{
         this.setState({
             show: !this.state.show
         })
+        event.preventDefault()
+    }
+    handleCreate = event => {
         if(this.state.show){
             createJob(this.state.date, this.state.move)
             this.props.reload()
@@ -78,27 +84,34 @@ class CreateNewJob extends React.Component {
         return (
             <div className={classes.root}>
                 <div className={classes.wrapper} >
-                    <Button onClick={this.handleClick} variant={this.getButType()} color="primary">
+                    <Button onClick={this.handleShow} variant={this.getButType()} color="primary">
                         <PlusOne />
                     </Button>
                     <Slide className={classes.newjob} direction='up' in={show} mountOnEnter unmountOnExit>
                         <Paper elevation={4} className={classes.paper}>
                             <Grid container className={classes.newjob} spacing={2} direction='row' alignItems="center" justify="center">
-                                <Grid item>
+                                <Grid container item>
                                     <DateTimePicker 
                                         updateDateTime={this.onChangeDate}
                                         date={date}
                                     />
                                 </Grid>
-                                <Grid item >
-                                    <InputLabel htmlFor="mossa"> Move </InputLabel>
-                                    <Select onChange={this.onChangeMove} className={classes.select} value={this.state.move}>
+                                <Grid item xs={12} md={12} lg={12}>
+                                    <Select variant='outlined' onChange={this.onChangeMove} className={classes.select} value={this.state.move}
+                                                input={
+                                                    <OutlinedInput
+                                                      name="age"
+                                                      id="outlined-age-simple"
+                                                    />
+                                                  }>
                                         <MenuItem value={0}>Chiudi</MenuItem>
                                         <MenuItem value={1}>Apri</MenuItem>
                                     </Select>
                                 </Grid>
                                 <Grid item>
-                                    <Button onClick={this.createJob}></Button>
+                                    <Fab onClick={this.handleCreate} color='primary'>
+                                        <Save/>
+                                    </Fab>
                                 </Grid>
                             </Grid>
                         </Paper>

@@ -11,22 +11,14 @@ door.use(cors())
 
 
 door.post('/open', (req, res) => {
-    //crea il log e lancia il comando di apertura
-    DoorStatus_Log.create({
-        user_authorized: req.body.user,
-        movement: 1
-    })
     var Controller = require('../DoorController')
-    Controller.open()
+    Controller.open( req.body.user )
+    res.sendStatus(200)
 })
 door.post('/close', (req, res) => {
-    //crea il log e lancia il comando di chiusura
-    DoorStatus_Log.create({
-        user_authorized: req.body.user,
-        movement: 0
-    })
     var Controller = require('../DoorController')
-    Controller.close()
+    Controller.close(  req.body.user )
+    res.sendStatus(200)
 })
 
 module.exports = door
