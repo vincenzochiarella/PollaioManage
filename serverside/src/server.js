@@ -73,7 +73,7 @@ app.use('/bright',Brightness)
 
 //--------start---------------EXTERNAL Camera stream
 
-var uri = 'rtsp://192.168.1.1:554/11',
+var uri = 'rtsp://192.168.2.1:554/11',
    stream = new rtsp.FFMpeg({
       input: uri,
       rate: 10, // output framerate (optional)
@@ -83,8 +83,8 @@ var uri = 'rtsp://192.168.1.1:554/11',
 
 
 //CORRETTO i dati vengono trasferiti alla socket ma la socket del client non li riceve
-var extCam = io.of('/externalcam')
-extCam.on('connection', function (socket) {
+
+io.on('connection', function (socket) {
    stream.on('data', (data) => {
       socket.emit('data', data.toString('base64'))
    })
@@ -92,7 +92,7 @@ extCam.on('connection', function (socket) {
 
    })
 })
-extCam.on('disconnect', function (socket) {
+io.on('disconnect', function (socket) {
 
 })
 
