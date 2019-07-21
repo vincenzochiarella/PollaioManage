@@ -10,8 +10,9 @@ job.post('/create', (req, res) => {
         date: req.body.date,
         move: req.body.move,
         status: 0
-    }).then(()=>{}
-    ).catch(() => {
+    }).then(( data )=>{
+        createJobScheduled(data.id, data.date, data.move) = require('../routine/JobSync')
+    }).catch(() => {
         res.sendStatus(400)
     })
 })
@@ -23,19 +24,21 @@ job.post('/edit', (req, res) => {
             where: {
                 id: req.body.id
             }
-        }).then(() => {
-            res.sendStatus(200)
+        }).then((data) => {
+            editJobScheduled(data.id, data.date, data.move) = require('../routine/JobSync')
         }).catch(() => {
             res.sendStatus(404)
         })
+    
 })
 job.post('/delete', (req, res) => {
     Job.destroy({
         where: {
             id: req.body.id
         }
-    }).then(() => res.sendStatus(200))
-        .catch(() => res.sendStatus(400))
+    }).then(() => {
+        deleteJobScheduled(req.body.id) = require('../routine/JobSync')
+    }).catch(() => res.sendStatus(400))
 })
 
 job.post('/getall', (req, res) => {

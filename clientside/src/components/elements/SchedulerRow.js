@@ -71,7 +71,7 @@ class SchedulerRow extends React.Component {
                 <TableCell>{id}</TableCell>
                 {!editMode ? <>
                     <TableCell>
-                        {moment(date).format('HH:mm DD-MM-YYYY')}
+                        {moment(date).format('HH:mm:ss DD-MM-YYYY')}
                     </TableCell>
                     <TableCell>
                         {this.getMoveName(move)}

@@ -12,6 +12,7 @@ import CameraInternal from '../cameraint';
 import ExternalCamera from '../cameraext';
 import Layout from '../layout';
 import Scheduler from '../scheduler'
+import Logs from '../logs'
 
 
 
@@ -27,6 +28,7 @@ class App extends React.Component {
             <ProtectedRoute path={Routes.CameraInternal} component={CameraInternal} />
             <ProtectedRoute path={Routes.CameraExternal} component={ExternalCamera} />
             <ProtectedRoute path={Routes.Scheduler} component={Scheduler} />
+            <ProtectedRoute path={Routes.Logs} component={Logs} />
           </Switch>
         </Layout>
       </Router >

@@ -21,9 +21,6 @@ module.exports.startSyncWeekMoves = schedule.scheduleJob('weekJob', domenica_01h
     syncWeekDaySunmoovs()
 })
 
-module.exports.startSyncTodayMoves = schedule.scheduleJob('dayOpening', ogniGiorno, function () {
-    syncTodayMoves()
-})
 
 module.exports.overrideSyncTodayMoves = syncTodayMoves = () => {
     var today = moment().format("YYYY-MM-DD")
@@ -44,40 +41,9 @@ module.exports.overrideSyncTodayMoves = syncTodayMoves = () => {
         console.log(err)
     })
 }
-
-
-module.exports.startScheduledJob = scheduleNextJob = () => {
-    axios.post('http://localhost:5000/job/getlast')
-        .then(res => {
-            if(res.data){
-            console.log('Scheduele '+moment(res.data.date).utc().toDate() + ' mossa: '+ res.data.move)
-            schedule.scheduleJob(moment(res.data.date).utc().toDate(), function () {
-                console.log('esecuzione')
-                switch (res.data.move) {
-                     case 1:
-                         doorController.open('scheduler')
-                         break;
-                     case 0:
-                         doorController.close('scheduler')
-                         break; 
-                     default:
-                         break;
-                 }
-                 axios.post('http://localhost:5000/job/delete', {
-                     id: res.data.id
-                 })                
-                scheduleNextJob()
-                
-             })            
-        } else{
-            console.log("Nessun lavoro alle: " + moment().format('HH:mm:ss'))
-            //se non trova un nuovo lavoro, controlla ogni minuto
-            schedule.scheduleJob('checkUp',ogniMinuto, function () {
-                 scheduleNextJob()
-            })
-        }
-        }).catch(err=>console.log(err))
-}
+module.exports.startSyncTodayMoves = schedule.scheduleJob('dayOpening', ogniGiorno, function () {
+    syncTodayMoves()
+})
 
 //-------start weather sync every hour-----------
 syncWeather = () => {

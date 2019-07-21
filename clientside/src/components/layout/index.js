@@ -13,7 +13,8 @@ import {
     Settings,
     Menu,
     BarChart,
-    FilterList
+    CalendarToday,
+    Receipt
 } from '@material-ui/icons/'
 
 
@@ -157,11 +158,21 @@ class Layout extends React.Component {
                     </ListItem>
                     <ListItem button component={Link} to={Routes.Scheduler}>
                         <ListItemIcon>
-                            <FilterList />
+                            <CalendarToday />
                         </ListItemIcon>
                         <ListItemText>
                             <Typography component="h6" variant="h6" color="inherit" >
                                 Schedulatore
+                            </Typography>
+                        </ListItemText>
+                    </ListItem>
+                    <ListItem button component={Link} to={Routes.Logs}>
+                        <ListItemIcon>
+                            <Receipt />
+                        </ListItemIcon>
+                        <ListItemText>
+                            <Typography component="h6" variant="h6" color="inherit" >
+                                Log
                             </Typography>
                         </ListItemText>
                     </ListItem>
@@ -202,7 +213,7 @@ class Layout extends React.Component {
 
                         <Paper>
                             <Box m={1}>
-                                <Clock format={'HH:mm:ss A'} ticking={true} />
+                                <Clock format={'HH:mm:ss'} ticking={true} />
 
                             </Box>
                         </Paper>

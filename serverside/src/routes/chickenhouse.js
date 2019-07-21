@@ -4,6 +4,7 @@ const cors = require('cors')
 
 const SunMoovement = require("../models/SunMoovement")
 const ChickensHouse = require('../models/ChickensHouse')
+const Logs = require("../models/DoorStatus_Log")
 const Weather = require('../models/Weather')
 
 
@@ -213,5 +214,15 @@ chickenhouse.post('/setlumavarage', (req, res) => {
         })
 })
 
+chickenhouse.post('/getdoorstatuslog', (req,res)=>{
+    Logs.findAll({
+        order: [
+            ['createdAt','DESC']
+        ]
+            }
+    ).then(data=>
+        res.json(data)
+    ).catch(err=> res.sendStatus(400))
+})
 
 module.exports = chickenhouse
