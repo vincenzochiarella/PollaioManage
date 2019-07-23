@@ -92,10 +92,7 @@ const styles = theme => ({
     appBarSpacer: theme.mixins.toolbar,
     content: {
         justify: 'center',
-        marginTop: "70px",
-        marginLeft: "15vh",
-        marginRight: "15vh"
-        
+        marginTop: "70px",   
     },
 });
 
@@ -227,7 +224,7 @@ class Layout extends React.Component {
                     </Toolbar>
                 </AppBar>
                 <Drawer
-                    variant="permanent"
+                    // variant="permanent"
                     classes={{
                         paper: clsx(classes.drawerPaper, !drawerOpen && classes.drawerPaperClose),
                     }}

@@ -9,21 +9,16 @@ class CameraInternal extends React.Component {
     constructor(props) {
         super(props)
         this.state ={
-            socket: socketIo('http://localhost:5000/internalcam')
+            socket: socketIo('http://localhost:5000/intcam')
         }
         this.updateImage = this.updateImage.bind(this)
     }
     updateImage() {
         var img = document.getElementById('internalcam')
         var soc = this.state.socket
-        try {
-            soc.on('live-stream', function (data) {
-                img.src = 'data:image/png;base64,' + data
-            })
-        } catch (err) {
-            soc.close()
-            console.log('non è stato possibile connettersi')
-        }
+        soc.on('live-stream', function (data) {
+            img.src = 'data:image/png;base64,' + data
+        })
     }
     componentDidMount() {
         this.updateImage()
