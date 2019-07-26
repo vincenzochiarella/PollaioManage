@@ -43,29 +43,30 @@ jobManagement.syncAllJob()
 //--------uncomment after npm run build in clientside-------
 /*  end deployment part */
 
-
 var Users = require('./routes/users')
 var ChickenHouse = require('./routes/chickenhouse')
 var Door = require('./routes/door')
 var Jobs = require('./routes/jobs')
 var Brightness = require('./routes/brightness')
+var BatteryLevel = require('./routes/batteryLevel')
 
 
 const port = 5000;
 // var motor = require('./ControllerArduino/controllerDoor')
 
 
-app.use(cors())
-app.options('*', cors());
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }));
-server.listen(port, () => console.log(`Listening on port ${port}`));
+    app.use(cors())
+    app.options('*', cors());
+    app.use(bodyParser.json())
+    app.use(bodyParser.urlencoded({ extended: true }));
+    server.listen(port, () => console.log(`Listening on port ${port}`));
 
 app.use('/users', Users)
 app.use('/ckHouse', ChickenHouse)
 app.use('/door', Door)
 app.use('/job',Jobs)
 app.use('/bright',Brightness)
+app.use('/battery', BatteryLevel)
 
 
 
@@ -80,7 +81,7 @@ var stream = new st.FFMpeg({
  });
 
 //CORRETTO i dati vengono trasferiti alla socket ma la socket del client non li riceve
-var external = io.of('/')
+var external = io.of('/extcam')
 external.on('connection', function (socket) {
    var int=0
    // setInterval(()=>{

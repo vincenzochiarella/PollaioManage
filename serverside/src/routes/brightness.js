@@ -1,7 +1,6 @@
 const express = require('express')
 const bright = express.Router()
 const cors = require('cors')
-const sequelize = require('sequelize')
 
 const Brightness = require('../models/Brightness')
 bright.use(cors())
