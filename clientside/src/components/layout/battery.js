@@ -1,5 +1,5 @@
 import React from 'react'
-import { Battery80Outlined, Battery60Outlined, Battery40Outlined, Battery20Outlined, BatteryFullOutlined, BatteryAlert } from '@material-ui/icons'
+import { Battery90, Battery60, Battery30, Battery20, BatteryFull, BatteryAlert } from '@material-ui/icons'
 import { getBatteryLevel } from '../controllers/BatteryController'
 import { Paper, Grid, Box } from '@material-ui/core'
 
@@ -13,9 +13,9 @@ class Battery extends React.Component {
         this.checkBattery = this.checkBattery.bind(this)
     }
     checkBattery() {
-        getBatteryLevel().then((data) => {
+        getBatteryLevel().then((data) => {            
             this.setState({
-                level: data
+                level: data.value
             })
         }).catch(err => console.log(err))
     }
@@ -25,7 +25,7 @@ class Battery extends React.Component {
     }
     componentWillUpdate() {
         if (this._isMounted) {
-            setInterval(this.checkBattery(), 30000)
+            setInterval(this.checkBattery, 30000)
         }
     }
     componentWillUnmount() {
@@ -34,23 +34,24 @@ class Battery extends React.Component {
     getIcon() {
         const { level } = this.state
         if (level === 100) {
-            return <BatteryFullOutlined />
+            return <BatteryFull />
         }
-        else if ((level >= 80) && (level < 100)) {
-            return <Battery80Outlined />
+        else if ((level >= 90) && (level < 100)) {
+            return <Battery90 />
         }
-        else if ((level >= 60) && (level < 80)) {
-            return <Battery60Outlined />
+        else if ((level >= 60) && (level < 90)) {
+            return <Battery60 />
         }
-        else if ((level >= 40) && (level < 60)) {
-            return <Battery40Outlined />
+        else if ((level >= 30) && (level < 60)) {
+            return <Battery30/>
         }
-        else if ((level >= 20) && (level < 40)) {
-            return <Battery20Outlined />
+        else if ((level >= 20) && (level < 30)) {
+            return <Battery20 />
         }
         else if ((level >= 0) && (level < 20)) {
             return <BatteryAlert />
         }
+        console.log(level)
     }
 
     render() {
@@ -60,11 +61,11 @@ class Battery extends React.Component {
                     <Box>
                         <Grid container direction='row'>
                             <Grid item>
-                                {this.getIcon}
+                                {this.getIcon()}
                             </Grid>
                             <Grid item>
                                 {this.state.level} %
-                        </Grid>
+                            </Grid>
                         </Grid>
                     </Box>
                 </Paper>

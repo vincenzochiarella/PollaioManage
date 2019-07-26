@@ -20,6 +20,7 @@ import {
 
 import { compose } from 'recompose';
 import Posizionedelsole from './sunrisesunset'
+import Battery from './battery'
 import Clock from 'react-live-clock';
 import { Link, withRouter } from 'react-router-dom';
 
@@ -211,7 +212,6 @@ class Layout extends React.Component {
                         <Paper>
                             <Box m={1}>
                                 <Clock format={'HH:mm:ss'} ticking={true} />
-
                             </Box>
                         </Paper>
                         <Paper>
@@ -219,8 +219,7 @@ class Layout extends React.Component {
                                 <Posizionedelsole coords={coords} />
                             </Box>
                         </Paper>
-
-
+                        <Battery/>
                     </Toolbar>
                 </AppBar>
                 <Drawer

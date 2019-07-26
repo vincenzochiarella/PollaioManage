@@ -25,10 +25,10 @@ battery.post('/getlimited', (req, res) => {
 })
 
 battery.post('/getlast', (req, res) => {
-    BatteryLevel.findAll({
+    BatteryLevel.findOne({
         limit: 1,
         order: [
-            ['createdAt', 'ASC']
+            ['createdAt', 'DESC']
         ]
     }).then(data => {
         res.send(data)
