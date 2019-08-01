@@ -16,29 +16,33 @@ import { getTemperatures } from '../controllers/TempereturesController'
 const useStyles = makeStyles(theme => ({
   container: {
     paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    paddingBottom: theme.spacing(4)
   },
   paper: {
     padding: theme.spacing(2),
     display: 'flex',
     overflow: 'auto',
     justifyItems: 'center',
-    flexDirection: 'column',
+    flexDirection: 'row',
+    minHeight: '300px'
+    
   },
-  fixedHeight: {
-    height: 300,
-  },
+  height:{
+    height: '300px'
+  }
 }));
 
 export default function Dashboard() {
   const classes = useStyles();
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  const paperCss = classes.paper
   return (
     <Container maxWidth="lg" className={classes.container}>
       <Grid container spacing={5} justify="center">
         {/* Chart */}
-        <Grid item xs={12} md={9} lg={9}>
-          <Paper className={fixedHeightPaper}>
+        <Grid item xs={12} md={12} lg={12}>
+          <Paper className={clsx(paperCss,classes.height)}>
             <Chart
               xVar="time"
               yVar="temps"
@@ -50,14 +54,14 @@ export default function Dashboard() {
 
         {/* Recent Deposits */}
         <Grid item xs={12} md={6} lg={6} >
-          <Paper>
+          <Paper className={paperCss}>
             <Box m={6}>
               <OverrideOpening />
             </Box>
           </Paper>
         </Grid>
         <Grid item xs={12} md={6} lg={6} >
-          <Paper >
+          <Paper  className={paperCss}>
             <Box m={1}>
               <WeatherUI/> 
             </Box>
