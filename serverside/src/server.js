@@ -7,6 +7,8 @@ const app = express();
 const server = require('http').Server(app)
 const io = require('socket.io')(server, { origins: '*:*' })
 
+const streamffmpeg= require('rtsp-ffmpeg')
+
 var fs = require('fs');
 var path = require('path');
 var spawn = require('child_process').spawn;
@@ -72,8 +74,8 @@ app.use('/battery', BatteryLevel)
 
 //--------start---------------EXTERNAL Camera stream
 
-const st= require('rtsp-ffmpeg')
-var stream = new st.FFMpeg({
+
+var stream = new streamffmpeg.FFMpeg({
     input: 'rtsp://192.168.2.1:554/11',
     rate: 10, // output framerate (optional)
     resolution: '1280x720', // output resolution in WxH format (optional)
@@ -81,21 +83,10 @@ var stream = new st.FFMpeg({
  });
 
 //CORRETTO i dati vengono trasferiti alla socket ma la socket del client non li riceve
-var external = io.of('/extcam')
-external.on('connection', function (socket) {
-   var int=0
-   // setInterval(()=>{
-   //    socket.emit('Testo', 'Prova '+ 1)
-   //    int= int +1
-   // },2000)
+const externalCamera = io.of('/externalCam') 
+externalCamera.on('connection', function (socket) {
+
    console.log('Socket aperta')
-//    const extStream= require('rtsp-ffmpeg')
-//    var stream = new extStream.FFMpeg({
-//       input: 'rtsp://192.168.2.1:554/11',
-//       rate: 10, // output framerate (optional)
-//       resolution: '1280x720', // output resolution in WxH format (optional)
-//       quality: 3 // JPEG compression quality level (optional)
-//    });
    stream.on('data', (data) => {
       socket.emit('data', data.toString('base64'))
     })
