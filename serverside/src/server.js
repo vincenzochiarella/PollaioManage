@@ -81,7 +81,17 @@ var stream = new streamffmpeg.FFMpeg({
     resolution: '1280x720', // output resolution in WxH format (optional)
     quality: 3 // JPEG compression quality level (optional)
  });
-
+const testSocket = io.of('/socketTest')
+testSocket.on('connetion', (socket)=>{
+    console.log('TestSocket ok')
+    var count = 0
+    setInterval(()=>{
+        socket.emit('counter', (counter) =>{
+            count = count + 1
+        })
+    },2000)
+ 
+})
 //CORRETTO i dati vengono trasferiti alla socket ma la socket del client non li riceve
 const externalCamera = io.of('/externalCam') 
 externalCamera.on('connection', function (socket) {

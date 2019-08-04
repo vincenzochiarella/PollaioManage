@@ -11,7 +11,8 @@ class ExternalCamera extends React.Component {
     constructor(props) {
         super(props)
         this.state ={
-            socket: socketIo('http://localhost:5000/externalCam')
+            socket: socketIo('http://localhost:5000/externalCam'),
+            testSocket: socketIo('http://localhost:5000/socketTest ')
         }
         this.updateImage = this.updateImage.bind(this)
     }
@@ -23,6 +24,10 @@ class ExternalCamera extends React.Component {
         
         this.state.socket.on('data', function (data) {            
             img.src = 'data:image/png;base64,' + data
+        })
+        var socTest = this.state.testSocket
+        socTest.on('counter', (data)=>{
+            console.log(data)
         })
     }
     componentWillUnmount(){
