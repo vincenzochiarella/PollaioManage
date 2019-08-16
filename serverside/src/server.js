@@ -7,17 +7,6 @@ const app = express();
 const server = require('http').Server(app)
 const io = require('socket.io')(server, { origins: '*:*' })
 
-<<<<<<< HEAD
-=======
-const streamffmpeg= require('rtsp-ffmpeg')
-
-var fs = require('fs');
-var path = require('path');
-var spawn = require('child_process').spawn;
-
->>>>>>> 6fcf5c184d1be53a942ef2c723fc38bd9add9964
-
-
 var weekMoovs = require('./routine/SunMoovementRequest')
 var automatic = require('./routine/Automatization')
 var jobManagement = require('./routine/JobSync')
@@ -29,22 +18,13 @@ automatic.startSyncEveryDayWeather
 jobManagement.syncAllJob()
 
 
-// const SimpleNodeLogger = require('simple-node-logger'),
-//    opts = {
-//       logFilePath: 'logImgRaw.log',
-//       timestampFormat: 'YYYY-MM-DD HH:mm:ss.SSS'
-//    },
-//    log = SimpleNodeLogger.createSimpleLogger(opts);
-
-
-
 /* start deployment part*/
-// const path = require('path');
-// app.use(express.static(path.join(__dirname, '../../clientside/build')));
+const path = require('path');
+app.use(express.static(path.join(__dirname, '../../clientside/build')));
 
-// app.get('/', function(req, res) {
-//   res.sendFile(path.join(__dirname, '../../clientside/build', 'index.html'));
-// });
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, '../../clientside/build', 'index.html'));
+});
 //--------uncomment after npm run build in clientside-------
 /*  end deployment part */
 
