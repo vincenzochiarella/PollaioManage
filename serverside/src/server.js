@@ -77,18 +77,12 @@ app.use('/battery', BatteryLevel)
 
 //--------start---------------EXTERNAL Camera stream
 
-<<<<<<< HEAD
 const st = require('rtsp-ffmpeg')
 var streamExternal = new st.FFMpeg({
-=======
-
-var stream = new streamffmpeg.FFMpeg({
->>>>>>> 6fcf5c184d1be53a942ef2c723fc38bd9add9964
     input: 'rtsp://192.168.2.1:554/11',
     rate: 10, // output framerate (optional)
     resolution: '1280x720', // output resolution in WxH format (optional)
     quality: 3 // JPEG compression quality level (optional)
-<<<<<<< HEAD
 });
 
 //CORRETTO i dati vengono trasferiti alla socket ma la socket del client non li riceve
@@ -104,27 +98,6 @@ external.on('connection', function (socket) {
         stream.removeListener('data', () => {
             console.log('Connessione chiusa')
         });
-=======
- });
-const testSocket = io.of('/socketTest')
-testSocket.on('connetion', (socket)=>{
-    console.log('TestSocket ok')
-    var count = 0
-    setInterval(()=>{
-        socket.emit('counter', (counter) =>{
-            count = count + 1
-        })
-    },2000)
- 
-})
-//CORRETTO i dati vengono trasferiti alla socket ma la socket del client non li riceve
-const externalCamera = io.of('/externalCam') 
-externalCamera.on('connection', function (socket) {
-
-   console.log('Socket aperta')
-   stream.on('data', (data) => {
-      socket.emit('data', data.toString('base64'))
->>>>>>> 6fcf5c184d1be53a942ef2c723fc38bd9add9964
     })
 })
 // io.on('disconnect', function (socket) {
