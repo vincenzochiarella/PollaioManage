@@ -68,7 +68,6 @@ var streamExternal = new st.FFMpeg({
 //CORRETTO i dati vengono trasferiti alla socket ma la socket del client non li riceve
 var external = io.of('/extcam')
 external.on('connection', function (socket) {
-    var int = 0
     console.log('Socket aperta')
     streamExternal.on('data', (data) => {
         socket.emit('data', data.toString('base64'))
@@ -89,10 +88,10 @@ external.on('connection', function (socket) {
 
 //--------start---------------INTERNAL Camera stream
 
-
+const stInt = require('rtsp-ffmpeg')
 const intcam = require('./streaming/RaspPiCameraStream')
 
-var streamInternal = new st.FFMpeg({
+var streamInternal = new stInt.FFMpeg({
     input: 'rtsp://127.0.0.1:8554/',
     rate: 10, // output framerate (optional)
     resolution: '1280x720', // output resolution in WxH format (optional)
@@ -101,7 +100,6 @@ var streamInternal = new st.FFMpeg({
 
 var external = io.of('/intcam')
 external.on('connection', function (socket) {
-    var int = 0
     console.log('Socket aperta')
     intcam.startVlcRSTP()
     streamInternal.on('data', (data) => {
