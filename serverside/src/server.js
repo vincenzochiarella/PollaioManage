@@ -19,12 +19,12 @@ jobManagement.syncAllJob()
 
 
 /* start deployment part*/
-const path = require('path');
-app.use(express.static(path.join(__dirname, '../../clientside/build')));
+// const path = require('path');
+// app.use(express.static(path.join(__dirname, '../../clientside/build')));
 
-app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, '../../clientside/build', 'index.html'));
-});
+// app.get('/', function(req, res) {
+//   res.sendFile(path.join(__dirname, '../../clientside/build', 'index.html'));
+// });
 //--------uncomment after npm run build in clientside-------
 /*  end deployment part */
 
