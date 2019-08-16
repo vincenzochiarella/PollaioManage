@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core'
 import { ExitToApp, Edit, Map } from '@material-ui/icons'
 
-import { setCoords, getCoords } from '../controllers/ChickenHouseController'
+import { setCoords, getCoords } from '../../controllers/ChickenHouseController'
 import SettingPanel from './SettingPanel'
 
 

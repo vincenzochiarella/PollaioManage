@@ -1,6 +1,6 @@
 import React from 'react'
 import { Battery90, Battery60, Battery30, Battery20, BatteryFull, BatteryAlert } from '@material-ui/icons'
-import { getBatteryLevel } from '../controllers/BatteryController'
+import { getBatteryLevel } from '../../controllers/BatteryController'
 import { Paper, Grid, Box } from '@material-ui/core'
 
 class Battery extends React.Component {

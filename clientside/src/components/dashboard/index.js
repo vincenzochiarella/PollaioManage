@@ -11,7 +11,7 @@ import OverrideOpening from '../overrideopening';
 import WeekHours from './WeekHours';
 import WeatherUI from './WeatherUI'
 
-import { getTemperatures } from '../controllers/TempereturesController'
+import { getTemperatures } from '../../controllers/TempereturesController'
 
 const useStyles = makeStyles(theme => ({
   container: {

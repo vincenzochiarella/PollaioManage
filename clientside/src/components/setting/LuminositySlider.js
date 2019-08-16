@@ -1,7 +1,7 @@
 import React from 'react'
 import { Typography, Slider, withStyles } from '@material-ui/core'
 
-import { setLumsetting, getLumsetting } from '../controllers/ChickenHouseController'
+import { setLumsetting, getLumsetting } from '../../controllers/ChickenHouseController'
 
 const style = theme => ({
     root: {

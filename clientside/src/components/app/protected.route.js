@@ -1,5 +1,5 @@
 import React from 'react'
-import { isAuthenticated } from '../controllers/UserController'
+import { isAuthenticated } from '../../controllers/UserController'
 
 import { Route, Redirect } from 'react-router-dom'
 

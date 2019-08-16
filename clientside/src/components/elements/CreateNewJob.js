@@ -8,7 +8,7 @@ import { PlusOne, Save } from '@material-ui/icons'
 import DateTimePicker from './DateTimePickers'
 import moment from 'moment'
 
-import { createJob } from '../controllers/JobController'
+import { createJob } from '../../controllers/JobController'
 
 const styles = theme => ({
     root: {

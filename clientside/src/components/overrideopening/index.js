@@ -7,8 +7,8 @@ import { Fab, CircularProgress, withStyles } from '@material-ui/core';
 import { green, red  } from '@material-ui/core/colors';
 import clsx from 'clsx';
 
-import { setDoorOpen, setDoorClose } from '../controllers/DoorController'
-import { getDoorstatus } from '../controllers/ChickenHouseController'
+import { setDoorOpen, setDoorClose } from '../../controllers/DoorController'
+import { getDoorstatus } from '../../controllers/ChickenHouseController'
 
 
 const style = theme => ({

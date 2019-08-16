@@ -92,7 +92,6 @@ const styles = theme => ({
     },
     appBarSpacer: theme.mixins.toolbar,
     content: {
-        justify: 'center',
         marginTop: "70px",   
     },
 });

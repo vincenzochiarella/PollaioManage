@@ -7,10 +7,6 @@ const app = express();
 const server = require('http').Server(app)
 const io = require('socket.io')(server, { origins: '*:*' })
 
-var fs = require('fs');
-var path = require('path');
-var spawn = require('child_process').spawn;
-
 
 
 var weekMoovs = require('./routine/SunMoovementRequest')
@@ -55,56 +51,45 @@ const port = 5000;
 // var motor = require('./ControllerArduino/controllerDoor')
 
 
-    app.use(cors())
-    app.options('*', cors());
-    app.use(bodyParser.json())
-    app.use(bodyParser.urlencoded({ extended: true }));
-    server.listen(port, () => console.log(`Listening on port ${port}`));
+app.use(cors())
+app.options('*', cors());
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }));
+server.listen(port, () => console.log(`Listening on port ${port}`));
 
 app.use('/users', Users)
 app.use('/ckHouse', ChickenHouse)
 app.use('/door', Door)
-app.use('/job',Jobs)
-app.use('/bright',Brightness)
+app.use('/job', Jobs)
+app.use('/bright', Brightness)
 app.use('/battery', BatteryLevel)
 
 
 
 //--------start---------------EXTERNAL Camera stream
 
-const st= require('rtsp-ffmpeg')
-var stream = new st.FFMpeg({
+const st = require('rtsp-ffmpeg')
+var streamExternal = new st.FFMpeg({
     input: 'rtsp://192.168.2.1:554/11',
     rate: 10, // output framerate (optional)
     resolution: '1280x720', // output resolution in WxH format (optional)
     quality: 3 // JPEG compression quality level (optional)
- });
+});
 
 //CORRETTO i dati vengono trasferiti alla socket ma la socket del client non li riceve
 var external = io.of('/extcam')
 external.on('connection', function (socket) {
-   var int=0
-   // setInterval(()=>{
-   //    socket.emit('Testo', 'Prova '+ 1)
-   //    int= int +1
-   // },2000)
-   console.log('Socket aperta')
-//    const extStream= require('rtsp-ffmpeg')
-//    var stream = new extStream.FFMpeg({
-//       input: 'rtsp://192.168.2.1:554/11',
-//       rate: 10, // output framerate (optional)
-//       resolution: '1280x720', // output resolution in WxH format (optional)
-//       quality: 3 // JPEG compression quality level (optional)
-//    });
-   stream.on('data', (data) => {
-      socket.emit('data', data.toString('base64'))
+    var int = 0
+    console.log('Socket aperta')
+    streamExternal.on('data', (data) => {
+        socket.emit('data', data.toString('base64'))
     })
-   socket.on('disconnect', () => {
-      console.log('Socket chiusa')
-      stream.removeListener('data', ()=>{
-         console.log('Connessione chiusa')
-      });
-   })
+    streamExternal.on('disconnect', () => {
+        console.log('Socket chiusa')
+        stream.removeListener('data', () => {
+            console.log('Connessione chiusa')
+        });
+    })
 })
 // io.on('disconnect', function (socket) {
 
@@ -114,56 +99,29 @@ external.on('connection', function (socket) {
 
 
 //--------start---------------INTERNAL Camera stream
-var process;
-var intervalObj;
-var intCam = io.of('/intcam')
-intCam.on('connection', function(socket) {
-    socket.on('start-stream', function() {
-        if (!isStreaming) {
-            startStreaming();
-        } else {
-            sendImage();
-        }
-    });
 
-    socket.on('disconnect', function() {
-           stopStreaming();
-    });
+
+const intcam = require('./streaming/RaspPiCameraStream')
+
+var streamInternal = new st.FFMpeg({
+    input: 'rtsp://127.0.0.1:8554/',
+    rate: 10, // output framerate (optional)
+    resolution: '1280x720', // output resolution in WxH format (optional)
+    quality: 3 // JPEG compression quality level (optional)
 });
 
-function startStreaming() {
-    isStreaming = true;
-    intervalObj = setInterval(takeImage, 200);
-}
-
-function stopStreaming() {
-    isStreaming = false;
-    if (process) {
-        process.kill();
-    }
-    clearInterval(intervalObj);
-}
-
-function takeImage() {
-    //console.log('taking image');
-    var args = [
-        '-w', 640,   // width
-        '-h', 480,  // height
-        '-t', 100,  // how long should taking the picture take?
-        '-o', getAbsoluteImagePath()   // path + name
-    ];
-    process = spawn('raspistill', args);
-    process.on('exit', sendImage);
-}
-
-function sendImage() {
-   //console.log('sending image');
-    fs.readFile(getAbsoluteImagePath(), function(err, buffer){
-       intCam.socket.emit('live-stream', buffer.toString('base64'));
-    });
-}
-
-function getAbsoluteImagePath() {
-    return path.join(__dirname, "stream", "image.jpg");
-}
-//--------------end------------------------
+var external = io.of('/intcam')
+external.on('connection', function (socket) {
+    var int = 0
+    console.log('Socket aperta')
+    intcam.startVlcRSTP()
+    streamInternal.on('data', (data) => {
+        socket.emit('data', data.toString('base64'))
+    })
+    streamInternal.on('disconnect', () => {
+        console.log('Socket chiusa')
+        stream.removeListener('data', () => {
+            console.log('Connessione chiusa')
+        });
+    })
+})

@@ -3,7 +3,7 @@ import React from 'react'
 import {
     Switch, FormControl, FormControlLabel, FormLabel, FormHelperText,
 } from '@material-ui/core'
-import { getAutomatism, setAutomatism } from '../controllers/ChickenHouseController'
+import { getAutomatism, setAutomatism } from '../../controllers/ChickenHouseController'
 import LumSlider from './LuminositySlider'
 class SettingPanel extends React.Component {
     constructor(props) {

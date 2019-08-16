@@ -3,7 +3,7 @@ import React from 'react'
 import SchedulerRow from '../elements/SchedulerRow'
 import { Grid, TableHead, Table, TableRow, TableCell, TableBody } from '@material-ui/core';
 
-import { createJob, updateJob, deleteJob, getAllJobs } from '../controllers/JobController'
+import { createJob, updateJob, deleteJob, getAllJobs } from '../../controllers/JobController'
 import CreateNewJob from '../elements/CreateNewJob'
 
 class Scheduler extends React.Component {

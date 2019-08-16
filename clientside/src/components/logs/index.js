@@ -1,7 +1,7 @@
 import React from "react";
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core'
 import moment from 'moment'
-import { getDoorStatusLog } from '../controllers/DoorController'
+import { getDoorStatusLog } from '../../controllers/DoorController'
 
 class DoorStatus_Log extends React.Component{
     constructor(props){

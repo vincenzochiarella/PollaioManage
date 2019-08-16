@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
-import { login, isAuthenticated } from '../controllers/UserController'
+import { login, isAuthenticated } from '../../controllers/UserController'
 
 class Login extends React.Component {
     constructor(props) {
