@@ -20,12 +20,12 @@ class Battery extends React.Component {
         }).catch(err => console.log(err))
     }
     componentWillMount() {
-        this.checkBattery()
+        // this.checkBattery()
         this._isMounted = true
     }
     componentWillUpdate() {
         if (this._isMounted) {
-            setInterval(this.checkBattery, 30000)
+            setInterval(this.checkBattery(), 30000)
         }
     }
     componentWillUnmount() {
@@ -51,7 +51,6 @@ class Battery extends React.Component {
         else if ((level >= 0) && (level < 20)) {
             return <BatteryAlert />
         }
-        console.log(level)
     }
 
     render() {
@@ -59,7 +58,7 @@ class Battery extends React.Component {
             <>
                 <Paper>
                     <Box>
-                        <Grid container direction='row'>
+                        <Grid container direction='row' alignContent='center'>
                             <Grid item>
                                 {this.getIcon()}
                             </Grid>
