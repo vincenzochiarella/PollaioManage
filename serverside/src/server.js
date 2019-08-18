@@ -104,9 +104,12 @@ internal.on('connection', function (socket) {
     })
     streamInternal.on('disconnect', () => {
         console.log('Socket chiusa')
-        intcam.stopVlcRTSP()
+        // intcam.stopVlcRTSP()
         stream.removeListener('data', () => {
             console.log('Connessione chiusa')
         });
+    })
+    socket.on('disconnect',  ()=>{
+        intcam.stopVlcRTSP()
     })
 })
