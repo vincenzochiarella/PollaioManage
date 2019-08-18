@@ -87,19 +87,17 @@ external.on('connection', function (socket) {
 
 
 //--------start---------------INTERNAL Camera stream
-
-const stInt = require('rtsp-ffmpeg')
 const intcam = require('./streaming/RaspPiCameraStream')
 
-var streamInternal = new stInt.FFMpeg({
+var streamInternal = new st.FFMpeg({
     input: 'rtsp://127.0.0.1:8554/',
     rate: 10, // output framerate (optional)
     resolution: '1280x720', // output resolution in WxH format (optional)
     quality: 3 // JPEG compression quality level (optional)
 });
 
-var external = io.of('/intcam')
-external.on('connection', function (socket) {
+var internal = io.of('/intcam')
+internal.on('connection', function (socket) {
     console.log('Socket aperta')
     intcam.startVlcRSTP()
     streamInternal.on('data', (data) => {
