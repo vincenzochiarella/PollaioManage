@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import {
     Drawer, AppBar,
     Typography, Divider, List, ListItemIcon, ListItemText,
-    IconButton, ListItem, withStyles, CssBaseline, Toolbar, Paper, Box
+    IconButton, ListItem, withStyles, CssBaseline, Toolbar, Paper, Box, Grid
 } from '@material-ui/core';
 
 import {
@@ -73,7 +73,7 @@ const styles = theme => ({
         position: 'float',
         whiteSpace: 'nowrap',
         width: drawerWidth,
-        
+
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
@@ -92,7 +92,7 @@ const styles = theme => ({
     },
     appBarSpacer: theme.mixins.toolbar,
     content: {
-        marginTop: "70px",   
+        marginTop: "70px",
     },
 });
 
@@ -218,7 +218,7 @@ class Layout extends React.Component {
                                 <Posizionedelsole coords={coords} />
                             </Box>
                         </Paper>
-                        <Battery/>
+                        <Battery />
                     </Toolbar>
                 </AppBar>
                 <Drawer
@@ -232,7 +232,9 @@ class Layout extends React.Component {
                 </Drawer>
                 <main className={classes.content}>
                     <div className={classes.toolbar} />
-                    {children}
+                    <Grid container justify='center' alignItems='center' >
+                        {children}
+                    </Grid>
                 </main>
             </div>
 

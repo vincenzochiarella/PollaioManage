@@ -73,8 +73,8 @@ external.on('connection', function (socket) {
         socket.emit('data', data.toString('base64'))
     })
     socket.on('disconnect', ()=>{
-        stream.removeListener('data', () => {
-            console.log('Remove dsafgsdafgsa External cam')
+        streamExternal.removeListener('data', () => {
+            console.log('Remove external cam')
         });
     })
 })

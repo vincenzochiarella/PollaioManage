@@ -1,7 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { Box } from '@material-ui/core'
@@ -38,8 +37,8 @@ export default function Dashboard() {
   const classes = useStyles();
   const paperCss = classes.paper
   return (
-    <Container maxWidth="lg" className={classes.container}>
-      <Grid container spacing={5} justify="center">
+    
+      <Grid item container spacing={5} justify="center" lg={9} xs={12}>
         {/* Chart */}
         <Grid item xs={12} md={12} lg={12}>
           <Paper className={clsx(paperCss,classes.height)}>
@@ -71,7 +70,7 @@ export default function Dashboard() {
           <WeekHours />
         </Grid>
       </Grid>
-    </Container>
+    
 
   );
 }

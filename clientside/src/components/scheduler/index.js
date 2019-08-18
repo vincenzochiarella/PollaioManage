@@ -41,7 +41,7 @@ class Scheduler extends React.Component {
         const { jobs } = this.state
 
         return (
-            <Grid container direction='column' alignItems="center" justify="center">
+            <Grid item container direction='column' alignItems="center" justify="center" lg={9} xs={12}>
                 <Grid item>
                     <Table>
                         <TableHead>

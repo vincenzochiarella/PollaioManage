@@ -41,8 +41,8 @@ class Login extends React.Component {
 
         return (
             <Grid
+                item
                 container
-                spacing={0}
                 direction="column"
                 alignItems="center"
                 style={{ minHeight: '100vh' }}

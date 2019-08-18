@@ -3,7 +3,7 @@ import React from 'react'
 import { coordsReg } from '../../constants/regex';
 
 import {
-    Grid, Button, withStyles, Container, TextField, Box,
+    Grid, Button, withStyles, TextField, Box,
     Paper
 } from '@material-ui/core'
 import { ExitToApp, Edit, Map } from '@material-ui/icons'
@@ -96,83 +96,81 @@ class Setting extends React.Component {
         const { lat, lon, latError, lonError, editMode, disableSave } = this.state
         return (
             <>
-                <Container maxWidth="md">
-                    <Grid container spacing={3} direction="row" justify="center" alignContent="center"  >
-                                    <Grid item >
-                                        <TextField
-                                            error={latError}
-                                            disabled={!editMode}
-                                            id="outlined-name"
-                                            label="Latitudine"
-                                            className={this.textField}
-                                            value={lat}
-                                            onChange={this.onChange('lat')}
-                                           
-                                            margin="normal"
-                                            variant="outlined"
-                                        />
-                                    </Grid>
-                                    <Grid item  >
-                                        <TextField
-                                            error={lonError}
-                                            disabled={!editMode}
-                                            id="outlined-name"
-                                            label="Longitudine"
-                                            className={this.textField}
-                                            value={lon}
-                                            onChange={this.onChange('lon')}
-                                            
-                                            margin="normal"
-                                            variant="outlined"
-                                        />
-                                    </Grid>
-                                    <Grid item >
-                                        <Box mt={3}>
-                                            <Button variant={this.getButType()} color="secondary"
-                                                className={this.button}
-                                                onClick={this.handleEdit}
-                                                disabled={disableSave}
-                                            >
-                                                <Edit className={this.leftIcon} />
-                                            </Button>
-                                        </Box>
-                                    </Grid>
-                                    <Grid item >
-                                        <Box mt={3}>
-                                            <Button variant="contained" color="secondary"
-                                                className={this.button}
-                                                onClick={this.onCheckMap}
-                                                disabled={disableSave}
-                                            >
-                                                <Map className={this.leftIcon} />
-                                            </Button>
-                                        </Box>
-                                    </Grid>
-                                    
-
-                        <Grid container item direction='row' justify="center" alignContent="center" spacing={2} xs={12} md={12} lg={12}>
-                            <Paper margin={3}>
-                                <Box p={4}>
-                                    <Grid item >
-                                        <SettingPanel />
-                                    </Grid>
-                                </Box>
-                            </Paper>
-                        </Grid >
-
-                        <Grid container item spacing={1} direction="row" alignContent="center" justify="center">
-                            <Grid item>
-                                <Button variant="contained" color="secondary"
-                                    className={this.button}
-                                    onClick={this.handleLogout}>
-                                    <ExitToApp className={this.leftIcon} />
-                                    Logout
-                                    </Button>
-                            </Grid>
-                        </Grid>
-
+                <Grid container item spacing={3} direction="row" justify="center" alignContent="center">
+                    <Grid item >
+                        <TextField
+                            error={latError}
+                            disabled={!editMode}
+                            id="outlined-name"
+                            label="Latitudine"
+                            className={this.textField}
+                            value={lat}
+                            onChange={this.onChange('lat')}
+                            margin="normal"
+                            variant="outlined"
+                        />
                     </Grid>
-                </Container>
+                    <Grid item  >
+                        <TextField
+                            error={lonError}
+                            disabled={!editMode}
+                            id="outlined-name"
+                            label="Longitudine"
+                            className={this.textField}
+                            value={lon}
+                            onChange={this.onChange('lon')}
+
+                            margin="normal"
+                            variant="outlined"
+                        />
+                    </Grid>
+                    <Grid item >
+                        <Box mt={3}>
+                            <Button variant={this.getButType()} color="secondary"
+                                className={this.button}
+                                onClick={this.handleEdit}
+                                disabled={disableSave}
+                            >
+                                <Edit className={this.leftIcon} />
+                            </Button>
+                        </Box>
+                    </Grid>
+                    <Grid item >
+                        <Box mt={3}>
+                            <Button variant="contained" color="secondary"
+                                className={this.button}
+                                onClick={this.onCheckMap}
+                                disabled={disableSave}
+                            >
+                                <Map className={this.leftIcon} />
+                            </Button>
+                        </Box>
+                    </Grid>
+
+
+                    <Grid container item direction='row' justify="center" alignContent="center" spacing={2} xs={12} md={12} lg={12}>
+                        <Paper margin={3}>
+                            <Box p={4}>
+                                <Grid item >
+                                    <SettingPanel />
+                                </Grid>
+                            </Box>
+                        </Paper>
+                    </Grid >
+
+                    <Grid container item spacing={1} direction="row" alignContent="center" justify="center">
+                        <Grid item>
+                            <Button variant="contained" color="secondary"
+                                className={this.button}
+                                onClick={this.handleLogout}>
+                                <ExitToApp className={this.leftIcon} />
+                                Logout
+                                    </Button>
+                        </Grid>
+                    </Grid>
+
+                </Grid>
+
             </>
         )
     }
