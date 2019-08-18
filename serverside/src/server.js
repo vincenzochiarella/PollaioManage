@@ -98,7 +98,6 @@ var streamInternal = new st.FFMpeg({
 
 var internal = io.of('/intcam')
 internal.on('connection', function (socket) {
-    console.log('Socket aperta camera interna')
     intcam.startVlcRTSP()
     streamInternal.on('data', (data) => {
         socket.emit('data', data.toString('base64'))
