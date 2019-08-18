@@ -72,10 +72,9 @@ external.on('connection', function (socket) {
     streamExternal.on('data', (data) => {
         socket.emit('data', data.toString('base64'))
     })
-    streamExternal.on('disconnect', () => {
-        console.log('Socket chiusa')
+    socket.on('disconnect', ()=>{
         stream.removeListener('data', () => {
-            console.log('Connessione chiusa')
+            console.log('Remove dsafgsdafgsa External cam')
         });
     })
 })
@@ -102,14 +101,10 @@ internal.on('connection', function (socket) {
     streamInternal.on('data', (data) => {
         socket.emit('data', data.toString('base64'))
     })
-    streamInternal.on('disconnect', () => {
-        console.log('Socket chiusa')
-        // intcam.stopVlcRTSP()
+    socket.on('disconnect',  ()=>{
+        intcam.stopVlcRTSP()
         stream.removeListener('data', () => {
             console.log('Connessione chiusa')
         });
-    })
-    socket.on('disconnect',  ()=>{
-        intcam.stopVlcRTSP()
     })
 })
