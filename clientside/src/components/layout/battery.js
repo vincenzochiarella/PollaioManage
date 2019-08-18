@@ -20,13 +20,13 @@ class Battery extends React.Component {
         }).catch(err => console.log(err))
     }
     componentWillMount() {
-        // this.checkBattery()
+        this.checkBattery()
         this._isMounted = true
     }
     componentWillUpdate() {
-        if (this._isMounted) {
-            setInterval(this.checkBattery(), 30000)
-        }
+        // if (this._isMounted) {
+        //     setInterval(this.checkBattery(), 30000)
+        // }
     }
     componentWillUnmount() {
         this._isMounted = false
