@@ -1,5 +1,3 @@
-
-// var five = require("johnny-five")
 const express = require('express');
 var bodyParser = require('body-parser');
 var cors = require('cors');
@@ -10,7 +8,6 @@ const io = require('socket.io')(server, { origins: '*:*' })
 var weekMoovs = require('./routine/SunMoovementRequest')
 var automatic = require('./routine/Automatization')
 var jobManagement = require('./routine/JobSync')
-//weekMoovs.APICallsWeekly()
 
 automatic.startSyncTodayMoovs
 automatic.startSyncEveryDayWeather
@@ -19,12 +16,12 @@ jobManagement.syncAllJob()
 
 
 /* start deployment part*/
-const path = require('path');
-app.use(express.static(path.join(__dirname, '../../clientside/build')));
+// const path = require('path');
+// app.use(express.static(path.join(__dirname, '../../clientside/build')));
 
-app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, '../../clientside/build', 'index.html'));
-});
+// app.get('/', function(req, res) {
+//   res.sendFile(path.join(__dirname, '../../clientside/build', 'index.html'));
+// });
 //--------uncomment after npm run build in clientside-------
 /*  end deployment part */
 
@@ -78,9 +75,6 @@ external.on('connection', function (socket) {
         });
     })
 })
-// io.on('disconnect', function (socket) {
-
-// })
 
 //--------------end------------------------
 

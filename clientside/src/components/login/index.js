@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+
 
 import { login, isAuthenticated } from '../../controllers/UserController'
 
@@ -40,19 +40,15 @@ class Login extends React.Component {
     render() {
 
         return (
-            <Grid
-                item
-                container
-                direction="column"
-                alignItems="center"
-                style={{ minHeight: '100vh' }}
-            >
-
-                <Paper style={{ minWidth: '30vh' }}>
-                    <Box p={8} >
-                        <Typography component="h1" variant="h5" align="center">
+            <Paper style={{ minWidth: '30vh' }}>
+                <Grid container justify='center' alignItems='center' direction='column' spacing={3}>
+                    <Grid item>
+                        <Typography variant="h3" align="center">
                             Login
-                        </Typography>
+                            </Typography>
+                    </Grid>
+                    <Grid item>
+
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -64,6 +60,10 @@ class Login extends React.Component {
                             name="username"
                             autoFocus
                         />
+                    </Grid>
+                    <Grid item>
+
+
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -75,6 +75,8 @@ class Login extends React.Component {
                             label="Password"
                             type="password"
                         />
+                    </Grid>
+                    <Grid item lg={6}>
                         <Button
                             onClick={this.callStatusAuth}
                             fullWidth
@@ -84,11 +86,9 @@ class Login extends React.Component {
                         >
                             Login
                         </Button>
-                    </Box>
-                </Paper>
-
-            </Grid>
-
+                    </Grid>
+                </Grid>
+            </Paper>
         )
     }
 

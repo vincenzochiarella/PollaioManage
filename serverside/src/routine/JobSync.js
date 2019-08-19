@@ -2,13 +2,13 @@ var schedule = require('node-schedule')
 var moment = require('moment');
 var axios = require('axios')
 var doorController = require('../DoorController')
+var Job = require('../models/Jobs')
 
-const jobs = []
+var doorJobs = []
 
 module.exports.newJob = createJobScheduled = (id, date, move) => {
     console.log('Lavoro creato: ' + id + ', ' + moment(date).utc().toDate() + ', ' + move)
-    jobs[id] = schedule.scheduleJob(moment(date).utc().toDate(), () => {
-        console.log('IN ESECUZIONE' + move)
+    schedule.scheduleJob(`${id}`, moment(date).utc().toDate(), () => {
         switch (move) {
             case 0:
                 doorController.close('programmazione')
@@ -19,29 +19,43 @@ module.exports.newJob = createJobScheduled = (id, date, move) => {
             default:
                 break;
         }
-        axios.post('http://localhost:5000/job/delete',{
+        axios.post('http://localhost:5000/job/delete', {
             id: id
         }).then()
-        .catch((err)=>console.log(err))
+            .catch((err) => console.log(err))
     })
+    console.log(doorJobs)
 }
 
 module.exports.editJob = editJobScheduled = (id, date, move) => {
-    deleteJobScheduled(id)
+    deleteJob(id)
     createJobScheduled(id, date, move)
 }
 
 module.exports.deleteJob = deleteJobScheduled = (id) => {
-    console.log('Lavoro rimosso: ' + id)
-    jobs[id].cancel()
+    schedule.cancelJob(`${id}`)
+    console.log(`Lavaro ${id} cancellato`)
 }
 
 module.exports.syncAllJob = syncAllJobScheduled = () => {
-    axios.post('http://localhost:5000/job/getall').then(data => {
-        if (data.data) {
-            data.data.forEach(job => {
-                createJobScheduled(job.id, job.date, job.move)
-            });
-        }
+    /**
+     * TODO: Make a controller or a facade to manage obj
+     */
+    Job.findAll({
+        order: [
+            ['date', 'ASC']
+        ],
+        attributes: ['id', 'date', 'move', 'status']
+    }).then((data) => {
+        data.map(job=>{
+            createJobScheduled(job.dataValue.id,job.dataValue.date,job.dataValue.move)
+        })        
+    }).catch((err) => {
     })
 }
+module.exports.deSyncAllJob = deSyncAllJobScheduled = () => {
+    // doorJobIds.map(id => {
+    //     schedule.cancelJob(`${id}`)
+    // })
+}
+
