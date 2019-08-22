@@ -48,7 +48,6 @@ class Login extends React.Component {
                             </Typography>
                     </Grid>
                     <Grid item>
-
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -62,8 +61,6 @@ class Login extends React.Component {
                         />
                     </Grid>
                     <Grid item>
-
-
                         <TextField
                             variant="outlined"
                             margin="normal"

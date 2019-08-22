@@ -16,12 +16,12 @@ jobManagement.syncAllJob()
 
 
 /* start deployment part*/
-// const path = require('path');
-// app.use(express.static(path.join(__dirname, '../../clientside/build')));
+const path = require('path');
+app.use(express.static(path.join(__dirname, '../../clientside/build')));
 
-// app.get('/', function(req, res) {
-//   res.sendFile(path.join(__dirname, '../../clientside/build', 'index.html'));
-// });
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, '../../clientside/build', 'index.html'));
+});
 //--------uncomment after npm run build in clientside-------
 /*  end deployment part */
 
@@ -33,7 +33,7 @@ var Brightness = require('./routes/brightness')
 var BatteryLevel = require('./routes/batteryLevel')
 
 
-const port = 5000;
+const port = 80;
 // var motor = require('./ControllerArduino/controllerDoor')
 
 
