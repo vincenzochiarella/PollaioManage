@@ -27,7 +27,7 @@ export const updateJob = ( id, date, move ) =>{
         }
     )
     .then(res=>{
-        return console.log(res)
+        return res.data
     }).catch(err => console.log(err))
 }
 

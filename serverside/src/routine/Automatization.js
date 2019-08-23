@@ -24,16 +24,19 @@ module.exports.startSyncWeekMoves = schedule.scheduleJob('weekJob', domenica_01h
 
 module.exports.overrideSyncTodayMoves = syncTodayMoves = () => {
     var today = moment().format("YYYY-MM-DD")
-    axios.post('http://localhost:5000/ckHouse/getsunmoovementtoday', {
+    /**
+     * FIXME: not use post request but controller
+     */
+    axios.post('ckHouse/getsunmoovementtoday', {
         day: today
     }).then(data => {
         var dateSunrise = moment(data.data.day + ' ' + data.data.sunrise).format('YYYY-MM-DD HH:mm:ss')
         var dateSunset = moment(data.data.day + ' ' + data.data.sunset).format('YYYY-MM-DD HH:mm:ss')
-        axios.post('http://localhost:5000/job/create', {
+        axios.post('job/create', {
             date: dateSunrise,
             move: 1
         }).catch(err => { console.log(err) })
-        axios.post('http://localhost:5000/job/create', {
+        axios.post('job/create', {
             date: dateSunset,
             move: 0
         }).catch(err => { console.log(err) })
@@ -47,10 +50,17 @@ module.exports.startSyncTodayMoves = schedule.scheduleJob('dayOpening', ogniGior
 
 //-------start weather sync every hour-----------
 syncWeather = () => {
-    axios.post('http://localhost:5000/ckHouse/getcoords').then(data => {
+    /**
+     * FIXME: not use post request but controller
+     */
+    axios.post('ckHouse/getcoords').then(data => {
         if (data) {
+
             axios.post('https://api.openweathermap.org/data/2.5/weather?appid=05e6ec37f86a9b2c3a96cd57e4f80dda&lat=' + data.data.latitude + '&lon=' + data.data.longitude + '&units=metric&').then(weather => {
-                axios.post('http://localhost:5000/ckHouse/setweather', {
+                /**
+                 * FIXME: not use post request but controller
+                 */
+                axios.post('ckHouse/setweather', {
                     date: moment().format('YYYY-MM-DD'),
                     time: moment().format('HH'),
                     temperature: weather.data.main.temp,

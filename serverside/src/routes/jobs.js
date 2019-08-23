@@ -25,7 +25,7 @@ job.post('/edit', (req, res) => {
                 id: req.body.id
             }
         }).then((data) => {
-            editJobScheduled(data.id, data.date, data.move) = require('../routine/JobSync')
+            editJobScheduled(req.body.id, req.body.date, req.body.move) = require('../routine/JobSync')
         }).catch(() => {
             res.sendStatus(404)
         })

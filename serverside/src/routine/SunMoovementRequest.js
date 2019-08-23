@@ -22,6 +22,9 @@ getSunmoovement = (coords, day) => {
 }
 
 module.exports.APICallsWeekly = getWeekday = () => {
+        /**
+     * FIXME: not use post request but controller
+     */
     axios.post('http://localhost:5000/ckHouse/getcoords').then(data => {
         var startOfWeek = moment();
         var endOfWeek = moment().add(6, "d");

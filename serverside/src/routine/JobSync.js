@@ -4,10 +4,11 @@ var axios = require('axios')
 var doorController = require('../DoorController')
 var Job = require('../models/Jobs')
 
-var doorJobs = []
+var doorJobsId = []
 
 module.exports.newJob = createJobScheduled = (id, date, move) => {
     console.log('Lavoro creato: ' + id + ', ' + moment(date).utc().toDate() + ', ' + move)
+    doorJobsId.push(`${id}`)
     schedule.scheduleJob(`${id}`, moment(date).utc().toDate(), () => {
         switch (move) {
             case 0:
@@ -19,6 +20,9 @@ module.exports.newJob = createJobScheduled = (id, date, move) => {
             default:
                 break;
         }
+        /**
+ * FIXME: not use post request but controller
+ */
         axios.post('http://localhost:5000/job/delete', {
             id: id
         }).then()
@@ -28,7 +32,7 @@ module.exports.newJob = createJobScheduled = (id, date, move) => {
 }
 
 module.exports.editJob = editJobScheduled = (id, date, move) => {
-    deleteJob(id)
+    deleteJobScheduled(id)
     createJobScheduled(id, date, move)
 }
 
@@ -47,15 +51,15 @@ module.exports.syncAllJob = syncAllJobScheduled = () => {
         ],
         attributes: ['id', 'date', 'move', 'status']
     }).then((data) => {
-        data.map(job=>{
-            createJobScheduled(job.dataValue.id,job.dataValue.date,job.dataValue.move)
-        })        
+        data.map(job => {
+            createJobScheduled(job.dataValue.id, job.dataValue.date, job.dataValue.move)
+        })
     }).catch((err) => {
     })
 }
 module.exports.deSyncAllJob = deSyncAllJobScheduled = () => {
-    // doorJobIds.map(id => {
-    //     schedule.cancelJob(`${id}`)
-    // })
+    doorJobsId.map(id => {
+        schedule.cancelJob(`${id}`)
+    })
 }
 
