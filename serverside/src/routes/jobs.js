@@ -12,8 +12,9 @@ job.post('/create', (req, res) => {
         status: 0
     }).then(( data )=>{
         createJobScheduled(data.id, data.date, data.move) = require('../routine/JobSync')
-    }).catch(() => {
-        res.sendStatus(400)
+        res.sendStatus(200)
+    }).catch((err) => {
+        res.send(err)
     })
 })
 job.post('/edit', (req, res) => {
@@ -26,8 +27,9 @@ job.post('/edit', (req, res) => {
             }
         }).then((data) => {
             editJobScheduled(req.body.id, req.body.date, req.body.move) = require('../routine/JobSync')
-        }).catch(() => {
-            res.sendStatus(404)
+            res.sendStatus(200)
+        }).catch((err) => {
+            res.send(err)
         })
     
 })
@@ -38,7 +40,8 @@ job.post('/delete', (req, res) => {
         }
     }).then(() => {
         deleteJobScheduled(req.body.id) = require('../routine/JobSync')
-    }).catch(() => res.sendStatus(400))
+        res.sendStatus(200)
+    }).catch((err) => res.send(err))
 })
 
 job.post('/getall', (req, res) => {
@@ -49,7 +52,7 @@ job.post('/getall', (req, res) => {
         attributes: ['id','date','move','status']
     }).then((data) => res.send(data))
         .catch((err) => {
-            res.sendStatus(404)
+            res.send(err)
         })
 })
 
@@ -60,7 +63,7 @@ job.post('/getlast', (req, res) => {
         ],
         attributes: ['id','date','move','status']
     }).then((data) => res.send(data))
-    .catch(() => {
+    .catch((err) => {
         res.sendStatus(404)
     })
 })

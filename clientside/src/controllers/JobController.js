@@ -26,18 +26,14 @@ export const updateJob = ( id, date, move ) =>{
             id: id
         }
     )
-    .then(res=>{
-        return res.data
-    }).catch(err => console.log(err))
+    .then().catch(err => console.log(err))
 }
 
 export const deleteJob = ( id ) =>{
     return axios.post('job/delete',{
         id: id
     })
-    .then(res=>{
-        return console.log(res)
-    }).catch(err => console.log(err))
+    .then().catch(err => console.log(err))
 }
 export const createJob = ( date, move ) =>{
     return axios.post('job/create',
@@ -46,8 +42,6 @@ export const createJob = ( date, move ) =>{
             move: move,
         }
     )
-    .then(res=>{
-        return res
-    }).catch(err => console.log(err))
+    .then().catch(err => console.log(err))
 }
 

@@ -33,7 +33,7 @@ var Brightness = require('./routes/brightness')
 var BatteryLevel = require('./routes/batteryLevel')
 
 
-const port = 80;
+const port = 5000;
 // var motor = require('./ControllerArduino/controllerDoor')
 
 
