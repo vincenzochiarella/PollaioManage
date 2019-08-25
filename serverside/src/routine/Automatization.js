@@ -1,8 +1,17 @@
+/**
+ * @ Author: Vincenzo Chiarella
+ * @ Create Time: 2019-06-27 21:02:19
+ * @ GitHub Link: https://github.com/Vins97
+ */
+
+
 var schedule = require('node-schedule')
 var syncWeekDaySunmoovs = require('./SunMoovementRequest')
 var moment = require('moment');
 var axios = require('axios')
-var doorController = require('../DoorController')
+// var doorController = require('../DoorController')
+var ChickenHouseDB = require('../APIdb/chickenhouse')
+var JobsDB = require('../APIdb/jobs')
 
 
 //ogni domenica crea 14 cronjob 
@@ -24,25 +33,18 @@ module.exports.startSyncWeekMoves = schedule.scheduleJob('weekJob', domenica_01h
 
 module.exports.overrideSyncTodayMoves = syncTodayMoves = () => {
     var today = moment().format("YYYY-MM-DD")
-    /**
-     * FIXME: not use post request but controller
-     */
-    axios.post('ckHouse/getsunmoovementtoday', {
-        day: today
-    }).then(data => {
-        var dateSunrise = moment(data.data.day + ' ' + data.data.sunrise).format('YYYY-MM-DD HH:mm:ss')
-        var dateSunset = moment(data.data.day + ' ' + data.data.sunset).format('YYYY-MM-DD HH:mm:ss')
-        axios.post('job/create', {
-            date: dateSunrise,
-            move: 1
-        }).catch(err => { console.log(err) })
-        axios.post('job/create', {
-            date: dateSunset,
-            move: 0
-        }).catch(err => { console.log(err) })
-    }).catch(err => {
-        console.log(err)
-    })
+    ChickenHouseDB.dbRequest.getSunMovementsDay(today)
+        .then(data =>{
+            var dateSunrise = moment(data.day + ' ' + data.sunrise).format('YYYY-MM-DD HH:mm:ss')
+            var dateSunset = moment(data.day + ' ' + data.sunset).format('YYYY-MM-DD HH:mm:ss')
+            JobsDB.dbRequest
+                .constructorJob(dateSunrise, 1)
+                .catch(err=> console.log(err))
+            JobsDB.dbRequest
+                .constructorJob(dateSunset, 0)
+                .catch(err=> console.log(err))
+        })
+        .catch(err=> console.log(err))
 }
 module.exports.startSyncTodayMoves = schedule.scheduleJob('dayOpening', ogniGiorno, function () {
     syncTodayMoves()
@@ -50,35 +52,25 @@ module.exports.startSyncTodayMoves = schedule.scheduleJob('dayOpening', ogniGior
 
 //-------start weather sync every hour-----------
 syncWeather = () => {
-    /**
-     * FIXME: not use post request but controller
-     */
-    axios.post('ckHouse/getcoords').then(data => {
-        if (data) {
-
-            axios.post('https://api.openweathermap.org/data/2.5/weather?appid=05e6ec37f86a9b2c3a96cd57e4f80dda&lat=' + data.data.latitude + '&lon=' + data.data.longitude + '&units=metric&').then(weather => {
-                /**
-                 * FIXME: not use post request but controller
-                 */
-                axios.post('ckHouse/setweather', {
-                    date: moment().format('YYYY-MM-DD'),
-                    time: moment().format('HH'),
-                    temperature: weather.data.main.temp,
-                    pressure: weather.data.main.pressure,
-                    humidity: weather.data.main.humidity,
-                    clouds: weather.data.clouds.all,
-                    iconCode: weather.data.weather[0].icon
-                }).catch(err => {
-                    console.log(err)
-                })
-            }).catch(err => {
+    ChickenHouseDB.dbRequest.getCoordinates()
+        .then(data=>{
+            axios.post('https://api.openweathermap.org/data/2.5/weather?appid=05e6ec37f86a9b2c3a96cd57e4f80dda&lat=' + data.dataValues.latitude + '&lon=' + data.dataValues.longitude + '&units=metric&')
+            .then(weather => {
+                console.log( weather.data.main.temp )
+                ChickenHouseDB.dbRequest.setWeather( moment().format('YYYY-MM-DD') , moment().format('HH:mm'),weather.data.main.temp,
+                    weather.data.main.pressure, weather.data.main.humidity, weather.data.clouds.all, weather.data.weather[0].icon)
+                    .then(result=> console.log(result))
+                    .catch(err=> console.log(err))
+            })
+            .catch(err => {
                 console.log(err)
             })
-        }
-    }).catch(err => console.log(err))
+        })
 }
 
 module.exports.startSyncEveryDayWeather = schedule.scheduleJob('dayWeatherJob', ogniOra, function () {
     syncWeather()
 })
 //-------end weather sync every hour-------------
+
+module.exports.manuallySyncWeather = syncWeather

@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import {
     Drawer, AppBar,
     Typography, Divider, List, ListItemIcon, ListItemText,
-    IconButton, ListItem, withStyles, CssBaseline, Toolbar, Paper, Box, Grid
+    IconButton, ListItem, withStyles, Toolbar, Paper, Box, Grid
 } from '@material-ui/core';
 
 import {
@@ -32,9 +32,6 @@ const drawerWidth = 240;
 const coords = { lat: 43.1386, log: 13.0678 };
 
 const styles = theme => ({
-    root: {
-        display: 'flex',
-    },
     toolbar: {
         paddingRight: 24, // keep right padding when drawer closed
     },
@@ -190,8 +187,6 @@ class Layout extends React.Component {
             </>
         )
         return <>
-            <CssBaseline />
-            <div className={classes.root}>
 
                 <AppBar position="fixed" className={clsx(classes.appBar, drawerOpen && classes.appBarShift)}>
                     <Toolbar className={classes.toolbar}>
@@ -234,9 +229,8 @@ class Layout extends React.Component {
                     <div className={classes.toolbar} />
                     <Grid container justify='center' alignItems='center' >
                         {children}
-                    </Grid>
+                    </Grid> 
                 </main>
-            </div>
 
         </>
 

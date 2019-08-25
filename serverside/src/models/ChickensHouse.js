@@ -34,10 +34,6 @@ var ChickensHouse = db.sequelize.define('ChickensHouse',
             type: Sequelize.INTEGER,
             allowNull: false
         },
-        lumAvarage: {
-            type: Sequelize.FLOAT,
-            allowNull: false
-        },
         lumMin: {
             type: Sequelize.INTEGER,
             allowNull: false

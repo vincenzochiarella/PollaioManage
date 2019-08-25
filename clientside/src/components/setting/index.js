@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { coordsReg } from '../../constants/regex';
+import { latitudeCheck, longitudeCheck } from '../../constants/regex';
 
 import {
     Grid, Button, withStyles, TextField, Box,
@@ -47,6 +47,7 @@ class Setting extends React.Component {
             editMode: false
         }
         this.handleLogout = this.handleLogout.bind(this)
+        this.onChange = this.onChange.bind(this)
     }
 
     componentWillMount() {
@@ -65,19 +66,22 @@ class Setting extends React.Component {
     }
     onCheckMap = event => {
         window.open("https://www.openstreetmap.org/#map=16/" + this.state.lat + "/" + this.state.lon)
+        event.preventDefault()
     }
     onChange = valueName => event => {
         this.setState({
             [valueName]: event.target.value
         })
         if (valueName === 'lat') {
-            event.target.value.match(coordsReg.latitude) ? this.setState({ latError: false }) : this.setState({ latError: true })
+            event.target.value.match(latitudeCheck) ? this.setState({ latError: false }) : this.setState({ latError: true })
         }
         if (valueName === 'lon') {
-            event.target.value.match(coordsReg.longitude) ? this.setState({ lonError: false }) : this.setState({ lonError: true })
+            event.target.value.match(longitudeCheck) ? this.setState({ lonError: false }) : this.setState({ lonError: true })
         }
         if (this.state.latError || this.state.lonError)
             this.setState({ disableSave: true })
+        else
+            this.setState({ disableSave: false})
         event.preventDefault()
     }
     handleEdit = event => {
@@ -96,36 +100,37 @@ class Setting extends React.Component {
         const { lat, lon, latError, lonError, editMode, disableSave } = this.state
         return (
             <>
-                <Grid container item spacing={3} direction="row" justify="center" alignContent="center">
-                    <Grid item >
-                        <TextField
-                            error={latError}
-                            disabled={!editMode}
-                            id="outlined-name"
-                            label="Latitudine"
-                            className={this.textField}
-                            value={lat}
-                            onChange={this.onChange('lat')}
-                            margin="normal"
-                            variant="outlined"
-                        />
-                    </Grid>
-                    <Grid item  >
-                        <TextField
-                            error={lonError}
-                            disabled={!editMode}
-                            id="outlined-name"
-                            label="Longitudine"
-                            className={this.textField}
-                            value={lon}
-                            onChange={this.onChange('lon')}
+                <Grid container item direction="column" justify="center" alignItems="center">
+                    <Grid container item direction='row' alignItems='center' justify='center' lg={6} md={9} xs={12} spacing={2} >
+                        <Grid item lg={3} md={6} xs={6}>
+                            <TextField
+                                error={latError}
+                                disabled={!editMode}
+                                id="outlined-name"
+                                label="Latitudine"
+                                className={this.textField}
+                                value={lat}
+                                onChange={this.onChange('lat')}
+                                margin="normal"
+                                variant="outlined"
+                            />
+                        </Grid>
+                        <Grid item lg={3} md={6} xs={6}>
+                            <TextField
+                                error={lonError}
+                                disabled={!editMode}
+                                id="outlined-name"
+                                label="Longitudine"
+                                className={this.textField}
+                                value={lon}
+                                onChange={this.onChange('lon')}
 
-                            margin="normal"
-                            variant="outlined"
-                        />
-                    </Grid>
-                    <Grid item >
-                        <Box mt={3}>
+                                margin="normal"
+                                variant="outlined"
+                            />
+                        </Grid>
+                        <Grid item lg={3} md={6} xs={6}>
+
                             <Button variant={this.getButType()} color="secondary"
                                 className={this.button}
                                 onClick={this.handleEdit}
@@ -133,10 +138,10 @@ class Setting extends React.Component {
                             >
                                 <Edit className={this.leftIcon} />
                             </Button>
-                        </Box>
-                    </Grid>
-                    <Grid item >
-                        <Box mt={3}>
+
+                        </Grid>
+                        <Grid item lg={3} md={6} xs={6}>
+
                             <Button variant="contained" color="secondary"
                                 className={this.button}
                                 onClick={this.onCheckMap}
@@ -144,11 +149,10 @@ class Setting extends React.Component {
                             >
                                 <Map className={this.leftIcon} />
                             </Button>
-                        </Box>
+
+                        </Grid>
                     </Grid>
-
-
-                    <Grid container item direction='row' justify="center" alignContent="center" spacing={2} xs={12} md={12} lg={12}>
+                    <Grid item>
                         <Paper margin={3}>
                             <Box p={4}>
                                 <Grid item >
@@ -156,17 +160,14 @@ class Setting extends React.Component {
                                 </Grid>
                             </Box>
                         </Paper>
-                    </Grid >
-
-                    <Grid container item spacing={1} direction="row" alignContent="center" justify="center">
-                        <Grid item>
-                            <Button variant="contained" color="secondary"
-                                className={this.button}
-                                onClick={this.handleLogout}>
-                                <ExitToApp className={this.leftIcon} />
-                                Logout
-                                    </Button>
-                        </Grid>
+                    </Grid>
+                    <Grid item>
+                        <Button variant="contained" color="secondary"
+                            className={this.button}
+                            onClick={this.handleLogout}>
+                            <ExitToApp className={this.leftIcon} />
+                            Logout
+                                </Button>
                     </Grid>
 
                 </Grid>

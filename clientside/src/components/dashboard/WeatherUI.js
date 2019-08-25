@@ -15,7 +15,8 @@ class WeatherUI extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            weather: null
+            weather: null,
+            iconCode: '01d'
         }
     }
     componentWillMount() {
@@ -34,11 +35,11 @@ class WeatherUI extends React.Component {
         const percClouds = '% Coperto'
         const url = 'http://openweathermap.org/img/wn/'+this.state.iconCode+'@2x.png'
         return (
-            <Grid container spacing={2}>
-                <Grid item>
-                     <img className={this.image} alt="IconaMeteo" src={url} style={{width: 150, height: 150}}></img> 
+            <Grid container justify='center' alignItems='center'>
+                <Grid item lg={8} md={8} xs={9}>
+                     <img className={this.image} alt="IconaMeteo" src={url} style={{width: '12vh', height: '12vh'}}></img> 
                 </Grid>
-                <Grid item xs={12} sm container >
+                <Grid item lg={4} md={4} xs={3} container >
                     <Grid item xs container direction="column" spacing={1}>
                         <Grid item xs>
                             <Typography gutterBottom variant="h2" color="primary">

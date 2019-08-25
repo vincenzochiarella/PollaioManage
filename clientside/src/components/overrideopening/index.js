@@ -3,8 +3,8 @@ import React from 'react';
 
 import Lock from '@material-ui/icons/Lock';
 import LockOpen from '@material-ui/icons/LockOpen';
-import { Fab, CircularProgress, withStyles } from '@material-ui/core';
-import { green, red  } from '@material-ui/core/colors';
+import { Fab, CircularProgress, withStyles, Grid, Typography } from '@material-ui/core';
+import { green, red } from '@material-ui/core/colors';
 import clsx from 'clsx';
 
 import { setDoorOpen, setDoorClose } from '../../controllers/DoorController'
@@ -20,12 +20,18 @@ const style = theme => ({
         margin: theme.spacing(2),
         position: 'relative',
     },
+    open: {
+        color: green[500]
+    },
+    close: {
+        color: red[700]
+    },
     buttonOpen: {
         backgroundColor: green[500],
         '&:hover': {
             backgroundColor: green[700],
         },
-        width: 140, 
+        width: 140,
         height: 140
     },
     buttonClose: {
@@ -33,7 +39,7 @@ const style = theme => ({
         '&:hover': {
             backgroundColor: red[700],
         },
-        width: 140, 
+        width: 140,
         height: 140
     },
     fabProgress: {
@@ -118,25 +124,36 @@ class OverrideOpening extends React.Component {
     render() {
         const { opened, motion } = this.state;
         const { classes } = this.props;
-
-
         return (
-            <>
-                <div className={classes.root}>
-                    <div className={classes.wrapper}>
-                        <Fab
-                            aria-label="Save"
-                            color="primary"
-                            className={clsx(opened ? classes.buttonOpen: classes.buttonClose)}
-                            onClick={this.onToggleSwitch}                            
-                            disabled={motion}
-                        >
-                            {opened ? <LockOpen style={{ width: 60, height: 60 }} /> : <Lock style={{ width: 60, height: 60 }} />}
-                        </Fab>
-                        {motion && <CircularProgress size={154} className={classes.fabProgress} />}
-                    </div>
-                </div >
-            </>
+            <Grid container >
+                <Grid item lg={8} sm={9}>
+                    <div className={classes.root}>
+                        <div className={classes.wrapper}>
+                            <Fab
+                                aria-label="Save"
+                                color="primary"
+                                className={clsx(opened ? classes.buttonOpen : classes.buttonClose)}
+                                onClick={this.onToggleSwitch}
+                                disabled={motion}
+                            >
+                                {opened ? <LockOpen style={{ width: 60, height: 60 }} /> : <Lock style={{ width: 60, height: 60 }} />}
+                            </Fab>
+                            {motion && <CircularProgress size={154} className={classes.fabProgress} />}
+                        </div>
+                    </div >
+                </Grid>
+                <Grid container item lg={4} sm={3} direction='column'>
+                    <Grid item>
+                        <Typography >Clicca sul bottone per chiudere o aprire la porta del pollaio</Typography>
+                    </Grid>
+                    <Grid item>
+                        <Typography  className={classes.open}><LockOpen /> La porta é aperta</Typography>
+                    </Grid>
+                    <Grid item>
+                        <Typography className={classes.close}><Lock /> La porta é chiusa</Typography>
+                    </Grid>
+                </Grid>
+            </Grid>
         )
     }
 

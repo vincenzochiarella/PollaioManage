@@ -1,12 +1,17 @@
 var schedule = require('node-schedule')
 var moment = require('moment');
-var axios = require('axios')
 var doorController = require('../DoorController')
-var Job = require('../models/Jobs')
+
+var JobDB = require('../APIdb/jobs')
 
 var doorJobsId = []
-
-module.exports.newJob = createJobScheduled = (id, date, move) => {
+/**
+ * 
+ * @param {integer} id Job id
+ * @param {string} date Date of job execution
+ * @param {integer} move Move to do: 1 open 0 close
+ */
+function createJobScheduled(id, date, move) {
     console.log('Lavoro creato: ' + id + ', ' + moment(date).utc().toDate() + ', ' + move)
     doorJobsId.push(`${id}`)
     schedule.scheduleJob(`${id}`, moment(date).utc().toDate(), () => {
@@ -20,46 +25,53 @@ module.exports.newJob = createJobScheduled = (id, date, move) => {
             default:
                 break;
         }
-        /**
- * FIXME: not use post request but controller
- */
-        axios.post('http://localhost:5000/job/delete', {
-            id: id
-        }).then()
-            .catch((err) => console.log(err))
+        JobDB.dbRequest.removeJob(id)
+            .then(data => console.log(data))
+            .catch(err => console.log(err))
     })
-    console.log(doorJobs)
+    console.log(doorJobsId)
 }
-
-module.exports.editJob = editJobScheduled = (id, date, move) => {
+/**
+ * 
+ * @param {integer} id Job id getted from db
+ * @param {string} date Date modified
+ * @param {integer} move Move modified
+ */
+function editJobScheduled(id, date, move) {
     deleteJobScheduled(id)
     createJobScheduled(id, date, move)
 }
-
-module.exports.deleteJob = deleteJobScheduled = (id) => {
+/**
+ * 
+ * @param {integer} id Remove job id
+ */
+function deleteJobScheduled(id) {
     schedule.cancelJob(`${id}`)
+    var index = doorJobsId.indexOf(id);
+    console.log(index) 
+    if (index > -1) {
+        doorJobsId = doorJobsId.splice(index, 1)
+    }
     console.log(`Lavaro ${id} cancellato`)
 }
 
-module.exports.syncAllJob = syncAllJobScheduled = () => {
-    /**
-     * TODO: Make a controller or a facade to manage obj
-     */
-    Job.findAll({
-        order: [
-            ['date', 'ASC']
-        ],
-        attributes: ['id', 'date', 'move', 'status']
-    }).then((data) => {
-        data.map(job => {
-            createJobScheduled(job.dataValue.id, job.dataValue.date, job.dataValue.move)
+function syncAllJobScheduled() {
+    JobDB.dbRequest.getAllJobs()
+        .then(data => {            
+            data.map(job => {
+                createJobScheduled(job.id, job.date, job.move)
+            })
         })
-    }).catch((err) => {
-    })
+        .catch(err => console.log(err))
 }
-module.exports.deSyncAllJob = deSyncAllJobScheduled = () => {
+function deSyncAllJobScheduled(){
     doorJobsId.map(id => {
         schedule.cancelJob(`${id}`)
     })
 }
 
+module.exports.newJob = createJobScheduled
+module.exports.editJob = editJobScheduled
+module.exports.deleteJob = deleteJobScheduled
+module.exports.syncAllJob = syncAllJobScheduled
+module.exports.deSyncAllJob = deSyncAllJobScheduled

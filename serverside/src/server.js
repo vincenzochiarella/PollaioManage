@@ -1,8 +1,17 @@
+const path = require('path');
+const fs = require('fs');
+const httpsOptions = {
+    key: fs.readFileSync(path.join(__dirname, '../../.certs/key.pem')),
+    cert: fs.readFileSync(path.join(__dirname, '../../.certs/cert.pem'))
+};
+
+
+
 const express = require('express');
 var bodyParser = require('body-parser');
 var cors = require('cors');
 const app = express();
-const server = require('http').Server(app)
+const server = require('https').createServer(httpsOptions, app)
 const io = require('socket.io')(server, { origins: '*:*' })
 
 var weekMoovs = require('./routine/SunMoovementRequest')
@@ -11,29 +20,35 @@ var jobManagement = require('./routine/JobSync')
 
 automatic.startSyncTodayMoovs
 automatic.startSyncEveryDayWeather
+automatic.manuallySyncWeather()
 // automatic.overrideSyncTodayMoves()
 jobManagement.syncAllJob()
 
 
 /* start deployment part*/
-const path = require('path');
-app.use(express.static(path.join(__dirname, '../../clientside/build')));
 
-app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, '../../clientside/build', 'index.html'));
+app.use(express.static(path.join(__dirname, '../../clientside/build')));
+app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, '../../clientside/build/index.html'), function (err) {
+        if (err) {
+            res.status(500).send(err)
+        }
+    })
 });
 //--------uncomment after npm run build in clientside-------
 /*  end deployment part */
 
-var Users = require('./routes/users')
-var ChickenHouse = require('./routes/chickenhouse')
-var Door = require('./routes/door')
-var Jobs = require('./routes/jobs')
-var Brightness = require('./routes/brightness')
-var BatteryLevel = require('./routes/batteryLevel')
+var Users = require('./APIdb/users')
+var ChickenHouse = require('./APIdb/chickenhouse')
+var Door = require('./APIdb/door')
+var Jobs = require('./APIdb/jobs')
+var Brightness = require('./APIdb/brightness')
+var BatteryLevel = require('./APIdb/batteryLevel')
+/**
+ * TODO: fix luminosity adaptive when start server and not only when change settings
+ */
 
-
-const port = 5000;
+const port = 5443;
 // var motor = require('./ControllerArduino/controllerDoor')
 
 
@@ -44,11 +59,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 server.listen(port, () => console.log(`Listening on port ${port}`));
 
 app.use('/users', Users)
-app.use('/ckHouse', ChickenHouse)
-app.use('/door', Door)
-app.use('/job', Jobs)
-app.use('/bright', Brightness)
-app.use('/battery', BatteryLevel)
+app.use('/ckHouse', ChickenHouse.routes)
+app.use('/door', Door.routes)
+app.use('/job', Jobs.routes)
+app.use('/bright', Brightness.routes)
+app.use('/battery', BatteryLevel.routes)
 
 
 
@@ -69,7 +84,7 @@ external.on('connection', function (socket) {
     streamExternal.on('data', (data) => {
         socket.emit('data', data.toString('base64'))
     })
-    socket.on('disconnect', ()=>{
+    socket.on('disconnect', () => {
         streamExternal.removeListener('data', () => {
             console.log('Remove external cam')
         });
@@ -95,7 +110,7 @@ internal.on('connection', function (socket) {
     streamInternal.on('data', (data) => {
         socket.emit('data', data.toString('base64'))
     })
-    socket.on('disconnect',  ()=>{
+    socket.on('disconnect', () => {
         intcam.stopVlcRTSP()
         streamInternal.removeListener('data', () => {
             console.log('Connessione chiusa')

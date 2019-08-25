@@ -9,3 +9,8 @@ export const getWeekSunMoovement = () =>{
         console.log(err)
     })
 }
+export const refreshWeekMovements = () =>{
+    return axios.post('ckHouse/refreshsunmoovementweek')
+    .then(res=>{ return res.data })
+    .catch(err=> {console.log(err)})
+}

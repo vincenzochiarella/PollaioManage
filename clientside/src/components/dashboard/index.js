@@ -38,7 +38,7 @@ export default function Dashboard() {
   const paperCss = classes.paper
   return (
     
-      <Grid item container spacing={5} justify="center" lg={9} xs={12}>
+      <Grid item container spacing={5} justify="center" alignItems='center' lg={9} xs={12}>
         {/* Chart */}
         <Grid item xs={12} md={12} lg={12}>
           <Paper className={clsx(paperCss,classes.height)}>
@@ -70,7 +70,5 @@ export default function Dashboard() {
           <WeekHours />
         </Grid>
       </Grid>
-    
-
   );
 }

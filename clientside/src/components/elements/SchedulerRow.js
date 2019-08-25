@@ -12,8 +12,7 @@ class SchedulerRow extends React.Component {
             editMode: false,
             id: this.props.row.id,
             date: this.props.row.date,
-            move: this.props.row.move,
-            status: this.props.row.status
+            move: this.props.row.move
         }
         this.updateDateTime = this.updateDateTime.bind(this)
         this.onClickDelete = this.onClickDelete.bind(this)
@@ -63,7 +62,7 @@ class SchedulerRow extends React.Component {
     }
 
     render() {
-        const { id, editMode, date, move, status } = this.state
+        const { id, editMode, date, move } = this.state
     
         return (
             <TableRow >
@@ -96,9 +95,6 @@ class SchedulerRow extends React.Component {
                             </Select>
                         </TableCell>
                     </>}
-                <TableCell>
-                    {status}
-                </TableCell>
                 <TableCell>
                     <Button
                         variant={this.getButType()}
