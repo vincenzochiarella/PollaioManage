@@ -29,7 +29,6 @@ class ExternalCamera extends React.Component {
         })
         console.log(`${window.location.href}`.slice(0, -9) + '/streamext')
         soc.on('data', function (data) {
-            this.setState({ loading: false })
             img.src = 'data:image/png;base64,' + data
         })
     }
@@ -38,14 +37,13 @@ class ExternalCamera extends React.Component {
     }
 
     render() {
-        const { loading } = this.state
         return (
             <Grid item container justify='center' alignItems='center' >
                 <Paper style={{ minWidth: '40vh', minHeight: '30vh' }}>
                     <Box m={4}>
                         <Grid item container justify='center' alignItems='center'>
                             <Grid item>
-                                {loading &&
+                                {document.getElementById('externalcam').src &&
                                     <RingLoader
                                         sizeUnit={"vh"}
                                         size={6}

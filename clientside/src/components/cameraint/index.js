@@ -10,9 +10,6 @@ class CameraInternal extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = {
-            loading: true
-        }
         this.updateImage = this.updateImage.bind(this)
     }
     updateImage() {
@@ -23,7 +20,6 @@ class CameraInternal extends React.Component {
         })
         console.log(`${window.location.href}`.slice(0,-9)+'/streamint')
         soc.on('data', function (data) {
-            this.setState({ loading: false })
             img.src = 'data:image/png;base64,' + data
         })
     }
@@ -35,7 +31,6 @@ class CameraInternal extends React.Component {
             this.state.socket.close()
     }
     render() {
-        const { loading } = this.state
         return (
             <>
                 <Grid item container justify='center' alignItems='center'>
@@ -43,7 +38,7 @@ class CameraInternal extends React.Component {
                         <Box m={4}>
                         <Grid item container justify='center' alignItems='center'>
                             <Grid item>
-                                {loading &&
+                                {document.getElementById('internalcam').src &&
                                     <RingLoader
                                         sizeUnit={"vh"}
                                         size={6}
