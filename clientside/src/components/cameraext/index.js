@@ -12,8 +12,7 @@ class ExternalCamera extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            url: window.location.href.slice(0, -7),
-            socket: socketIo(`${this.state.url}/extcam`),
+            socket: socketIo(`${window.location.href}`),
             loading: true,
         }
         this.updateImage = this.updateImage.bind(this)
