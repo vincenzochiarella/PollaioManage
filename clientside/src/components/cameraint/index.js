@@ -11,15 +11,17 @@ class CameraInternal extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            socket: socketIo(`${window.location.href}/stream`),
-            loading: true,
-
+            loading: true
         }
         this.updateImage = this.updateImage.bind(this)
     }
     updateImage() {
         var img = document.getElementById('internalcam')
-        var soc = this.state.socket
+        var soc = socketIo(`${window.location.href}`.slice(0,-9)+'/streamint')
+        this.setState({
+            socket: soc
+        })
+        console.log(`${window.location.href}`.slice(0,-9)+'/streamint')
         soc.on('data', function (data) {
             img.src = 'data:image/png;base64,' + data
             this.setState({ loading: false })
@@ -29,7 +31,8 @@ class CameraInternal extends React.Component {
         this.updateImage()
     }
     componentWillUnmount() {
-        this.state.socket.close()
+        if (this.state.socket)
+            this.state.socket.close()
     }
     render() {
         const { loading } = this.state

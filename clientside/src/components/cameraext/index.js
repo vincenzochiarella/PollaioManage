@@ -12,7 +12,6 @@ class ExternalCamera extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            socket: socketIo(`${window.location.href}/stream`),
             loading: true,
         }
         this.updateImage = this.updateImage.bind(this)
@@ -23,7 +22,12 @@ class ExternalCamera extends React.Component {
     }
     updateImage() {
         var img = document.getElementById('externalcam')       
-        this.state.socket.on('data', function (data) {
+        var soc = socketIo(`${window.location.href}`.slice(0,-9)+'/streamext')
+        this.setState({
+            socket: soc
+        })
+        console.log(`${window.location.href}`.slice(0,-9)+'/streamext')
+        soc.on('data', function (data) {
             img.src = 'data:image/png;base64,' + data
             this.setState({ loading: false })
         })
@@ -54,8 +58,6 @@ class ExternalCamera extends React.Component {
                         </Grid>}
                     </Box>
                 </Paper>
-
-
             </Grid>
 
 
