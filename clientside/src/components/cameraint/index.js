@@ -11,11 +11,10 @@ class CameraInternal extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            socket: socketIo(`${this.state.getUrl}/intcam`),
+            url: window.location.href.slice(0, -7),
+            socket: socketIo(`${this.state.url}/intcam`),
             loading: true,
-            getUrl: () => {
-                return window.location.href.slice(0, -7)
-            }
+
         }
         this.updateImage = this.updateImage.bind(this)
     }
