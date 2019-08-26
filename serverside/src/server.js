@@ -67,7 +67,7 @@ var streamExternal = new st.FFMpeg({
 });
 
 //CORRETTO i dati vengono trasferiti alla socket ma la socket del client non li riceve
-var external = io.of('/extcam')
+var external = io.of('/#/extcam')
 external.on('connection', function (socket) {
     console.log('Socket aperta')
     streamExternal.on('data', (data) => {
@@ -93,7 +93,7 @@ var streamInternal = new st.FFMpeg({
     quality: 3 // JPEG compression quality level (optional)
 });
 
-var internal = io.of('/intcam')
+var internal = io.of('/#/intcam')
 internal.on('connection', function (socket) {
     intcam.startVlcRTSP()
     streamInternal.on('data', (data) => {
