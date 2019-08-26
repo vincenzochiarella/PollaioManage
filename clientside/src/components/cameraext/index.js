@@ -1,10 +1,9 @@
 import React from 'react'
 
 import { Box, Paper, Grid } from '@material-ui/core'
-import { RingLoader } from 'react-spinners'
+// import { RingLoader } from 'react-spinners'
 
 import * as socketIo from 'socket.io-client'
-import { mergeClasses } from '@material-ui/styles';
 
 
 
@@ -49,14 +48,6 @@ class ExternalCamera extends React.Component {
                                     height: 'auto'
                                 }} />
                             </Grid>
-                            <Grid item>
-                                {document.getElementById('externalcam').src &&
-                                    <RingLoader
-                                        sizeUnit={"vh"}
-                                        size={6}
-                                        color={'#ff9800'}
-                                    />
-                                }</Grid>
                         </Grid>
                     </Box>
                 </Paper>

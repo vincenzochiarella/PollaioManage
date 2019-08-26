@@ -45,14 +45,6 @@ class CameraInternal extends React.Component {
                                         height: 'auto'
                                     }} />
                                 </Grid>
-                                <Grid item>
-                                    {document.getElementById('internalcam').src &&
-                                        <RingLoader
-                                            sizeUnit={"vh"}
-                                            size={6}
-                                            color={'#ff9800'}
-                                        />
-                                    }</Grid>
                             </Grid>
                         </Box>
                     </Paper>
