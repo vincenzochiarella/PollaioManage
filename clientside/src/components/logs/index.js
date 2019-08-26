@@ -38,7 +38,7 @@ class DoorStatus_Log extends React.Component {
                     </TableHead>
                     <TableBody>
                         {logView.map((row, index) => (
-                            <TableRow key={row.id}>
+                            <TableRow key={row.id} selected={!!+(index%2)}>
                                 <TableCell>{moment(row.createdAt).format('DD-MM-YYYY HH:mm:ss')}</TableCell>
                                 <TableCell>{this.getMove(row.movement)}</TableCell>
                                 <TableCell>{row.user_authorized}</TableCell>

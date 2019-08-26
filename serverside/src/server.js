@@ -5,24 +5,12 @@ const httpsOptions = {
     cert: fs.readFileSync(path.join(__dirname, '../../.certs/cert.pem'))
 };
 
-
-
 const express = require('express');
 var bodyParser = require('body-parser');
 var cors = require('cors');
 const app = express();
 const server = require('https').createServer(httpsOptions, app)
 const io = require('socket.io')(server, { origins: '*:*' })
-
-var weekMoovs = require('./routine/SunMoovementRequest')
-var automatic = require('./routine/Automatization')
-var jobManagement = require('./routine/JobSync')
-
-automatic.startSyncTodayMoovs
-automatic.startSyncEveryDayWeather
-automatic.manuallySyncWeather()
-// automatic.overrideSyncTodayMoves()
-jobManagement.syncAllJob()
 
 
 /* start deployment part*/
@@ -38,17 +26,7 @@ app.get('/', function (req, res) {
 //--------uncomment after npm run build in clientside-------
 /*  end deployment part */
 
-var Users = require('./APIdb/users')
-var ChickenHouse = require('./APIdb/chickenhouse')
-var Door = require('./APIdb/door')
-var Jobs = require('./APIdb/jobs')
-var Brightness = require('./APIdb/brightness')
-var BatteryLevel = require('./APIdb/batteryLevel')
-/**
- * TODO: fix luminosity adaptive when start server and not only when change settings
- */
 
-const port = 5443;
 // var motor = require('./ControllerArduino/controllerDoor')
 
 
@@ -56,14 +34,25 @@ app.use(cors())
 app.options('*', cors());
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
+const port = 5443;
 server.listen(port, () => console.log(`Listening on port ${port}`));
 
+var Users = require('./APIdb/users')
+var ChickenHouse = require('./APIdb/chickenhouse')
+var Door = require('./APIdb/door')
+var Jobs = require('./APIdb/jobs')
+var Brightness = require('./APIdb/brightness')
+var BatteryLevel = require('./APIdb/batteryLevel')
 app.use('/users', Users)
 app.use('/ckHouse', ChickenHouse.routes)
 app.use('/door', Door.routes)
 app.use('/job', Jobs.routes)
 app.use('/bright', Brightness.routes)
 app.use('/battery', BatteryLevel.routes)
+
+
+const init = require('./ServerInit')
+init.init()
 
 
 

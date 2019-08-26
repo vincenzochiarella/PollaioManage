@@ -81,7 +81,6 @@ class OverrideOpening extends React.Component {
         this._isMounted = true;
         getDoorstatus().then(data => {
             if (data.doorStatus === 0 || data.doorStatus === 1) {
-                console.log(data.doorStatus, !!data.doorStatus)
                 this.setState({
                     opened: !!data.doorStatus,
                     motion: false
@@ -98,7 +97,6 @@ class OverrideOpening extends React.Component {
             getDoorstatus().then(data => {
                 if (data.doorStatus === 0 || data.doorStatus === 1) {
                     if (this._isMounted) {
-                        console.log(data.doorStatus, !!data.doorStatus)
                         this.setState({
                             opened: !!data.doorStatus,
                             motion: false
@@ -147,7 +145,7 @@ class OverrideOpening extends React.Component {
                         <Typography >Clicca sul bottone per chiudere o aprire la porta del pollaio</Typography>
                     </Grid>
                     <Grid item>
-                        <Typography  className={classes.open}><LockOpen /> La porta é aperta</Typography>
+                        <Typography className={classes.open}><LockOpen /> La porta é aperta</Typography>
                     </Grid>
                     <Grid item>
                         <Typography className={classes.close}><Lock /> La porta é chiusa</Typography>

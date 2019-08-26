@@ -5,6 +5,7 @@
  */
 const Brightness = require('../models/Brightness')
 const DoorController = require('../DoorController')
+const BrightnessParamsDB = require('../APIdb/chickenhouse')
 var idInterval = 0
 /**
  * 
@@ -20,7 +21,7 @@ function getAvarageBrightness(seconds) {
                 ]
             }).then(data => {
                 var sum = 0
-                var count = 0                
+                var count = 0
                 data.map(value => {
                     sum = sum + value.dataValues.value
                     count = count + 1
@@ -35,21 +36,26 @@ function getAvarageBrightness(seconds) {
  * @param {integer} sensibility espress in seconds
  * @param {intger} minimum espress in lux
  */
-/*
-FIXME: Close and open movement bug
- */
-function startAutomaticBrightness(sensibility, minimum) {
+
+function startAutomaticBrightness() {
+    var timeInterval = 20
     idInterval = setInterval(() => {
-        getAvarageBrightness(sensibility).then(
-            avarage => {
-                if (avarage < minimum)
-                    DoorController.close('luminositá')
-                else
-                    DoorController.open('luminositá')
-            }
-        )
-    }, sensibility * 1000)
+        BrightnessParamsDB.dbRequest.getLuminositySettings()
+            .then(data => {
+                getAvarageBrightness(data.dataValues.lumSensibility).then(
+                    avarage => {
+                        console.log(avarage, data.dataValues.lumMin)
+                        timeInterval = data.dataValues.lumSensibility
+                        if (avarage < data.dataValues.lumMin)
+                            DoorController.close('luminositá')
+                        else
+                            DoorController.open('luminositá')
+                    }
+                )
+            })
+    }, timeInterval * 1000)
 }
+
 function stopAutomaticBrightness() {
     clearInterval(idInterval)
 }

@@ -106,13 +106,10 @@ PostRoutes.post('/setauto', (req, res) => {
     setAutomatism(req.body.sun, req.body.luminosity)
         .then((data) => res.send(data))
         .catch(err => res.send(err))
-    if(req.body.luminosity){
-        getLuminositySettings().then( data=>
-            Brightness.start(data.dataValues.lumSensibility, data.dataValues.lumMin )
-        )
-        
+    if (req.body.luminosity) {
+        Brightness.start()
         JobSync.deSyncAllJob()
-    }else{
+    } else {
         Brightness.stop()
         JobSync.syncAllJob()
     }
@@ -462,7 +459,7 @@ function setLuminositySettings(lumSensibility, lumMinimum) {
  */
 
 function getDoorMovementLogs() {
-    return new Promise((res,rej)=>{
+    return new Promise((res, rej) => {
         Logs.findAll({
             order: [
                 ['createdAt', 'DESC']

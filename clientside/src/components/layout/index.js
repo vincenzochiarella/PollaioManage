@@ -221,6 +221,7 @@ class Layout extends React.Component {
                     classes={{
                         paper: clsx(classes.drawerPaper, !drawerOpen && classes.drawerPaperClose),
                     }}
+                    onClose={this.handleDrawerClick}
                     open={this.state.drawerOpen}
                 >
                     {drawer}

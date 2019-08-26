@@ -44,7 +44,6 @@ class LumSettings extends React.Component {
 
     query() {
         getLumsetting().then(data => {
-            console.log(data)
             this.setState({
                 lumMinimum: data.lumMin,
                 sensibility: data.lumSensibility

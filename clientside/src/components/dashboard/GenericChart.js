@@ -49,7 +49,9 @@ class GenericChart extends React.Component {
                   </linearGradient>
                 </defs>
                 <Legend verticalAlign="top" height={36} />
-                <XAxis dataKey={xVar} />
+                <XAxis dataKey={xVar} 
+                    domain={[0.0,23.59]}
+                />
                 <YAxis />
                 <CartesianGrid strokeDasharray="3 3" />
                 <Tooltip />
@@ -67,7 +69,7 @@ class GenericChart extends React.Component {
             <RingLoader
               sizeUnit={"vh"}
               size={3}
-              color={'#ffc107'}
+              color={'#ff9800'}
             />
           </Grid>
         </Grid>

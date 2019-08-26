@@ -26,12 +26,13 @@ var testFunzionamento = '00 23 * * * *'
 
 
 //ogni domenica all'una di mattina 
-module.exports.startSyncWeekMoves = schedule.scheduleJob('weekJob', domenica_01h, function () {
+const syncWeekMoves =  schedule.scheduleJob('weekJob', domenica_01h, function () {
     syncWeekDaySunmoovs()
 })
 
 
-module.exports.overrideSyncTodayMoves = syncTodayMoves = () => {
+
+function syncTodayMoves (){
     var today = moment().format("YYYY-MM-DD")
     ChickenHouseDB.dbRequest.getSunMovementsDay(today)
         .then(data =>{
@@ -46,9 +47,12 @@ module.exports.overrideSyncTodayMoves = syncTodayMoves = () => {
         })
         .catch(err=> console.log(err))
 }
-module.exports.startSyncTodayMoves = schedule.scheduleJob('dayOpening', ogniGiorno, function () {
+const startTodayMovesJob = schedule.scheduleJob('dayOpening', ogniGiorno, function () {
     syncTodayMoves()
 })
+function stopTodayMovesJob (){
+    schedule.cancelJob('dayOpening')
+}
 
 //-------start weather sync every hour-----------
 syncWeather = () => {
@@ -57,7 +61,7 @@ syncWeather = () => {
             axios.post('https://api.openweathermap.org/data/2.5/weather?appid=05e6ec37f86a9b2c3a96cd57e4f80dda&lat=' + data.dataValues.latitude + '&lon=' + data.dataValues.longitude + '&units=metric&')
             .then(weather => {
                 console.log( weather.data.main.temp )
-                ChickenHouseDB.dbRequest.setWeather( moment().format('YYYY-MM-DD') , moment().format('HH:mm'),weather.data.main.temp,
+                ChickenHouseDB.dbRequest.setWeather( moment().format('YYYY-MM-DD') , moment().format('HH.mm'),weather.data.main.temp,
                     weather.data.main.pressure, weather.data.main.humidity, weather.data.clouds.all, weather.data.weather[0].icon)
                     .then(result=> console.log(result))
                     .catch(err=> console.log(err))
@@ -67,10 +71,15 @@ syncWeather = () => {
             })
         })
 }
-
-module.exports.startSyncEveryDayWeather = schedule.scheduleJob('dayWeatherJob', ogniOra, function () {
+const hourWeatherJob = schedule.scheduleJob('dayWeatherJob', ogniOra, function () {
     syncWeather()
 })
 //-------end weather sync every hour-------------
 
 module.exports.manuallySyncWeather = syncWeather
+module.exports.manuallySyncTodayMoves = syncTodayMoves
+module.exports.startSyncEveryDayWeather = hourWeatherJob
+module.exports.startSyncTodayMoves = startTodayMovesJob
+module.exports.stopSyncTodayMoves = stopTodayMovesJob
+
+module.exports.startSyncWeekMoves = syncWeekMoves

@@ -46,6 +46,7 @@ class CreateNewJob extends React.Component {
         }
         this.onChangeDate = this.onChangeDate.bind(this)
         this.handleShow = this.handleShow.bind(this)
+        this.handleCreate = this.handleCreate.bind(this)
     }
     onChangeDate (date) {
         this.setState({

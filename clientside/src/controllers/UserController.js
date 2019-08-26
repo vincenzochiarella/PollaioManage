@@ -1,5 +1,7 @@
 import axios from 'axios'
-
+/**
+ * TODO: After a period of time request login
+ */
 export const login = user =>{
     return axios.post('users/login',{
         username: user.username,

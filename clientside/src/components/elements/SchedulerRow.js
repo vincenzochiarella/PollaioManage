@@ -24,7 +24,7 @@ class SchedulerRow extends React.Component {
         else
             return "contained"
     }
-    getMoveName( move ){        
+    getMoveName(move) {
         switch (move) {
             case 1:
                 return "Apertura"
@@ -38,13 +38,13 @@ class SchedulerRow extends React.Component {
         this.setState({
             editMode: !this.state.editMode
         })
-        if(this.state.editMode){
+        if (this.state.editMode) {
             this.props.update(this.state.id, this.state.date, this.state.move)
             this.props.reload()
         }
         event.preventDefault()
     }
-    updateDateTime( date ) {
+    updateDateTime(date) {
         this.setState({
             date: date
         })
@@ -56,17 +56,17 @@ class SchedulerRow extends React.Component {
         event.preventDefault()
     }
 
-    onClickDelete(){
+    onClickDelete() {
         this.props.delete(this.state.id)
         this.props.reload()
     }
 
     render() {
         const { id, editMode, date, move } = this.state
-    
-        return (
-            <TableRow >
+        const { select } = this.props
 
+        return (
+            <TableRow selected={!!+select}>
                 <TableCell>{id}</TableCell>
                 {!editMode ? <>
                     <TableCell>
@@ -82,14 +82,14 @@ class SchedulerRow extends React.Component {
                                 date={date}
                             />
                         </TableCell>
-                        <TableCell>                            
+                        <TableCell>
                             <Select input={
-                                                    <OutlinedInput
-                                                      name="age"
-                                                      id="outlined-age-simple"
-                                                    />
-                                                  }
-                                                  onChange={this.onChangeMove} value={this.state.move}>
+                                <OutlinedInput
+                                    name="age"
+                                    id="outlined-age-simple"
+                                />
+                            }
+                                onChange={this.onChangeMove} value={this.state.move}>
                                 <MenuItem value={0}>Chiudi</MenuItem>
                                 <MenuItem value={1}>Apri</MenuItem>
                             </Select>
@@ -101,15 +101,15 @@ class SchedulerRow extends React.Component {
                         onClick={this.onToggleSwitch}
                         color="secondary"
                     >
-                        <Edit/>
+                        <Edit />
                     </Button>
                 </TableCell>
                 <TableCell>
                     <Button
                         onClick={this.onClickDelete}
                         color="secondary">
-                            <Delete/>
-                        </Button>
+                        <Delete />
+                    </Button>
                 </TableCell>
 
             </TableRow>
