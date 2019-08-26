@@ -41,22 +41,23 @@ class CameraInternal extends React.Component {
                 <Grid item container justify='center' alignItems='center'>
                     <Paper style={{ minWidth: '40vh', minHeight: '30vh' }}>
                         <Box m={4}>
-                            {!loading &&
-                                <img id="internalcam" alt='Video attualmente non disponibile' style={{
-                                    width: '100%',
-                                    maxWidth: '1280px',
-                                    height: 'auto'
-                                }} />}
-                            {loading && <Grid item container justify='center' alignItems='center'>
-                                <Grid item>
+                        <Grid item container justify='center' alignItems='center'>
+                            <Grid item>
+                                {loading &&
                                     <RingLoader
                                         sizeUnit={"vh"}
                                         size={6}
                                         color={'#ff9800'}
                                     />
-                                </Grid>
+                                }</Grid>
+                            <Grid item>
+                                <img id="internalcam" alt='Video attualmente non disponibile' style={{
+                                    width: '100%',
+                                    maxWidth: '1280px',
+                                    height: 'auto'
+                                }} />
                             </Grid>
-                            }
+                        </Grid>
                         </Box>
                     </Paper>
 
