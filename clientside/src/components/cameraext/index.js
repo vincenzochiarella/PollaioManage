@@ -12,7 +12,7 @@ class ExternalCamera extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            socket: socketIo(`${window.location.href}`),
+            socket: socketIo(`${window.location.href}/stream`),
             loading: true,
         }
         this.updateImage = this.updateImage.bind(this)
