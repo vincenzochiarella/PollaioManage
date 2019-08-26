@@ -37,7 +37,6 @@ class CameraInternal extends React.Component {
                     <Paper style={{ minWidth: '40vh', minHeight: '30vh' }}>
                         <Box m={4}>
                             <Grid item container justify='center' alignItems='center'>
-
                                 <Grid item>
                                     <img id="internalcam" alt='Video attualmente non disponibile' style={{
                                         width: '100%',

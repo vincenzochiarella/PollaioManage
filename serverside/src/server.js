@@ -74,9 +74,7 @@ external.on('connection', function (socket) {
         socket.emit('data', data.toString('base64'))
     })
     socket.on('disconnect', () => {
-        streamExternal.removeListener('data', () => {
-            console.log('Remove external cam')
-        });
+        console.log('Remove external cam')
     })
 })
 
@@ -101,8 +99,6 @@ internal.on('connection', function (socket) {
     })
     socket.on('disconnect', () => {
         intcam.stopVlcRTSP()
-        streamInternal.removeListener('data', () => {
-            console.log('Connessione chiusa')
-        });
+        console.log('Connessione chiusa')
     })
 })
