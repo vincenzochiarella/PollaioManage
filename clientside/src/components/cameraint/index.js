@@ -23,8 +23,8 @@ class CameraInternal extends React.Component {
         })
         console.log(`${window.location.href}`.slice(0,-9)+'/streamint')
         soc.on('data', function (data) {
-            img.src = 'data:image/png;base64,' + data
             this.setState({ loading: false })
+            img.src = 'data:image/png;base64,' + data
         })
     }
     componentDidMount() {
