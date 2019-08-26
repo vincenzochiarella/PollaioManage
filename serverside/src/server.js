@@ -93,7 +93,7 @@ var streamInternal = new st.FFMpeg({
     quality: 3 // JPEG compression quality level (optional)
 });
 
-var internal = io.of('/camint/stream')
+var internal = io.of('/#/camint/stream')
 internal.on('connection', function (socket) {
     intcam.startVlcRTSP()
     streamInternal.on('data', (data) => {
