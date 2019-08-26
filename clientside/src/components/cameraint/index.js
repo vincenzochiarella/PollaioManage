@@ -7,12 +7,15 @@ import * as socketIo from 'socket.io-client'
 
 
 class CameraInternal extends React.Component {
-    
+
     constructor(props) {
         super(props)
         this.state = {
-            socket: socketIo(`${window.location.href}/intcam`),
-            loading: true
+            socket: socketIo(`${this.state.getUrl}/intcam`),
+            loading: true,
+            getUrl: () => {
+                return window.location.href.slice(0, -7)
+            }
         }
         this.updateImage = this.updateImage.bind(this)
     }
