@@ -22,7 +22,7 @@ class ExternalCamera extends React.Component {
     }
     updateImage() {
         var img = document.getElementById('externalcam')
-
+        console.log(`${window.location.href}/extcam`)
         this.state.socket.on('data', function (data) {
             img.src = 'data:image/png;base64,' + data
             this.setState({ loading: false })
