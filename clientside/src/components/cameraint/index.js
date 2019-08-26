@@ -14,11 +14,11 @@ class CameraInternal extends React.Component {
     }
     updateImage() {
         var img = document.getElementById('internalcam')
-        var soc = socketIo(`${window.location.href}`.slice(0,-9)+'/streamint')
+        var soc = socketIo(`${window.location.href}`.slice(0, -9) + '/streamint')
         this.setState({
             socket: soc
         })
-        console.log(`${window.location.href}`.slice(0,-9)+'/streamint')
+        console.log(`${window.location.href}`.slice(0, -9) + '/streamint')
         soc.on('data', function (data) {
             img.src = 'data:image/png;base64,' + data
         })
@@ -36,23 +36,24 @@ class CameraInternal extends React.Component {
                 <Grid item container justify='center' alignItems='center'>
                     <Paper style={{ minWidth: '40vh', minHeight: '30vh' }}>
                         <Box m={4}>
-                        <Grid item container justify='center' alignItems='center'>
-                            <Grid item>
-                                {document.getElementById('internalcam').src &&
-                                    <RingLoader
-                                        sizeUnit={"vh"}
-                                        size={6}
-                                        color={'#ff9800'}
-                                    />
-                                }</Grid>
-                            <Grid item>
-                                <img id="internalcam" alt='Video attualmente non disponibile' style={{
-                                    width: '100%',
-                                    maxWidth: '1280px',
-                                    height: 'auto'
-                                }} />
+                            <Grid item container justify='center' alignItems='center'>
+
+                                <Grid item>
+                                    <img id="internalcam" alt='Video attualmente non disponibile' style={{
+                                        width: '100%',
+                                        maxWidth: '1280px',
+                                        height: 'auto'
+                                    }} />
+                                </Grid>
+                                <Grid item>
+                                    {document.getElementById('internalcam').src &&
+                                        <RingLoader
+                                            sizeUnit={"vh"}
+                                            size={6}
+                                            color={'#ff9800'}
+                                        />
+                                    }</Grid>
                             </Grid>
-                        </Grid>
                         </Box>
                     </Paper>
 

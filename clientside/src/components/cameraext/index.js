@@ -43,6 +43,13 @@ class ExternalCamera extends React.Component {
                     <Box m={4}>
                         <Grid item container justify='center' alignItems='center'>
                             <Grid item>
+                                <img id="externalcam" alt='Video attualmente non disponibile' style={{
+                                    width: '100%',
+                                    maxWidth: '1280px',
+                                    height: 'auto'
+                                }} />
+                            </Grid>
+                            <Grid item>
                                 {document.getElementById('externalcam').src &&
                                     <RingLoader
                                         sizeUnit={"vh"}
@@ -50,13 +57,6 @@ class ExternalCamera extends React.Component {
                                         color={'#ff9800'}
                                     />
                                 }</Grid>
-                            <Grid item>
-                                <img id="externalcam" alt='Video attualmente non disponibile' style={{
-                                    width: '100%',
-                                    maxWidth: '1280px',
-                                    height: 'auto'
-                                }} />
-                            </Grid>
                         </Grid>
                     </Box>
                 </Paper>
