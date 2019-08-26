@@ -7,6 +7,7 @@ import * as socketIo from 'socket.io-client'
 
 
 class CameraInternal extends React.Component {
+    
     constructor(props) {
         super(props)
         this.state = {
