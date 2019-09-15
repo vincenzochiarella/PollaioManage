@@ -1,8 +1,10 @@
 import React from 'react'
 import { Box, Paper, Grid } from '@material-ui/core'
-import { RingLoader } from 'react-spinners'
+//import { RingLoader } from 'react-spinners'
 
-import * as socketIo from 'socket.io-client'
+
+// import * as socketIo from 'socket.io-client'
+
 
 
 
@@ -10,27 +12,32 @@ class CameraInternal extends React.Component {
 
     constructor(props) {
         super(props)
+
         this.updateImage = this.updateImage.bind(this)
     }
     updateImage() {
-        var img = document.getElementById('internalcam')
-        var soc = socketIo(`${window.location.href}`.slice(0, -9) + '/streamint')
-        this.setState({
-            socket: soc
-        })
-        console.log(`${window.location.href}`.slice(0, -9) + '/streamint')
-        soc.on('data', function (data) {
-            img.src = 'data:image/png;base64,' + data
-        })
+        
+
+        // var soc = socketIo(`${window.location.href}`.slice(0, -9) + '/streamint')
+        // this.setState({
+        //     socket: soc
+        // })
+        // console.log(`${window.location.href}`.slice(0, -9) + '/streamint')
+        // soc.on('data', function (data) {
+        //     img.src = 'data:image/png;base64,' + data
+        // })
     }
     componentDidMount() {
-        this.updateImage()
+        // var img = document.getElementById('internalcam')
+        var url = 'ws://'+document.location.hostname+'/intcam';
+        console.log(url)
     }
-    componentWillUnmount() {
-        if (this.state.socket)
-            this.state.socket.close()
-    }
+    // componentWillUnmount() {
+    //     if (this.state.socket)
+    //         this.state.socket.close()
+    // }
     render() {
+        var url = 'ws://'+document.location.hostname+'/intcam';
         return (
             <>
                 <Grid item container justify='center' alignItems='center'>
@@ -38,7 +45,8 @@ class CameraInternal extends React.Component {
                         <Box m={4}>
                             <Grid item container justify='center' alignItems='center'>
                                 <Grid item>
-                                    <img id="internalcam" alt='Video attualmente non disponibile' style={{
+                                    <div class="jsmpeg" data-url={url}></div>
+                                    <canvas id="internalcam"  style={{
                                         width: '100%',
                                         maxWidth: '1280px',
                                         height: 'auto'
