@@ -47,10 +47,12 @@ var socketServer = new ws.Server({ server: server, path: '/intcam', perMessageDe
 socketServer.broadcast = function (data) {
 	//Manda i dati ricevuti dalla Rasppicam Su
 	socketServer.clients.forEach(function each(client) {
+		console.log('Video mandato al client')
 		client.send(data);
 	});
 };
 app.all('/endpointFFmpegRaspPiCam', (req, res) =>{
+	console.log("Ok recived int video")
 	res.connection.setTimeout(0);
 	req.on('data', function (data) {
 		socketServer.broadcast(data);
