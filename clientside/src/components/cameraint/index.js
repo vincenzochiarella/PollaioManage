@@ -1,18 +1,12 @@
 import React from 'react'
 import { Box, Paper, Grid } from '@material-ui/core'
-//import { RingLoader } from 'react-spinners'
-
-
-// import * as socketIo from 'socket.io-client'
-
-
+import jsmpeg from 'jsmpeg'
 
 
 class CameraInternal extends React.Component {
 
     constructor(props) {
         super(props)
-
         this.updateImage = this.updateImage.bind(this)
     }
     updateImage() {
@@ -28,16 +22,12 @@ class CameraInternal extends React.Component {
         // })
     }
     componentDidMount() {
-        // var img = document.getElementById('internalcam')
-        var url = 'ws://'+document.location.hostname+'/intcam';
-        console.log(url)
+        var img = document.getElementById('internalcam')
+        var ws = new WebSocket('ws://'+document.location.hostname+'/intcam');
+        const player = new jsmpeg(ws, {canvas: img})
     }
-    // componentWillUnmount() {
-    //     if (this.state.socket)
-    //         this.state.socket.close()
-    // }
+
     render() {
-        var url = 'ws://'+document.location.hostname+'/intcam';
         return (
             <>
                 <Grid item container justify='center' alignItems='center'>
@@ -45,7 +35,6 @@ class CameraInternal extends React.Component {
                         <Box m={4}>
                             <Grid item container justify='center' alignItems='center'>
                                 <Grid item>
-                                    <div class="jsmpeg" data-url={url}></div>
                                     <canvas id="internalcam"  style={{
                                         width: '100%',
                                         maxWidth: '1280px',
