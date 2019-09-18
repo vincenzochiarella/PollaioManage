@@ -24,7 +24,7 @@ class CameraInternal extends React.Component {
     componentDidMount() {
         var img = document.getElementById('internalcam')
         const wsUrl = window.location.href.slice(0, -9).slice(5)
-        var ws = new WebSocket('wss:'+wsUrl +`/intcam`);
+        var ws = new WebSocket('ws:'+wsUrl +`/intcam`);
 
         console.log('ws:'+wsUrl +`/intcam`)
         const player = new jsmpeg(ws, {canvas: img})
