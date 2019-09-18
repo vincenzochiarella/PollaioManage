@@ -51,13 +51,40 @@ socketServer.broadcast = function (data) {
 		client.send(data);
 	});
 };
-app.all('/endpointFFmpegRaspPiCam', (req, res) =>{
-	console.log("Ok recived int video")
-	res.connection.setTimeout(0);
-	req.on('data', function (data) {
+
+
+// app.all('/endpointFFmpegRaspPiCam', (req, res) =>{
+// 	console.log("Ok recived int video")
+// 	res.connection.setTimeout(0);
+// 	req.on('data', function (data) {
+// 		socketServer.broadcast(data);
+// 	})
+// })
+var streamServer = http.createServer( function(request, response) {
+	var params = request.url.substr(1).split('/');
+
+	if (params[0] !== 'endpointFFmpegRaspPiCam') {
+		console.log(
+			'Failed Stream Connection: '+ request.socket.remoteAddress + ':' +
+			request.socket.remotePort + ' - wrong secret.'
+		);
+		response.end();
+	}
+
+	response.connection.setTimeout(0);
+	console.log(
+		'Stream Connected: ' + 
+		request.socket.remoteAddress + ':' +
+		request.socket.remotePort
+	);
+	request.on('data', function(data){
 		socketServer.broadcast(data);
-	})
-})
+
+	});
+	request.on('end',function(){
+		console.log('close');
+	});
+}).listen(5555);
 
 
 var Users = require('./APIdb/users')
