@@ -63,7 +63,7 @@ socketServer.on('connection', function(socket, upgradeReq) {
 socketServer.broadcast = function (data) {
 	//Manda i dati ricevuti dalla Rasppicam Su
 	socketServer.clients.forEach(function each(client) {
-		if (client.readyState === WebSocket.OPEN) {
+		if (client.readyState === ws.OPEN) {
 			client.send(data);
 		}
 	});
