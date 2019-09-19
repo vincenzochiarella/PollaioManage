@@ -28,9 +28,9 @@ class CameraInternal extends React.Component {
 
         console.log('ws:' + wsUrl + `/intcam`)
         ws.onmessage = function (event) {
-            console.log(event.data);
-          }
-        //const player = new jsmpeg(ws, { canvas: img })
+            setInterval(console.log(event.data), 2000)
+        }
+        var player = new jsmpeg(ws, { canvas: img })
     }
 
     render() {
@@ -41,7 +41,7 @@ class CameraInternal extends React.Component {
                         <Box m={4}>
                             <Grid item container justify='center' alignItems='center'>
                                 <Grid item>
-                                    <canvas id="internalcam" />
+                                    <canvas />
                                     {/* <canvas id="internalcam"  style={{
                                         width: '100%',
                                         maxWidth: '1280px',
