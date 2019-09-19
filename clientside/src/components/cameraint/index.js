@@ -10,7 +10,7 @@ class CameraInternal extends React.Component {
         this.updateImage = this.updateImage.bind(this)
     }
     updateImage() {
-        
+
 
         // var soc = socketIo(`${window.location.href}`.slice(0, -9) + '/streamint')
         // this.setState({
@@ -24,10 +24,11 @@ class CameraInternal extends React.Component {
     componentDidMount() {
         var img = document.getElementById('internalcam')
         const wsUrl = window.location.href.slice(0, -9).slice(5)
-        var ws = new WebSocket('ws:'+wsUrl +`/intcam`);
+        var ws = new WebSocket('ws:' + wsUrl + `/intcam`);
 
-        console.log('ws:'+wsUrl +`/intcam`)
-        const player = new jsmpeg(ws, {canvas: img})
+        console.log('ws:' + wsUrl + `/intcam`)
+        console.log()
+        const player = new jsmpeg(ws, { canvas: img })
     }
 
     render() {
@@ -38,11 +39,12 @@ class CameraInternal extends React.Component {
                         <Box m={4}>
                             <Grid item container justify='center' alignItems='center'>
                                 <Grid item>
-                                    <canvas id="internalcam"  style={{
+                                    <canvas id="internalcam" />
+                                    {/* <canvas id="internalcam"  style={{
                                         width: '100%',
                                         maxWidth: '1280px',
                                         height: 'auto'
-                                    }} />
+                                    }} /> */}
                                 </Grid>
                             </Grid>
                         </Box>
