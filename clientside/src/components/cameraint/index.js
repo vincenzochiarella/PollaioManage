@@ -1,6 +1,5 @@
 import React from 'react'
 import { Box, Paper, Grid } from '@material-ui/core'
-import jsmpeg from 'jsmpeg'
 
 
 class CameraInternal extends React.Component {
@@ -9,18 +8,7 @@ class CameraInternal extends React.Component {
         super(props)
         this.updateImage = this.updateImage.bind(this)
     }
-    updateImage() {
 
-
-        // var soc = socketIo(`${window.location.href}`.slice(0, -9) + '/streamint')
-        // this.setState({
-        //     socket: soc
-        // })
-        // console.log(`${window.location.href}`.slice(0, -9) + '/streamint')
-        // soc.on('data', function (data) {
-        //     img.src = 'data:image/png;base64,' + data
-        // })
-    }
     componentDidMount() {
         var img = document.getElementById('internalcam')
         const wsUrl = window.location.href.slice(0, -9).slice(5)
@@ -30,7 +18,12 @@ class CameraInternal extends React.Component {
         ws.onmessage = function (event) {
             setInterval(console.log(event.data), 2000)
         }
-        var player = new jsmpeg(ws, { canvas: img })
+        
+        
+        const script = document.createElement("script");
+        script.src = "./jsmpeg.min.js";    
+        document.body.appendChild(script);
+        var player = new JSMpeg.Player(ws, { canvas: img })
     }
 
     render() {
@@ -41,7 +34,7 @@ class CameraInternal extends React.Component {
                         <Box m={4}>
                             <Grid item container justify='center' alignItems='center'>
                                 <Grid item>
-                                    <canvas />
+                                    <canvas id="internalcam"></canvas>
                                     {/* <canvas id="internalcam"  style={{
                                         width: '100%',
                                         maxWidth: '1280px',
