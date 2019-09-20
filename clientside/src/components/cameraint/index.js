@@ -28,9 +28,9 @@ class CameraInternal extends React.Component {
 
         console.log('ws:' + wsUrl + `/intcam`)
         ws.onmessage = function (event) {
-            setInterval(console.log(event.data), 2000)
+           console.log(event.data)
         }
-        var player = new jsmpeg(ws, { canvas: img })
+        // var player = new jsmpeg(ws, { canvas: img })
     }
 
     render() {
