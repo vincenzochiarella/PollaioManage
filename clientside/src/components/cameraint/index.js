@@ -8,23 +8,19 @@ class CameraInternal extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            player: null
+            ws: null
         }
-        this.updateImage = this.updateImage.bind(this)
     }
     componentWillMount() {
-        var img = document.getElementById('internalcam')
+        // var img = document.getElementById('internalcam')
         const wsUrl = window.location.href.slice(0, -9).slice(5)
-        var ws = new WebSocket('ws:' + wsUrl + `/intcam`);
-
-        console.log('ws:' + wsUrl + `/intcam`)
-
         this.setState({
-            player: new jsmpeg(ws, { canvas: img })
-        })
+            ws: new WebSocket('ws:' + wsUrl + `/intcam`)
+        }) 
     }
 
     render() {
+        const { ws } = this.state
         return (
             <>
                 <Grid item container justify='center' alignItems='center'>
@@ -32,12 +28,8 @@ class CameraInternal extends React.Component {
                         <Box m={4}>
                             <Grid item container justify='center' alignItems='center'>
                                 <Grid item>
-                                    <canvas id='internalcam'/>
-                                    {/* <canvas id="internalcam"  style={{
-                                        width: '100%',
-                                        maxWidth: '1280px',
-                                        height: 'auto'
-                                    }} /> */}
+                                    <script src="jsmpeg.min.js"></script>
+                                    <div class="jsmpeg" data-url={ws}></div>
                                 </Grid>
                             </Grid>
                         </Box>
