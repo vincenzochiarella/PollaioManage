@@ -15,7 +15,7 @@ class CameraInternal extends React.Component {
         // var img = document.getElementById('internalcam')
         const wsUrl = window.location.href.slice(0, -9).slice(5)
         this.setState({
-            ws: new WebSocket('ws:' + wsUrl + `/intcam`)
+            ws: 'ws:' + wsUrl + `/intcam`
         }) 
     }
 
