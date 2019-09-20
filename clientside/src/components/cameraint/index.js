@@ -1,26 +1,10 @@
 import React from 'react'
 import { Box, Paper, Grid } from '@material-ui/core'
-import jsmpeg from 'jsmpeg'
+
 
 
 class CameraInternal extends React.Component {
-
-    constructor(props) {
-        super(props)
-        this.state = {
-            ws: null
-        }
-    }
-    componentWillMount() {
-        // var img = document.getElementById('internalcam')
-        const wsUrl = window.location.href.slice(0, -9).slice(6)
-        this.setState({
-            ws: 'wss:' + wsUrl + `/intcam`
-        }) 
-    }
-
     render() {
-        const { ws } = this.state
         return (
             <>
                 <Grid item container justify='center' alignItems='center'>
@@ -29,7 +13,7 @@ class CameraInternal extends React.Component {
                             <Grid item container justify='center' alignItems='center'>
                                 <Grid item>
                                     <script src="jsmpeg.min.js"></script>
-                                    <div class="jsmpeg" data-url={ws}></div>
+                                    <div class="jsmpeg" data-url={`wss:${window.location.href.slice(0, -9).slice(6)}/intcam`}></div>
                                 </Grid>
                             </Grid>
                         </Box>

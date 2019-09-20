@@ -47,11 +47,12 @@ function editJobScheduled(id, date, move) {
  */
 function deleteJobScheduled(id) {
     schedule.cancelJob(`${id}`)
-    var index = doorJobsId.indexOf(id);
-    console.log(index) 
+    var index = doorJobsId.indexOf(`${id}`);
+    console.log(index)
     if (index > -1) {
         doorJobsId = doorJobsId.splice(index, 1)
     }
+    console.log(doorJobsId) 
     console.log(`Lavaro ${id} cancellato`)
 }
 
@@ -66,7 +67,7 @@ function syncAllJobScheduled() {
 }
 function deSyncAllJobScheduled(){
     doorJobsId.map(id => {
-        schedule.cancelJob(`${id}`)
+        deleteJobScheduled(id)
     })
 }
 

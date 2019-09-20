@@ -3,35 +3,27 @@ import React from 'react'
 import { latitudeCheck, longitudeCheck } from '../../constants/regex';
 
 import {
-    Grid, Button, withStyles, TextField, Box,
-    Paper
+    Grid, Fab, withStyles, TextField, Box, Button, Dialog, Select, MenuItem, OutlinedInput,
+    Paper, Typography, DialogTitle, DialogContent, DialogActions
 } from '@material-ui/core'
-import { ExitToApp, Edit, Map } from '@material-ui/icons'
+import { ExitToApp, Edit, Map, BugReport } from '@material-ui/icons'
 
 import { setCoords, getCoords } from '../../controllers/ChickenHouseController'
+import { setOverrideDoor } from '../../controllers/DebugController'
 import SettingPanel from './SettingPanel'
 
 
 
 const style = theme => ({
-    button: {
-        margin: theme.spacing(1),
-        spacing: theme.spacing(3)
-    },
-    leftIcon: {
-        marginRight: theme.spacing(1),
-    },
-    iconSmall: {
-        fontSize: 20,
-    },
-    container: {
-        display: 'flex',
-        flexWrap: 'wrap',
-    },
     textField: {
         marginLeft: theme.spacing(1),
         marginRight: theme.spacing(1),
     },
+    select: {
+        marginLeft: 30,
+        marginRight: 30,
+        width: 225
+    }
 });
 
 
@@ -44,10 +36,14 @@ class Setting extends React.Component {
             latError: false,
             lonError: false,
             disableSave: false,
-            editMode: false
+            editMode: false,
+            openDebug: false,
+            move: 0
         }
         this.handleLogout = this.handleLogout.bind(this)
         this.onChange = this.onChange.bind(this)
+        this.handleChangeDoor = this.handleChangeDoor.bind(this)
+        this.handleOverrideDoorState = this.handleOverrideDoorState.bind(this)
     }
 
     componentWillMount() {
@@ -57,12 +53,6 @@ class Setting extends React.Component {
                 lon: data.longitude
             })
         })
-    }
-    getButType() {
-        if (this.state.editMode)
-            return "outlined"
-        else
-            return "contained"
     }
     onCheckMap = event => {
         window.open("https://www.openstreetmap.org/#map=16/" + this.state.lat + "/" + this.state.lon)
@@ -81,7 +71,7 @@ class Setting extends React.Component {
         if (this.state.latError || this.state.lonError)
             this.setState({ disableSave: true })
         else
-            this.setState({ disableSave: false})
+            this.setState({ disableSave: false })
         event.preventDefault()
     }
     handleEdit = event => {
@@ -91,88 +81,133 @@ class Setting extends React.Component {
         event.preventDefault()
     }
 
+
+
+    handleDebug = event => {
+        this.setState({
+            openDebug: !this.state.openDebug
+        })
+        event.preventDefault()
+    }
+    handleOverrideDoorState(event) {
+        setOverrideDoor(this.state.move).then().catch(err=> console.log(err))
+        this.setState({ openDebug: !this.state.openDebug })
+        event.preventDefault()
+    }
+    handleChangeDoor(event){
+        this.setState({move: event.target.value})
+    }
+
+
     handleLogout(event) {
         localStorage.removeItem('userToken')
         this.props.history.push('/')
         event.preventDefault()
     }
     render() {
-        const { lat, lon, latError, lonError, editMode, disableSave } = this.state
+        const { lat, lon, latError, lonError, editMode, disableSave, openDebug } = this.state
+        const { classes } = this.props
         return (
-            <>
-                <Grid container item direction="column" justify="center" alignItems="center">
-                    <Grid container item direction='row' alignItems='center' justify='center' lg={6} md={9} xs={12} spacing={2} >
-                        <Grid item lg={3} md={6} xs={6}>
-                            <TextField
-                                error={latError}
-                                disabled={!editMode}
-                                id="outlined-name"
-                                label="Latitudine"
-                                className={this.textField}
-                                value={lat}
-                                onChange={this.onChange('lat')}
-                                margin="normal"
-                                variant="outlined"
-                            />
-                        </Grid>
-                        <Grid item lg={3} md={6} xs={6}>
-                            <TextField
-                                error={lonError}
-                                disabled={!editMode}
-                                id="outlined-name"
-                                label="Longitudine"
-                                className={this.textField}
-                                value={lon}
-                                onChange={this.onChange('lon')}
-
-                                margin="normal"
-                                variant="outlined"
-                            />
-                        </Grid>
-                        <Grid item lg={3} md={6} xs={6}>
-
-                            <Button variant={this.getButType()} color="secondary"
-                                className={this.button}
+            <Grid item container direction="column" justify="center" alignItems='center' lg={6} md={9} xs={12} spacing={2} >
+                <Grid item container direction='row' justify='center' alignItems='center' >
+                    <Grid item lg={4} md={4} xs={5}>
+                        <TextField
+                            error={latError}
+                            disabled={!editMode}
+                            id="outlined-name"
+                            label="Latitudine"
+                            value={lat}
+                            onChange={this.onChange('lat')}
+                            margin="normal"
+                            variant="outlined"
+                        />
+                    </Grid>
+                    <Grid item lg={4} md={4} xs={5}>
+                        <TextField
+                            error={lonError}
+                            disabled={!editMode}
+                            id="outlined-name"
+                            label="Longitudine"
+                            value={lon}
+                            onChange={this.onChange('lon')}
+                            margin="normal"
+                            variant="outlined"
+                        />
+                    </Grid>
+                    <Grid container item direction='row' lg={8} md={8} xs={8} spacing={1}>
+                        <Grid item >
+                            <Fab
+                                color="secondary"
                                 onClick={this.handleEdit}
                                 disabled={disableSave}
-                            >
-                                <Edit className={this.leftIcon} />
-                            </Button>
-
+                                variant='extended'>
+                                <Edit /> Modifica
+                            </Fab>
                         </Grid>
-                        <Grid item lg={3} md={6} xs={6}>
-
-                            <Button variant="contained" color="secondary"
-                                className={this.button}
+                        <Grid item>
+                            <Fab
+                                color="secondary"
                                 onClick={this.onCheckMap}
                                 disabled={disableSave}
-                            >
-                                <Map className={this.leftIcon} />
-                            </Button>
-
+                                variant='extended'>
+                                <Map /> Visualizza su OSM
+                            </Fab>
                         </Grid>
-                    </Grid>
-                    <Grid item>
-                        <Paper margin={3}>
-                            <Box p={4}>
-                                <Grid item >
-                                    <SettingPanel />
-                                </Grid>
-                            </Box>
-                        </Paper>
-                    </Grid>
-                    <Grid item>
-                        <Button variant="contained" color="secondary"
-                            className={this.button}
-                            onClick={this.handleLogout}>
-                            <ExitToApp className={this.leftIcon} />
-                            Logout
-                                </Button>
                     </Grid>
 
                 </Grid>
-
-            </>
+                <Grid item>
+                    <Paper margin={3}>
+                        <Box p={4}>
+                            <Grid item >
+                                <SettingPanel />
+                            </Grid>
+                        </Box>
+                    </Paper>
+                </Grid>
+                <Grid item>
+                    <Fab variant="extended" color="secondary"
+                        className={this.button}
+                        onClick={this.handleLogout}>
+                        <ExitToApp />
+                        Logout
+                        </Fab>
+                </Grid>
+                <Grid item>
+                    <Paper margin={3}>
+                        <Box p={4}>
+                            <Typography> Debug porta</Typography>
+                            <Fab color='secondary' variant='extended' onClick={this.handleDebug}> <BugReport />Debug</Fab>
+                        </Box>
+                        <Dialog open={openDebug} onClose={this.handleDebug}>
+                            <DialogTitle>
+                                Cambia status della porta manualmente
+                                </DialogTitle>
+                            <DialogContent>
+                                <Typography> La porta é: </Typography>
+                                <Select variant='outlined' onChange={this.handleChangeDoor} className={classes.select} value={this.state.move}
+                                    input={
+                                        <OutlinedInput
+                                            name="age"
+                                            id="outlined-age-simple"
+                                        />
+                                    }>
+                                    <MenuItem value={0}>Chiusa</MenuItem>
+                                    <MenuItem value={1}>Aperta</MenuItem>
+                                </Select>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={this.handleDebug}>
+                                    Annulla
+                                    </Button>
+                                <Fab onClick={this.handleOverrideDoorState} color='secondary'>
+                                    <BugReport />
+                                </Fab>
+                            </DialogActions>
+                        </Dialog>
+                    </Paper>
+                </Grid>
+            </Grid>
         )
     }
 }

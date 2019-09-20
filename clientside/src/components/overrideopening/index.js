@@ -110,7 +110,7 @@ class OverrideOpening extends React.Component {
                     }
                 }
             })
-        }, 500);
+        }, 1000);
 
     }
     componentWillUnmount() {

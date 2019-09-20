@@ -14,7 +14,7 @@ automatic.manuallySyncWeather
  * @description Start server module
  */
 function init() {
-    StreamRaspCam.startJSmpegStream()
+    // StreamRaspCam.startJSmpegStream()
     AutomatismDB.dbRequest.getAutomatism()
         .then(data => {
             if (data.dataValues.sun) {

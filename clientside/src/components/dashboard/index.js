@@ -1,9 +1,14 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import { Box } from '@material-ui/core'
+import { Box, Typography } from '@material-ui/core'
+import {
+  MuiPickersUtilsProvider,
+  DatePicker
+} from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
 
 import Chart from './GenericChart';
 import OverrideOpening from '../overrideopening';
@@ -11,8 +16,10 @@ import WeekHours from './WeekHours';
 import WeatherUI from './WeatherUI'
 
 import { getTemperatures } from '../../controllers/TempereturesController'
+import { getWeekSunMoovement, refreshWeekMovements } from '../../controllers/SunMoovementController'
+import moment from 'moment';
 
-const useStyles = makeStyles(theme => ({
+const styles = theme => ({
   container: {
     paddingTop: theme.spacing(4),
     paddingLeft: theme.spacing(2),
@@ -26,49 +33,99 @@ const useStyles = makeStyles(theme => ({
     justifyItems: 'center',
     flexDirection: 'row',
     minHeight: '300px'
-    
+
   },
-  height:{
+  height: {
     height: '300px'
   }
-}));
+})
 
-export default function Dashboard() {
-  const classes = useStyles();
-  const paperCss = classes.paper
-  return (
-    
-      <Grid item container spacing={5} justify="center" alignItems='center' lg={9} xs={12}>
+class Dashboard extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      selectedDate: moment(),
+      dataTemperatures: [],
+      weekMovements: [],
+      renderCharts: false
+    }
+    this.handleDateChange = this.handleDateChange.bind(this)
+  }
+  componentWillMount() {
+    getTemperatures(this.state.selectedDate)
+      .then(data => {
+        this.setState({
+          dataTemperatures: data,
+          renderCharts: true
+        })
+      }).catch(err => console.log(err))
+
+    getWeekSunMoovement()
+      .then(data => this.setState({ weekMovements: data }))
+      .catch(err => console.log(err))
+  }
+
+  handleDateChange(date) {
+    this.setState({ selectedDate: date })
+    this.setState({renderCharts:false})
+    getTemperatures(date).then(data => {
+      this.setState({
+        dataTemperatures: data,
+        renderCharts: true
+      })
+    }).catch(err => console.log(err))
+  }
+  handleRelaodWeek(event) {
+    refreshWeekMovements()
+      .then(data => this.setState({ weekMovements: data }))
+  }
+  render() {
+    const { classes } = this.props
+    const { selectedDate, renderCharts, dataTemperatures, weekMovements } = this.state
+    return (
+      <Grid item container spacing={5} justify="center" alignItems='center' lg={9} xs={12} >
         {/* Chart */}
-        <Grid item xs={12} md={12} lg={12}>
-          <Paper className={clsx(paperCss,classes.height)}>
+        < Grid item xs={9} md={9} lg={9} >
+          <Paper className={clsx(classes.paper, classes.height)}>
             <Chart
               xVar="time"
               yVar="temps"
               yVar2="humidity"
-              query={getTemperatures}
+              render={renderCharts}
+              data={dataTemperatures}
             />
           </Paper>
         </Grid>
-
+        {/* Selezione giorno da visualizzare sul grafo */}
+        < Grid item xs={3} md={3} lg={3} ><>
+          <Typography variant='overline'>Seleziona la data per visualizzare il rispettivo grafico</Typography>
+          <MuiPickersUtilsProvider utils={MomentUtils}>
+            <DatePicker disableFuture={true} value={selectedDate} onChange={this.handleDateChange} variant="inline" format="DD/MM/YYYY"/>
+          </MuiPickersUtilsProvider></>
+        </Grid >
         {/* Recent Deposits */}
-        <Grid item xs={12} md={6} lg={6} >
-          <Paper className={paperCss}>
+        < Grid item xs={12} md={6} lg={6} >
+          <Paper className={classes.paper}>
             <Box m={6}>
               <OverrideOpening />
             </Box>
           </Paper>
-        </Grid>
+        </Grid >
         <Grid item xs={12} md={6} lg={6} >
-          <Paper  className={paperCss}>
+          <Paper className={classes.paper}>
             <Box m={1}>
-              <WeatherUI/> 
+              <WeatherUI />
             </Box>
           </Paper>
         </Grid>
         <Grid item xs={12}>
-          <WeekHours />
+          <WeekHours
+            listWeekMovement={weekMovements}
+            handleReload={this.handleRelaodWeek}
+          />
         </Grid>
-      </Grid>
-  );
+      </Grid >
+    )
+  }
 }
+export default withStyles(styles)(Dashboard)
