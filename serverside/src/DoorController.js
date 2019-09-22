@@ -31,7 +31,7 @@ module.exports.close = close = (auth) => {
             })
             DoorDB.dbRequest.setDoorStatus(2)
                 .then( data => {
-                    require('./ScriptPy/index').runOpendoor()
+                    require('./ScriptPy/index').runClosedoor()
                     setTimeout(() => {
                         DoorDB.dbRequest.setDoorStatus(0)
                     }, 30000)

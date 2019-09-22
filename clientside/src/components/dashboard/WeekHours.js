@@ -11,33 +11,18 @@ import TableRow from '@material-ui/core/TableRow';
 import { Fab, Grid } from '@material-ui/core'
 import { Sync } from '@material-ui/icons'
 
-import { getWeekSunMoovement, refreshWeekMovements } from '../../controllers/SunMoovementController'
 import moment from 'moment'
 
 
 class WeekHours extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            sunMoovement: []
-        }
-        this.handleReload = this.handleReload.bind(this)
-    }
-    componentWillMount() {
-        getWeekSunMoovement().then(data => this.setState({ sunMoovement: data }))
-    }
-
     showToday(day) {
         if (day === moment().format('YYYY-MM-DD')) {
             return true
         } else return false
     }
-    handleReload(event){
-        refreshWeekMovements().then(data=> this.setState({ sunMoovement: data }))
-        event.preventDefault()
-    }
 
     render() {
+        const { listWeekMovement, handleReload } = this.props
         return (
             <Grid container item direction='row' justify='center'>
                 <Grid item lg={11} md={11} xs={11}>
@@ -50,7 +35,7 @@ class WeekHours extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {this.state.sunMoovement && this.state.sunMoovement.map(row => (
+                            {listWeekMovement && listWeekMovement.map(row => (
                                 <TableRow key={row.day} selected={this.showToday(row.day)}>
                                     <TableCell component="th" scope="row">
                                         {row.day}
@@ -64,12 +49,11 @@ class WeekHours extends React.Component {
                     </Table>
                 </Grid>
                 <Grid item  lg={1} md={1} xs={1}>
-                    <Fab onClick={this.handleReload} color='secondary'>
+                    <Fab onClick={handleReload} color='secondary'>
                         <Sync/>
                     </Fab>
                 </Grid>
             </Grid >
-
         )
     }
 

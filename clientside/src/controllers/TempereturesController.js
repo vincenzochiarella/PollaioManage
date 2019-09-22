@@ -1,9 +1,8 @@
 import axios from 'axios'
-import moment from 'moment'
 
-export const getTemperatures = () =>{
+export const getTemperatures = ( momentDate ) =>{
     return axios.post('ckHouse/gettemphumid',{
-        date: moment(new Date()).format("YYYY-MM-DD")
+        date: momentDate.format("YYYY-MM-DD")
     })
     .then(res => {
         return res.data
