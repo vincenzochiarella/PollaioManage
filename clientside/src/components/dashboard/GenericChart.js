@@ -15,7 +15,7 @@ class GenericChart extends React.Component {
     const { xVar, yVar, yVar2, data, render } = this.props
     if (render)
       return (
-        <ResponsiveContainer width="90%" height="100%">
+        <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data}
             margin={{ top: 15, right: 30, left: 0, bottom: 15 }}>
             <defs>

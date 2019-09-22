@@ -85,7 +85,7 @@ class Dashboard extends React.Component {
     return (
       <Grid item container spacing={5} justify="center" alignItems='center' lg={9} xs={12} >
         {/* Chart */}
-        < Grid item xs={9} md={9} lg={9} >
+        <Grid item xs={12} md={8} lg={9} >
           <Paper className={clsx(classes.paper, classes.height)}>
             <Chart
               xVar="time"
@@ -97,14 +97,14 @@ class Dashboard extends React.Component {
           </Paper>
         </Grid>
         {/* Selezione giorno da visualizzare sul grafo */}
-        < Grid item xs={3} md={3} lg={3} ><>
+        <Grid item xs={12} md={4} lg={3} ><>
           <Typography variant='overline'>Seleziona la data per visualizzare il rispettivo grafico</Typography>
           <MuiPickersUtilsProvider utils={MomentUtils}>
             <DatePicker disableFuture={true} value={selectedDate} onChange={this.handleDateChange} variant="inline" format="DD/MM/YYYY"/>
           </MuiPickersUtilsProvider></>
         </Grid >
         {/* Recent Deposits */}
-        < Grid item xs={12} md={6} lg={6} >
+        <Grid item xs={12} md={6} lg={6} >
           <Paper className={classes.paper}>
             <Box m={6}>
               <OverrideOpening />

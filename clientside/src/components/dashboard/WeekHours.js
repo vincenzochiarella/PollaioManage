@@ -22,7 +22,7 @@ class WeekHours extends React.Component {
     }
 
     render() {
-        const { listWeekMovement } = this.props
+        const { listWeekMovement, handleReload } = this.props
         return (
             <Grid container item direction='row' justify='center'>
                 <Grid item lg={11} md={11} xs={11}>
@@ -49,7 +49,7 @@ class WeekHours extends React.Component {
                     </Table>
                 </Grid>
                 <Grid item  lg={1} md={1} xs={1}>
-                    <Fab onClick={this.handleReload} color='secondary'>
+                    <Fab onClick={handleReload} color='secondary'>
                         <Sync/>
                     </Fab>
                 </Grid>

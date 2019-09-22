@@ -13,28 +13,22 @@ class Posizionedelsole extends React.Component {
         super(props)
         this.state = {
             coords: this.props.coords,
-            moon: null,
-            sun: null
         }
 
     }
-    getPosizoneLuna() {
-        return SunCalc.getMoonPosition(new Date(), this.state.coords.lat, this.state.coords.log)
-    }
+
     getPosizoneSole() {
         return SunCalc.getPosition(new Date(), this.state.coords.lat, this.state.coords.log)
     }
 
     render() {
-        return (
-            <>
+        return (            
                 <Grid item xs>
                     {this.getPosizoneSole().altitude <= 0 ?
                         <img src={moon} alt={'Moon'} width={40} height={40} />
                         :
                         <img src={sun} alt={'Sun'} width={40} height={40} />}
                 </Grid>
-            </>
         )
     }
 }
