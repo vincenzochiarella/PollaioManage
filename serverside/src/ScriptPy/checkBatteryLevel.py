@@ -15,5 +15,3 @@ a.pinMode(batteryPin, a.INPUT)
 def get_level():
     batteryLevel = eps * a.analogRead(batteryPin)
     converted = (batteryLevel * 12) / 5
-    percentage = (converted * 100) / 12
-    print(int(percentage))
