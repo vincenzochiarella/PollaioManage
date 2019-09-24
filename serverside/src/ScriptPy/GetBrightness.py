@@ -1,7 +1,9 @@
 from nanpy import (ArduinoApi, SerialManager)
 from time import sleep
+import time
 
-lightPin = '7'
+lightPin = 'A0'
+#connection = SerialManager('/dev/ttyACM0')
 connection = SerialManager('COM5')
 a = ArduinoApi(connection = connection)
 
@@ -9,6 +11,7 @@ a = ArduinoApi(connection = connection)
 a.pinMode(lightPin, a.INPUT)
 
 #Loop
-for count in range(1, 10000):
+while True: 
     light = a.analogRead(lightPin)
     print(light)
+    time.sleep(1)
