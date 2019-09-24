@@ -1,8 +1,9 @@
 from nanpy import (ArduinoApi, SerialManager)
-from time import sleep
+import time
 
 #Connection parameters
-connection = SerialManager('COM5')
+#connection = SerialManager('COM5')
+connection = SerialManager('/dev/ttyACM0')
 a = ArduinoApi(connection = connection)
 motorPin = 12
 speedPin = 3
@@ -14,15 +15,17 @@ a.pinMode(motorPin, a.OUTPUT)
 a.pinMode(speedPin, a.OUTPUT)
 a.pinMode(brakePin, a.OUTPUT)
 a.pinMode(upperPin, a.INPUT)
+
 def startMotor():
     a.digitalWrite(brakePin, a.LOW)
-    a.digitalWrite(motorPin, a.HIGH)
+    a.digitalWrite(motorPin, a.LOW)
     a.analogWrite(speedPin, 1000)
 
 def stopMotor(): 
     a.digitalWrite(brakePin, a.HIGH)
 
 #Loop
-while a.digitalRead(upperPin) == a.HIGH: 
+
+while a.digitalRead(upperPin) == a.LOW: 
     startMotor()
 stopMotor()
