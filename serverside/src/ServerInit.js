@@ -1,6 +1,7 @@
 // const weekMoovs = require('./routine/SunMoovementRequest')
 const automatic = require('./routine/Automatization')
 const JobSync = require('./routine/JobSync')
+const BatteryRoutine = require('./routine/BatteryLevelAutomatism')
 const BrightAdaptive = require('./routine/BrightnessAutomatism')
 const AutomatismDB = require('./APIdb/chickenhouse')
 const StreamRaspCam = require('./streaming/RaspPiCameraStream')
@@ -17,7 +18,7 @@ function init() {
     //Inizializza lo script ffmpeg per aquisire il video dalla telecamera interna
     StreamRaspCam.startJSmpegStream()
     //Inizializza lo script per aquisire dati sulla luminositá esterna
-    PythonScript.startBatteryLevelTakeOver()
+    BatteryRoutine.startBatteryScript
     AutomatismDB.dbRequest.getAutomatism()
         .then(data => {
             if (data.dataValues.sun) {
