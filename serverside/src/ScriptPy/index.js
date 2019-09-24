@@ -19,23 +19,28 @@ module.exports.runClosedoor = pyClose = ( ) =>{
 }
 
 module.exports.startBatteryLevelTakeOver = pyBatteryLevel = () =>{
-    var batteryLevelProcess = spawn('python',[pathFolder+'/CheckBatteryLevel.py'])
-    batteryLevelProcess.stdout.on('data', (data)=>{
-        BatteryLevel.create({
-            value: data
-        }).then(()=>{}).catch((err)=>{console.log(err)})
-    })
+    console.log("Ricava livello batteria")
+    // var batteryLevelProcess = spawn('python',[pathFolder+'/CheckBatteryLevel.py'])
+    // batteryLevelProcess.stdout.on('data', (data)=>{
+    //     BatteryLevel.create({
+    //         value: data
+    //     }).then(()=>{}).catch((err)=>{console.log(err)})
+    // })
 }
 
 module.exports.startBrightnessTakeOver = pyBatteryLevel = () =>{
-    BrightnessTakeOver_Process = spawn('python',[pathFolder+'/CheckBatteryLevel.py'])
-    BrightnessTakeOver_Process.stdout.on('data', (data)=>{
-        Brightness.create({
-            value: data
-        }).then(()=>{}).catch((err)=>{console.log(err)})
-    })
+    console.log("Inizio valori luminosità")
+    // BrightnessTakeOver_Process = spawn('python',[pathFolder+'/CheckBatteryLevel.py'])
+    // BrightnessTakeOver_Process.stdout.on('data', (data)=>{
+    //     Brightness.create({
+    //         value: data
+    //     }).then(()=>{}).catch((err)=>{console.log(err)})
+    // })
 }
 
 module.exports.stopBrightnessTakeOver = stopBright = () => {
-    BrightnessTakeOver_Process.exit(0)
+    console.log('Fine valori luminosità')
+    if(BrightnessTakeOver_Process){
+        // BrightnessTakeOver_Process.exit(0)
+    }
 }

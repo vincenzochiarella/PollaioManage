@@ -1,4 +1,4 @@
-const weekMoovs = require('./routine/SunMoovementRequest')
+// const weekMoovs = require('./routine/SunMoovementRequest')
 const automatic = require('./routine/Automatization')
 const JobSync = require('./routine/JobSync')
 const BrightAdaptive = require('./routine/BrightnessAutomatism')
@@ -17,18 +17,19 @@ function init() {
     //Inizializza lo script ffmpeg per aquisire il video dalla telecamera interna
     StreamRaspCam.startJSmpegStream()
     //Inizializza lo script per aquisire dati sulla luminositá esterna
-    PythonScript.
+    PythonScript.startBatteryLevelTakeOver()
     AutomatismDB.dbRequest.getAutomatism()
         .then(data => {
             if (data.dataValues.sun) {
                 automatic.startSyncTodayMoves
                 JobSync.syncAllJob()
+                PythonScript.stopBrightnessTakeOver()                
                 BrightAdaptive.stop()
-                
             }
             else{
                 automatic.stopSyncTodayMoves()
                 JobSync.deSyncAllJob()
+                PythonScript.startBatteryLevelTakeOver()
                 BrightAdaptive.start()
             }     
 
