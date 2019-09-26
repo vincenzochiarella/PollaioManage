@@ -1,9 +1,10 @@
+#36 seconds to go up 
 from nanpy import (ArduinoApi, SerialManager)
 import time
 
 #Connection parameters
-connection = SerialManager('COM5')
-#connection = SerialManager('/dev/ttyACM0')
+#connection = SerialManager('COM5')
+connection = SerialManager('/dev/ttyACM0')
 a = ArduinoApi(connection = connection)
 motorPin = 12
 speedPin = 3
@@ -26,6 +27,10 @@ def stopMotor():
 
 #Loop
 
-while a.digitalRead(upperPin) == a.LOW: 
-    startMotor()
+#while a.digitalRead(upperPin) == a.LOW: 
+#    startMotor()
+#stopMotor()
+
+startMotor()
+time.sleep(34)
 stopMotor()
