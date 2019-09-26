@@ -16,7 +16,7 @@ module.exports.open = open = (auth) => {
                         require('./ScriptPy/index').runOpendoor()
                         setTimeout(() => {
                             DoorDB.dbRequest.setDoorStatus(1)
-                        }, 30000)
+                        }, 35000)
                     })
             }})
 }
@@ -34,7 +34,7 @@ module.exports.close = close = (auth) => {
                     require('./ScriptPy/index').runClosedoor()
                     setTimeout(() => {
                         DoorDB.dbRequest.setDoorStatus(0)
-                    }, 30000)
+                    }, 35000)
                 })
         }})
 }

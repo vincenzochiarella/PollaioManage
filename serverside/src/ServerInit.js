@@ -30,7 +30,7 @@ function init() {
             else{
                 automatic.stopSyncTodayMoves()
                 JobSync.deSyncAllJob()
-                PythonScript.startBatteryLevelTakeOver()
+                PythonScript.startBrightnessTakeOver()
                 BrightAdaptive.start()
             }     
 

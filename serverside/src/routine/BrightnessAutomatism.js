@@ -6,6 +6,7 @@
 const Brightness = require('../models/Brightness')
 const DoorController = require('../DoorController')
 const BrightnessParamsDB = require('../APIdb/chickenhouse')
+
 var idInterval = 0
 /**
  * 
@@ -54,9 +55,11 @@ function startAutomaticBrightness() {
                 )
             })
     }, timeInterval * 1000)
+
 }
 
 function stopAutomaticBrightness() {
+
     clearInterval(idInterval)
 }
 module.exports.start = startAutomaticBrightness

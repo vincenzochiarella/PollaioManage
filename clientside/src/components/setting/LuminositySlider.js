@@ -82,8 +82,8 @@ class LumSettings extends React.Component {
                 <Grid item>
                     <Slider
                         value={lumMinimum}
-                        step={1000}
                         marks={lumValue}
+                        step={50}
                         onChangeCommitted={this.handleSlideLum}
                         max={2000}
                         min={50}

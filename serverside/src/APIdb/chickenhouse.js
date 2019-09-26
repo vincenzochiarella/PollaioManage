@@ -17,6 +17,7 @@ const Weather = require('../models/Weather')
 const WeekSunMovement = require('../routine/SunMoovementRequest')
 const Brightness = require('../routine/BrightnessAutomatism')
 const JobSync = require('../routine/JobSync')
+const PythonScript = require('../ScriptPy')
 
 PostRoutes.use(cors())
 //crea un nuovo pollaio 
@@ -108,9 +109,11 @@ PostRoutes.post('/setauto', (req, res) => {
         .catch(err => res.send(err))
     if (req.body.luminosity) {
         Brightness.start()
+        PythonScript.startBrightnessTakeOver()
         JobSync.deSyncAllJob()
     } else {
         Brightness.stop()
+        PythonScript.stopBrightnessTakeOver()
         JobSync.syncAllJob()
     }
 })
