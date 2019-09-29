@@ -129,8 +129,8 @@ const st = require('rtsp-ffmpeg')
 var streamExternal = new st.FFMpeg({
 	input: 'rtsp://192.168.2.1:554/11',
 	rate: 10, // output framerate (optional)
-	resolution: '1280x720', // output resolution in WxH format (optional)
-	quality: 3 // JPEG compression quality level (optional)
+	resolution: '640x480', // output resolution in WxH format (optional)
+	quality: 2 // JPEG compression quality level (optional)
 });
 
 //CORRETTO i dati vengono trasferiti alla socket ma la socket del client non li riceve
