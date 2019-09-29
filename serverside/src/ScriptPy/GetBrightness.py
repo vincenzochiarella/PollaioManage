@@ -3,8 +3,8 @@ from time import sleep
 import time
 
 lightPin = 'A0'
-#connection = SerialManager('/dev/ttyACM0')
-connection = SerialManager('COM5')
+connection = SerialManager('/dev/ttyACM0')
+#connection = SerialManager('COM5')
 a = ArduinoApi(connection = connection)
 
 #Setup 

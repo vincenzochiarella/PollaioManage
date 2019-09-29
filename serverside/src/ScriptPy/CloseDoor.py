@@ -26,4 +26,5 @@ def stopMotor():
 #Loop
 while a.digitalRead(bottomPin) == a.LOW: 
     startMotor()
+time.sleep(5)
 stopMotor()

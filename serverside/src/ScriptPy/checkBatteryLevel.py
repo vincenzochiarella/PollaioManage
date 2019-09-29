@@ -4,7 +4,8 @@ from time import sleep
 import threading
 
 batteryPin = 'A1' 
-connection = SerialManager('COM5')
+#connection = SerialManager('COM5')
+connection = SerialManager('/dev/ttyACM0')
 a = ArduinoApi(connection = connection)
 eps = 0.0048828125
 
